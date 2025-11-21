@@ -1,0 +1,26 @@
+{
+  "name": "@komed3/truck-financial-tracker",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Financial tracking application for SCS games (Euro Truck Simulator 2 and American Truck Simulator)",
+  "license": "MIT",
+  "author": {
+    "name": "Paul Köhler (komed3)",
+    "url": "https://komed3.de",
+    "email": "webmaster@komed3.de"
+  },
+  "homepage": "https://github.com/komed3/truck-financial-tracker",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/komed3/truck-financial-tracker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/komed3/truck-financial-tracker/issues"
+  },
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "init": "node scripts/init-game.js --run"
+  }
+}
