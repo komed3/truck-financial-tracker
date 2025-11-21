@@ -22,5 +22,9 @@
   "scripts": {
     "start": "node src/server.js",
     "init": "node scripts/init-game.js --run"
+  },
+  "dependencies": {
+    "cli-color": "^2.0.4",
+    "inquirer": "^13.0.1"
   }
 }
