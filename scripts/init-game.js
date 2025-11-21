@@ -40,6 +40,9 @@ inquirer.prompt( [ {
     type: 'select', name: 'startingWeekday', message: 'Select the starting day of the week:',
     choices: [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ]
 }, {
+    type: 'input', name: 'startingCash', message: 'Enter your starting cash amount:', default: '5000',
+    validate: i => ! isNaN( i ) && i >= 0 || 'Starting cash must be a number'
+}, {
     type: 'confirm', name: 'confirm', message: 'Do you want to confirm and create the game?'
 } ] ).then( async ( answers ) => {
 
@@ -64,6 +67,7 @@ inquirer.prompt( [ {
                 game: answers.game,
                 startingLocation: answers.startingLocation,
                 currency: answers.currency,
+                startingCash: Number( answers.startingCash ),
                 startingWeekday: answers.startingWeekday,
                 createdAt: new Date().toISOString()
             },
