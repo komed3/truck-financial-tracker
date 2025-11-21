@@ -95,10 +95,14 @@ inquirer.prompt( [ {
         console.log( '   npm start' );
         console.log( '' );
         console.log( `Then open http://localhost:3000?profile=${profileId} in your browser` );
+        console.log( '' );
 
     } catch ( err ) {
 
+        console.log( '' );
         console.error( clc.bold.red( 'Error initializing game:', err.message ) );
+        console.log( '' );
+
         process.exit( 1 );
 
     }
