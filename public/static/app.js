@@ -162,14 +162,13 @@ class TruckFinancialTracker {
 
         if ( this.charts.capitalization ) this.charts.capitalization.destroy();
 
-        const labels = [], cash = [], garages = [], trucks = [], trailers = [], loans = [];
+        const labels = [], cash = [], garages = [], trucks = [], loans = [];
         ( this.data?.dailyRecords ?? [] ).map( ( r, i ) => {
             labels.push( r.day ?? i );
             cash.push( r.assets.cashBalance );
             garages.push( r.assets.garageValue );
-            trucks.push( r.assets.truckValue );
-            trailers.push( r.assets.trailerValue );
-            loans.push( r.report.totalDebt );
+            trucks.push( r.assets.truckValue + r.assets.trailerValue );
+            loans.push( -r.report.totalDebt );
         } );
 
         this.charts.capitalization = new Chart( container, {
@@ -198,6 +197,18 @@ class TruckFinancialTracker {
                     pointRadius: 0,
                     pointHoverRadius: 0,
                     backgroundColor: 'rgba( 52 152 219 / 0.1 )',
+                    fill: true,
+                    tension: 0.1
+                }, {
+                    label: 'Trucks & Trailers',
+                    data: trucks,
+                    borderColor: '#d1b43b',
+                    borderWidth: 4,
+                    hoverBorderColor: '#d1b43b',
+                    hoverBorderWidth: 4,
+                    pointRadius: 0,
+                    pointHoverRadius: 0,
+                    backgroundColor: 'rgba( 209 180 59 / 0.1 )',
                     fill: true,
                     tension: 0.1
                 } ]
