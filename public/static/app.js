@@ -43,7 +43,7 @@ class TruckFinancialTracker {
     setupEventListeners () {
 
         // Tab navigation
-        $$( '.tab-button' ).forEach( btn => btn.addEventListener( 'click', ( e ) => {
+        $$( '.tab-btn' ).forEach( btn => btn.addEventListener( 'click', ( e ) => {
                 this.switchTab( e.target.dataset.tab );
         } ) );
 
@@ -77,10 +77,16 @@ class TruckFinancialTracker {
 
     // Helper & Calculation
 
-    getDay ( numOnly = true ) {
+    formatDay ( n = null, numOnly = true ) {
 
-        const { currentDay: n = 0, gameInfo: { startingWeekday = 1 } } = this.data;
-        const s = n % 10 == 1 && n % 100 != 11 ? 'st' : n % 10 == 2 && n % 100 != 12 ? 'nd' : n % 10 == 3 && n % 100 != 13 ? 'rd' : 'th';
+        const { currentDay = 0, gameInfo: { startingWeekday = 1 } } = this.data;
+        if ( n === null ) n = currentDay;
+
+        const s = n % 10 == 1 && n % 100 != 11 ? 'st'
+            : n % 10 == 2 && n % 100 != 12 ? 'nd'
+                : n % 10 == 3 && n % 100 != 13 ? 'rd'
+                    : 'th';
+
         return numOnly ? `${n}${s}` : `${n}${s}, ${ weekDays[ ( startingWeekday + n ) % 7 ] }`;
 
     }
@@ -98,6 +104,29 @@ class TruckFinancialTracker {
 
     }
 
+    createRecordsTable ( records ) {
+
+        const cols = [ 'Day', 'Cash', 'Total Cap', 'Total Debt', 'Net Assets', 'Cash on Hand', 'Profit/Loss' ].map( c => `<th>${c}</th>` ).join( '' );
+        const rows = records.map( ( r, i ) => {
+
+            const changeClass = r.profit.today < 0 ? 'negative' : 'positive';
+
+            return `<tr>` +
+                `<td>${ this.formatDay( r.day || i ) }</td>` +
+                `<td class="currency">${ this.formatCurrency( r.assets.cashBalance ) }</td>` +
+                `<td class="currency">${ this.formatCurrency( r.totalCap ) }</td>` +
+                `<td class="currency">${ this.formatCurrency( r.report.totalDebt ) }</td>` +
+                `<td class="currency">${ this.formatCurrency( r.report.netAssets ) }</td>` +
+                `<td class="currency">${ this.formatCurrency( r.report.cashOnHand ) }</td>` +
+                `<td class="currency ${changeClass}">${ this.formatCurrency( r.profit.today ) }</td>` +
+            `</tr>`;
+
+        } ).join( '' );
+
+        return `<table><thead><tr>${cols}</tr></thead><tbody>${rows}</tbody></table>`;
+
+    }
+
     // Tab Navigation
 
     switchTab ( tabName ) {
@@ -106,7 +135,7 @@ class TruckFinancialTracker {
         this.currentTab = tabName;
 
         // Update tab buttons
-        $$( '.tab-button' ).forEach( btn => btn.classList.remove( 'active' ) );
+        $$( '.tab-btn' ).forEach( btn => btn.classList.remove( 'active' ) );
         $( `[data-tab="${tabName}"]` ).classList.add( 'active' );
 
         // Update tab content
@@ -138,12 +167,13 @@ class TruckFinancialTracker {
     renderDashboard () {
 
         this.renderOverviewCards();
+        this.renderRecentRecords();
 
     }
 
     renderOverviewCards () {
 
-        _( 'currentDay' ).textContent = this.getDay();
+        _( 'currentDay' ).textContent = this.formatDay();
 
         if ( this.data?.dailyRecords?.length ) {
 
@@ -163,6 +193,37 @@ class TruckFinancialTracker {
             _( 'cashRatio' ).textContent = 'N/A';
 
         }
+
+    }
+
+    renderRecentRecords () {
+
+        const records = ( this.data?.dailyRecords ?? [] ).slice( -7 ).reverse();
+        const container = _( 'recentRecordsTable' );
+
+        if ( records.length === 0 ) {
+            container.innerHTML = '<div class="loading">No daily records yet. Add your first record to get started!</div>';
+            return;
+        }
+
+        const table = this.createRecordsTable( records );
+        container.innerHTML = table;
+
+    }
+
+    // Daily records
+
+    renderDailyRecords () {
+
+        const container = _( 'dailyRecordsTable' );
+
+        if ( this.data?.dailyRecords?.length === 0 ) {
+            container.innerHTML = '<div class="loading">No daily records yet. Add your first record to get started!</div>';
+            return;
+        }
+
+        const table = this.createRecordsTable( this.data.dailyRecords.slice().reverse() );
+        container.innerHTML = table;
 
     }
 
