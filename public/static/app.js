@@ -194,6 +194,7 @@ class TruckFinancialTracker {
                 scales: {
                     x: {
                         stacked: true,
+                        ticks: { callback: v => this.formatDay( v ) },
                         grid: { display: false },
                         border: { color: '#e0e0e0' }
                     },
