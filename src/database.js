@@ -11,6 +11,8 @@ export class Database {
 
     }
 
+    test ( profileId ) { return this.profileId === profileId }
+
     async loadGame () {
 
         try {
