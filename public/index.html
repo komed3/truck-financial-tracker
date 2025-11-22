@@ -17,17 +17,61 @@
                         <h2 id="companyInfo">Loading ...</h2>
                     </div>
                     <nav class="nav-tabs">
-                        <button class="tab-button" data-tab="dashboard">Dashboard</button>
-                        <button class="tab-button" data-tab="daily">Daily Records</button>
-                        <button class="tab-button" data-tab="garages">Garages</button>
-                        <button class="tab-button" data-tab="trucks">Trucks</button>
-                        <button class="tab-button" data-tab="trailers">Trailers</button>
-                        <button class="tab-button" data-tab="drivers">Drivers</button>
-                        <button class="tab-button" data-tab="loans">Loans</button>
+                        <button class="btn tab-btn" data-tab="dashboard">Dashboard</button>
+                        <button class="btn tab-btn" data-tab="daily">Daily Records</button>
+                        <button class="btn tab-btn" data-tab="garages">Garages</button>
+                        <button class="btn tab-btn" data-tab="trucks">Trucks</button>
+                        <button class="btn tab-btn" data-tab="trailers">Trailers</button>
+                        <button class="btn tab-btn" data-tab="drivers">Drivers</button>
+                        <button class="btn tab-btn" data-tab="loans">Loans</button>
                     </nav>
                 </div>
             </div>
         </header>
+        <main class="container">
+
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content">
+                <div class="dashboard-overview">
+                    <div class="stat-card">
+                        <h3>Current Day</h3>
+                        <div class="value" id="currentDay">—</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Cash Balance</h3>
+                        <div class="value currency" id="cashBalance">—</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Capital</h3>
+                        <div class="value currency" id="totalCapital">—</div>
+                    </div>
+                    <div class="stat-card" id="dailyChangeCard">
+                        <h3>Avg. Daily Change</h3>
+                        <div class="value currency" id="dailyChange">—</div>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h2>Capitalization Over Time</h2>
+                        <canvas id="capitalizationChart" class="chart-canvas"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h2>Asset Distribution</h2>
+                        <canvas id="distributionChart" class="chart-canvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>Recent Daily Records</h2>
+                        <button class="btn primary" onclick="app.openDailyModal()">Add Daily Record</button>
+                    </div>
+                    <div id="recentRecordsTable"></div>
+                </div>
+            </div>
+
+        </main>
         <footer class="footer">
             <div class="container">
                 &copy; Copyright 2025 by <a href="https://komed3.de">komed3</a>.
