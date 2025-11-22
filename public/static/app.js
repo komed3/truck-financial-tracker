@@ -2,6 +2,8 @@ const $ = ( selector ) => document.querySelector( selector );
 const $$ = ( selector ) => document.querySelectorAll( selector );
 const _ = ( id ) => document.getElementById( id );
 
+const weekDays = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
+
 class TruckFinancialTracker {
 
     constructor () {
@@ -73,6 +75,31 @@ class TruckFinancialTracker {
 
     }
 
+    // Helper & Calculation
+
+    getDay () {
+
+        const { currentDay: n = 0, gameInfo: { startingWeekday = 1 } } = this.data;
+        const s = n % 10 == 1 && n % 100 != 11 ? 'st' : n % 10 == 2 && n % 100 != 12 ? 'nd' : n % 10 == 3 && n % 100 != 13 ? 'rd' : 'th';
+        return `${n}${s}, ${ weekDays[ ( startingWeekday + n ) % 7 ] }`;
+
+    }
+
+    formatCurrency ( amount ) {
+
+        return new Intl.NumberFormat( 'en-US', {
+            style: 'currency',
+            currency: this.currency,
+            currencyDisplay: 'symbol',
+            notation: 'compact',
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 2
+        } ).format( amount );
+
+    }
+
+    // Tab Navigation
+
     switchTab ( tabName ) {
 
         if ( tabName === this.currentTab ) return;
@@ -115,14 +142,11 @@ class TruckFinancialTracker {
 
     renderOverviewCards () {
 
-        const { currentDay } = this.data;
-        const latestRecord = this.data.dailyRecords.at( -1 );
+        _( 'currentDay' ).textContent = this.getDay();
 
-        _( 'currentDay' ).textContent = currentDay;
+        if ( this.data?.dailyRecords?.length ) {
 
-        if ( latestRecord ) {
-
-            //
+            const latestRecord = this.data.dailyRecords.at( -1 );
 
         } else {
 
