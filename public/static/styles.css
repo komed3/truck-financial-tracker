@@ -140,6 +140,16 @@ button.danger:hover {
     color: var( --text-secondary );
 }
 
+/** Tab Content */
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
 /** Dashboard Section */
 
 .dashboard-overview {
