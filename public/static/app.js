@@ -182,28 +182,28 @@ class TruckFinancialTracker {
                     data: cash,
                     borderColor: '#27ae60',
                     hoverBorderColor: '#27ae60',
-                    backgroundColor: '#edfbf3',
+                    backgroundColor: '#bdf0d2',
                     ...dataset
                 }, {
                     label: 'Garages',
                     data: garages,
                     borderColor: '#3498db',
                     hoverBorderColor: '#3498db',
-                    backgroundColor: '#ebf5fc',
+                    backgroundColor: '#b9dcf3',
                     ...dataset
                 }, {
                     label: 'Trucks & Trailers',
                     data: trucks,
                     borderColor: '#f39c12',
                     hoverBorderColor: '#f39c12',
-                    backgroundColor: '#fdf2df',
+                    backgroundColor: '#fbdaa7',
                     ...dataset
                 }, {
                     label: 'Loans',
                     data: loans,
                     borderColor: '#e74c3c',
                     hoverBorderColor: '#e74c3c',
-                    backgroundColor: '#fceceb',
+                    backgroundColor: '#f6bcb6',
                     ...dataset
                 } ]
             },
