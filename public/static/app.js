@@ -112,7 +112,7 @@ class TruckFinancialTracker {
             const changeClass = r.profit.today < 0 ? 'negative' : 'positive';
 
             return `<tr>` +
-                `<td>${ this.formatDay( r.day || i ) }</td>` +
+                `<td>${ this.formatDay( r.day ?? i ) }</td>` +
                 `<td class="currency">${ this.formatCurrency( r.assets.cashBalance ) }</td>` +
                 `<td class="currency">${ this.formatCurrency( r.totalCap ) }</td>` +
                 `<td class="currency">${ this.formatCurrency( r.report.totalDebt ) }</td>` +
