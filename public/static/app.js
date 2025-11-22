@@ -45,6 +45,8 @@ class TruckFinancialTracker {
 
     updateHeader () {
 
+        if ( ! this.data ) return;
+
         const { game, playerName, companyName, startingLocation, currency } = this.data?.gameInfo || {};
 
         _( 'profileInfo' ).textContent = `${playerName} — ${game.toUpperCase()}`;

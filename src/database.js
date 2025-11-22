@@ -1,12 +1,12 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
-class Database {
+export class Database {
 
     constructor ( profileId ) {
 
         this.profileId = profileId;
-        this.path = join( cwd, `data/${this.profileId}.json` );
+        this.path = join( process.cwd(), `data/${this.profileId}.json` );
         this.data = null;
 
     }
@@ -35,9 +35,11 @@ class Database {
 
     }
 
+    async getData () {
+
+        if ( ! this.data ) await this.loadGame();
+        return this.data;
+
+    }
+
 }
-
-const DB = new Database();
-await DB.loadGame();
-
-export { Database, DB };
