@@ -10,6 +10,7 @@ class TruckFinancialTracker {
         this.data = null;
         this.currency = 'EUR';
 
+        this.setupEventListeners();
         this.loadData();
 
     }
@@ -35,6 +36,15 @@ class TruckFinancialTracker {
 
     }
 
+    setupEventListeners () {
+
+        // Tab navigation
+        $$( '.tab-button' ).forEach( btn => btn.addEventListener( 'click', ( e ) => {
+                this.switchTab( e.target.dataset.tab );
+        } ) );
+
+    }
+
     async loadData () {
 
         this.data = await this.#fetch( 'profile' );
@@ -51,6 +61,35 @@ class TruckFinancialTracker {
 
         _( 'profileInfo' ).textContent = `${playerName} — ${game.toUpperCase()}`;
         _( 'companyInfo' ).textContent = `${companyName} • ${startingLocation} • ${currency}`;
+
+    }
+
+    switchTab ( tabName ) {
+
+        // Update tab buttons
+        $$( '.tab-button' ).forEach( btn => btn.classList.remove( 'active' ) );
+        $( `[data-tab="${tabName}"]` ).classList.add( 'active' );
+
+        // Update tab content
+        $$( '.tab-content' ).forEach( tab => tab.classList.remove( 'active' ) );
+        $( tabName ).classList.add( 'active' );
+
+        // Load content for the specific tab
+        this.loadTabContent( tabName );
+
+    }
+
+    async loadTabContent ( tabName ) {
+
+        switch ( tabName ) {
+            case 'dashboard': this.renderDashboard(); break;
+            case 'daily': this.renderDailyRecords(); break;
+            case 'garages': this.renderGarages(); break;
+            case 'trucks': this.renderTrucks(); break;
+            case 'trailers': this.renderTrailers(); break;
+            case 'drivers': this.renderDrivers(); break;
+            case 'loans': this.renderLoans(); break;
+        }
 
     }
 
