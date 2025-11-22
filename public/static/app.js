@@ -162,7 +162,9 @@ class TruckFinancialTracker {
 
         if ( this.charts.capitalization ) this.charts.capitalization.destroy();
 
+        const dataset = { borderWidth: 3, hoverBorderWidth: 3, pointRadius: 0, pointHoverRadius: 0, fill: true, tension: 0.05 };
         const labels = [], cash = [], garages = [], trucks = [], loans = [];
+
         ( this.data?.dailyRecords ?? [] ).map( ( r, i ) => {
             labels.push( r.day ?? i );
             cash.push( r.assets.cashBalance );
@@ -179,50 +181,30 @@ class TruckFinancialTracker {
                     label: 'Cash',
                     data: cash,
                     borderColor: '#27ae60',
-                    borderWidth: 3,
                     hoverBorderColor: '#27ae60',
-                    hoverBorderWidth: 3,
-                    pointRadius: 0,
-                    pointHoverRadius: 0,
-                    backgroundColor: 'rgba( 39 174 96 / 0.1 )',
-                    fill: true,
-                    tension: 0.1
+                    backgroundColor: '#edfbf3',
+                    ...dataset
                 }, {
                     label: 'Garages',
                     data: garages,
                     borderColor: '#3498db',
-                    borderWidth: 4,
                     hoverBorderColor: '#3498db',
-                    hoverBorderWidth: 4,
-                    pointRadius: 0,
-                    pointHoverRadius: 0,
-                    backgroundColor: 'rgba( 52 152 219 / 0.1 )',
-                    fill: true,
-                    tension: 0.1
+                    backgroundColor: '#ebf5fc',
+                    ...dataset
                 }, {
                     label: 'Trucks & Trailers',
                     data: trucks,
                     borderColor: '#d1b43b',
-                    borderWidth: 4,
                     hoverBorderColor: '#d1b43b',
-                    hoverBorderWidth: 4,
-                    pointRadius: 0,
-                    pointHoverRadius: 0,
-                    backgroundColor: 'rgba( 209 180 59 / 0.1 )',
-                    fill: true,
-                    tension: 0.1
+                    backgroundColor: '#faf7ea',
+                    ...dataset
                 }, {
                     label: 'Loans',
                     data: loans,
                     borderColor: '#e74c3c',
-                    borderWidth: 4,
                     hoverBorderColor: '#e74c3c',
-                    hoverBorderWidth: 4,
-                    pointRadius: 0,
-                    pointHoverRadius: 0,
-                    backgroundColor: 'rgba( 231 76 60 / 0.1 )',
-                    fill: true,
-                    tension: 0.1
+                    backgroundColor: '#fceceb',
+                    ...dataset
                 } ]
             },
             options: {
@@ -251,7 +233,10 @@ class TruckFinancialTracker {
                     }
                 },
                 plugins: {
-                    legend: { position: 'bottom' }
+                    legend: { position: 'bottom' },
+                    tooltip: { callbacks: {
+                        label: ctx => `${ ctx.dataset.label }: ${ this.formatCurrency( ctx.raw ) }`
+                    } }
                 }
             }
         } );
