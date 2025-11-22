@@ -10,8 +10,10 @@ class TruckFinancialTracker {
         this.data = null;
         this.currency = 'EUR';
 
+        this.currentTab = null;
+
         this.setupEventListeners();
-        this.loadData();
+        this.init();
 
     }
 
@@ -45,6 +47,13 @@ class TruckFinancialTracker {
 
     }
 
+    async init () {
+
+        await this.loadData();
+        this.switchTab( 'dashboard' );
+
+    }
+
     async loadData () {
 
         this.data = await this.#fetch( 'profile' );
@@ -66,13 +75,16 @@ class TruckFinancialTracker {
 
     switchTab ( tabName ) {
 
+        if ( tabName === this.currentTab ) return;
+        this.currentTab = tabName;
+
         // Update tab buttons
         $$( '.tab-button' ).forEach( btn => btn.classList.remove( 'active' ) );
         $( `[data-tab="${tabName}"]` ).classList.add( 'active' );
 
         // Update tab content
         $$( '.tab-content' ).forEach( tab => tab.classList.remove( 'active' ) );
-        $( tabName ).classList.add( 'active' );
+        _( tabName ).classList.add( 'active' );
 
         // Load content for the specific tab
         this.loadTabContent( tabName );
@@ -89,6 +101,35 @@ class TruckFinancialTracker {
             case 'trailers': this.renderTrailers(); break;
             case 'drivers': this.renderDrivers(); break;
             case 'loans': this.renderLoans(); break;
+        }
+
+    }
+
+    // Dashboard
+
+    renderDashboard () {
+
+        this.renderOverviewCards();
+
+    }
+
+    renderOverviewCards () {
+
+        const { currentDay } = this.data;
+        const latestRecord = this.data.dailyRecords.at( -1 );
+
+        _( 'currentDay' ).textContent = currentDay;
+
+        if ( latestRecord ) {
+
+            //
+
+        } else {
+
+            _( 'cashBalance' ).textContent = 'N/A';
+            _( 'totalCapital' ).textContent = 'N/A';
+            _( 'dailyChange' ).textContent = 'N/A';
+
         }
 
     }
