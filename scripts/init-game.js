@@ -62,6 +62,7 @@ inquirer.prompt( [ {
     try {
 
         const profileId = uuidv4();
+        const cash = Number( answers.startingCash );
         const gameData = {
             profileId,
             gameInfo: {
@@ -70,7 +71,7 @@ inquirer.prompt( [ {
                 game: answers.game,
                 startingLocation: answers.startingLocation,
                 currency: answers.currency,
-                startingCash: Number( answers.startingCash ),
+                startingCash: cash,
                 startingWeekday: weekDays.indexOf( answers.startingWeekday ),
                 createdAt: new Date().toISOString()
             },
@@ -84,6 +85,13 @@ inquirer.prompt( [ {
             dailyRecords: [],
             currentDay: Number( answers.startingDay )
         };
+
+        if ( gameData.currentDay === 0 ) gameData.dailyRecords.push( {
+            id: uuidv4(), day: 0, totalCap: cash,
+            assets: { cashBalance: cash, garageValue: 0, truckValue: 0, trailerValue: 0, totalLoans: 0 },
+            profit: { today: 0, avg7: 0, avg30: 0, avg90: 0 },
+            report: { netAssets: cash, totalDebt: 0, cashOnHand: cash, cashRatio: 1 }
+        } );
 
         const dataDir = join( process.cwd(), 'data' );
         await mkdir( dataDir, { recursive: true } );
