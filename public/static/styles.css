@@ -12,6 +12,9 @@
     --bg-tertiary: #efeded;
     --border-color: #e0e0e0;
     --accent-color: #3498db;
+    --accent-hover: #2980b9;
+    --danger-color: #e74c3c;
+    --danger-hover: #c0392b;
 }
 
 *, *::before, *::after {
@@ -42,6 +45,16 @@ body {
     background: var( --bg-primary );
 }
 
+a, a:link, a:visited {
+    text-decoration: none;
+    color: var( --accent-color );
+}
+
+a:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
 button {
     padding: 10px 20px;
     font-size: 14px;
@@ -53,24 +66,30 @@ button {
     transition: all 0.2s ease;
 }
 
-a, a:link, a:visited {
-    text-decoration: none;
-    color: var( --accent-color );
-}
-
-a:hover {
-    text-decoration: underline;
-    text-underline-offset: 2px;
-}
-
 button:hover {
     background: var( --bg-tertiary );
 }
 
-button.active {
+button.primary, button.active {
     color: var( --text-contrast );
     background: var( --accent-color );
     border-color: var( --accent-color );
+}
+
+button.primary:hover, button.active:hover {
+    background: var( --accent-hover );
+    border-color: var( --accent-hover );
+}
+
+button.danger {
+    color: var( --text-contrast );
+    background: var( --danger-color );
+    border-color: var( --danger-color );
+}
+
+button.danger:hover {
+    background: var( --danger-hover );
+    border-color: var( --danger-hover );
 }
 
 .container {
