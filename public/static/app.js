@@ -13,9 +13,36 @@ class TruckFinancialTracker {
         this.currency = 'EUR';
 
         this.currentTab = null;
+        this.charts = {};
 
         this.setupEventListeners();
         this.init();
+
+        Chart.defaults.responsive = true;
+        Chart.defaults.maintainAspectRatio = false;
+        Chart.defaults.offset = false;
+        Chart.defaults.layout.padding = 0;
+
+        Chart.defaults.font.family = 'Rubik, sans-serif';
+        Chart.defaults.font.size = 14;
+        Chart.defaults.font.weight = 400;
+        Chart.defaults.color = '#000';
+
+        Chart.defaults.transitions = { active: { animation: { duration: 0 } } };
+        Chart.defaults.animations = {
+            x: { duration: 0 },
+            y: { duration: 150, easing: 'easeOutBack' }
+        };
+
+        Chart.defaults.plugins.tooltip.padding = { top: 10, left: 12, right: 16, bottom: 10 };
+        Chart.defaults.plugins.tooltip.animation = { duration: 150, easing: 'easeOutBack' };
+        Chart.defaults.plugins.tooltip.titleColor = '#000';
+        Chart.defaults.plugins.tooltip.bodyColor = '#000';
+        Chart.defaults.plugins.tooltip.backgroundColor = '#fff';
+        Chart.defaults.plugins.tooltip.borderColor = '#d5d6d7';
+        Chart.defaults.plugins.tooltip.borderWidth = 1;
+        Chart.defaults.plugins.tooltip.cornerRadius = 5;
+        Chart.defaults.plugins.tooltip.boxPadding = 4;
 
     }
 
@@ -68,9 +95,9 @@ class TruckFinancialTracker {
 
         if ( ! this.data ) return;
 
-        const { game, playerName, companyName, startingLocation, currency } = this.data?.gameInfo || {};
+        const { game, playerName, companyName, startingLocation, currency } = this.data?.gameInfo ?? {};
 
-        _( 'profileInfo' ).textContent = `${playerName} — ${game.toUpperCase()}`;
+        _( 'profileInfo' ).textContent = `${playerName} — ${ game.toUpperCase() }`;
         _( 'companyInfo' ).textContent = `${companyName} • ${startingLocation} • ${currency}`;
 
     }
@@ -104,6 +131,8 @@ class TruckFinancialTracker {
 
     }
 
+    // Tables
+
     createRecordsTable ( records ) {
 
         const cols = [ 'Day', 'Cash', 'Total Cap', 'Total Debt', 'Net Assets', 'Cash on Hand', 'Profit/Loss' ].map( c => `<th>${c}</th>` ).join( '' );
@@ -124,6 +153,68 @@ class TruckFinancialTracker {
         } ).join( '' );
 
         return `<table><thead><tr>${cols}</tr></thead><tbody>${rows}</tbody></table>`;
+
+    }
+
+    // Charts
+
+    renderCapitalizationChart ( container ) {
+
+        if ( this.charts.capitalization ) this.charts.capitalization.destroy();
+
+        const labels = [], cash = [];
+        ( this.data?.dailyRecords ?? [] ).map( ( r, i ) => {
+            labels.push( r.day ?? i );
+            cash.push( r.assets.cashBalance );
+        } );
+
+        this.charts.capitalization = new Chart( container, {
+            data: {
+                labels: labels,
+                datasets: [ {
+                    type: 'line',
+                    label: 'Cash',
+                    data: cash,
+                    borderColor: '#3498db',
+                    borderWidth: 4,
+                    hoverBorderColor: '#3498db',
+                    hoverBorderWidth: 4,
+                    pointRadius: 0,
+                    pointHoverRadius: 0,
+                    backgroundColor: 'rgba( 52 152 219 / 0.1 )',
+                    fill: true,
+                    tension: 0.1
+                } ]
+            },
+            options: {
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        grid: { display: false },
+                        border: { color: '#e0e0e0' }
+                    },
+                    y: {
+                        display: true,
+                        position: 'left',
+                        type: 'linear',
+                        stacked: true,
+                        ticks: {
+                            maxTicksLimit: 6,
+                            callback: v => this.formatCurrency( v )
+                        },
+                        grid: { color: '#e0e0e0' },
+                        border: { dash: [ 5, 5 ], color: '#e0e0e0' }
+                    }
+                },
+                plugins: {
+                    legend: false
+                }
+            }
+        } );
 
     }
 
@@ -168,6 +259,8 @@ class TruckFinancialTracker {
 
         this.renderOverviewCards();
         this.renderRecentRecords();
+
+        this.renderCapitalizationChart( _( 'capitalizationChart' ) );
 
     }
 
