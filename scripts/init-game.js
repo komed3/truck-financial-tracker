@@ -6,6 +6,8 @@ import clc from 'cli-color';
 import inquirer from 'inquirer';
 import { v4 as uuidv4 } from 'uuid';
 
+const weekDays = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
+
 console.log( clc.bold.yellow( 'Init new ETS2 / ATS game save file' ) );
 console.log( '' );
 console.log( 'You`ll be prompted some questions about the game itself and your company.' );
@@ -26,7 +28,8 @@ inquirer.prompt( [ {
     type: 'input', name: 'companyName', message: 'Enter your company name:',
     validate: i => i.trim() !== '' || 'Company name is required'
 }, {
-    type: 'input', name: 'startingLocation', message: 'Enter your HQ town:'
+    type: 'input', name: 'startingLocation', message: 'Enter your HQ town:',
+    validate: i => i.trim() !== '' || 'Headquarters location is required'
 }, {
     type: 'select', name: 'currency', message: 'Select your currency:',
     choices: a => {
@@ -38,7 +41,7 @@ inquirer.prompt( [ {
     validate: i => ! isNaN( i ) && i >= 0 || 'Starting day must be a number'
 }, {
     type: 'select', name: 'startingWeekday', message: 'Select the starting day of the week:',
-    choices: [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ]
+    choices: weekDays
 }, {
     type: 'input', name: 'startingCash', message: 'Enter your starting cash amount:', default: '5000',
     validate: i => ! isNaN( i ) && i >= 0 || 'Starting cash must be a number'
@@ -68,7 +71,7 @@ inquirer.prompt( [ {
                 startingLocation: answers.startingLocation,
                 currency: answers.currency,
                 startingCash: Number( answers.startingCash ),
-                startingWeekday: answers.startingWeekday,
+                startingWeekday: weekDays.indexOf( answers.startingWeekday ),
                 createdAt: new Date().toISOString()
             },
             assets: {
