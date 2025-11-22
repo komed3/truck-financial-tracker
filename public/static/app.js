@@ -77,11 +77,11 @@ class TruckFinancialTracker {
 
     // Helper & Calculation
 
-    getDay () {
+    getDay ( numOnly = true ) {
 
         const { currentDay: n = 0, gameInfo: { startingWeekday = 1 } } = this.data;
         const s = n % 10 == 1 && n % 100 != 11 ? 'st' : n % 10 == 2 && n % 100 != 12 ? 'nd' : n % 10 == 3 && n % 100 != 13 ? 'rd' : 'th';
-        return `${n}${s}, ${ weekDays[ ( startingWeekday + n ) % 7 ] }`;
+        return numOnly ? `${n}${s}` : `${n}${s}, ${ weekDays[ ( startingWeekday + n ) % 7 ] }`;
 
     }
 
@@ -146,13 +146,20 @@ class TruckFinancialTracker {
 
         if ( this.data?.dailyRecords?.length ) {
 
-            const latestRecord = this.data.dailyRecords.at( -1 );
+            const { totalCap, report: { netAssets, totalDebt, cashOnHand, cashRatio } } = this.data.dailyRecords.at( -1 );
+            _( 'totalCap' ).textContent = this.formatCurrency( totalCap );
+            _( 'totalDebt' ).textContent = this.formatCurrency( totalDebt );
+            _( 'netAssets' ).textContent = this.formatCurrency( netAssets );
+            _( 'cashOnHand' ).textContent = this.formatCurrency( cashOnHand );
+            _( 'cashRatio' ).textContent = cashRatio.toFixed( 2 );
 
         } else {
 
-            _( 'cashBalance' ).textContent = 'N/A';
-            _( 'totalCapital' ).textContent = 'N/A';
-            _( 'dailyChange' ).textContent = 'N/A';
+            _( 'totalCap' ).textContent = 'N/A';
+            _( 'totalDebt' ).textContent = 'N/A';
+            _( 'netAssets' ).textContent = 'N/A';
+            _( 'cashOnHand' ).textContent = 'N/A';
+            _( 'cashRatio' ).textContent = 'N/A';
 
         }
 
