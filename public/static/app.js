@@ -128,6 +128,7 @@ class TruckFinancialTracker {
             case 'trailers': this.renderTrailers(); break;
             case 'drivers': this.renderDrivers(); break;
             case 'loans': this.renderLoans(); break;
+            case 'reports': this.renderReports(); break;
         }
 
     }
