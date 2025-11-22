@@ -211,6 +211,18 @@ class TruckFinancialTracker {
                     backgroundColor: 'rgba( 209 180 59 / 0.1 )',
                     fill: true,
                     tension: 0.1
+                }, {
+                    label: 'Loans',
+                    data: loans,
+                    borderColor: '#e74c3c',
+                    borderWidth: 4,
+                    hoverBorderColor: '#e74c3c',
+                    hoverBorderWidth: 4,
+                    pointRadius: 0,
+                    pointHoverRadius: 0,
+                    backgroundColor: 'rgba( 231 76 60 / 0.1 )',
+                    fill: true,
+                    tension: 0.1
                 } ]
             },
             options: {
