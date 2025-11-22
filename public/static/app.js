@@ -194,9 +194,9 @@ class TruckFinancialTracker {
                 }, {
                     label: 'Trucks & Trailers',
                     data: trucks,
-                    borderColor: '#d1b43b',
-                    hoverBorderColor: '#d1b43b',
-                    backgroundColor: '#faf7ea',
+                    borderColor: '#f39c12',
+                    hoverBorderColor: '#f39c12',
+                    backgroundColor: '#fdf2df',
                     ...dataset
                 }, {
                     label: 'Loans',
@@ -236,6 +236,54 @@ class TruckFinancialTracker {
                     legend: { position: 'bottom' },
                     tooltip: { callbacks: {
                         label: ctx => `${ ctx.dataset.label }: ${ this.formatCurrency( ctx.raw ) }`
+                    } }
+                }
+            }
+        } );
+
+    }
+
+    renderDistributionChart ( container ) {
+        
+        if ( this.charts.distribution ) this.charts.distribution.destroy();
+
+        const { totalCap, assets } = ( this.data?.dailyRecords ?? [] ).at( -1 );
+        if ( ! totalCap || ! assets ) return;
+
+        this.charts.distribution = new Chart( container, {
+            type: 'doughnut',
+            data: {
+                labels: [ 'Cash', 'Garages', 'Trucks', 'Trailers' ],
+                datasets: [ {
+                    data: [
+                        assets.cashBalance,
+                        assets.garageValue,
+                        assets.truckValue,
+                        assets.trailerValue
+                    ],
+                    borderWidth: 6,
+                    hoverBorderWidth: 6,
+                    borderColor: '#fff',
+                    hoverBorderColor: '#fff',
+                    backgroundColor: [
+                        '#27ae60',
+                        '#3498db',
+                        '#f39c12',
+                        '#9b59b6'
+                    ],
+                    hoverBackgroundColor: [
+                        '#27ae60',
+                        '#3498db',
+                        '#f39c12',
+                        '#9b59b6'
+                    ]
+                } ]
+            },
+            options: {
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 18, boxHeight: 18 } },
+                    tooltip: { callbacks: {
+                        label: ctx => `${ this.formatCurrency( ctx.raw ) } (${ ( ctx.raw / totalCap * 100 ).toFixed() }%)`
                     } }
                 }
             }
@@ -286,6 +334,7 @@ class TruckFinancialTracker {
         this.renderRecentRecords();
 
         this.renderCapitalizationChart( _( 'capitalizationChart' ) );
+        this.renderDistributionChart( _( 'distributionChart' ) );
 
     }
 
