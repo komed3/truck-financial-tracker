@@ -162,11 +162,14 @@ class TruckFinancialTracker {
 
         if ( this.charts.capitalization ) this.charts.capitalization.destroy();
 
-        const labels = [], cash = [], garages = [];
+        const labels = [], cash = [], garages = [], trucks = [], trailers = [], loans = [];
         ( this.data?.dailyRecords ?? [] ).map( ( r, i ) => {
             labels.push( r.day ?? i );
             cash.push( r.assets.cashBalance );
             garages.push( r.assets.garageValue );
+            trucks.push( r.assets.truckValue );
+            trailers.push( r.assets.trailerValue );
+            loans.push( r.report.totalDebt );
         } );
 
         this.charts.capitalization = new Chart( container, {
@@ -225,7 +228,7 @@ class TruckFinancialTracker {
                     }
                 },
                 plugins: {
-                    legend: false
+                    legend: { position: 'bottom' }
                 }
             }
         } );
