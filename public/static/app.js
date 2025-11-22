@@ -162,19 +162,32 @@ class TruckFinancialTracker {
 
         if ( this.charts.capitalization ) this.charts.capitalization.destroy();
 
-        const labels = [], cash = [];
+        const labels = [], cash = [], garages = [];
         ( this.data?.dailyRecords ?? [] ).map( ( r, i ) => {
             labels.push( r.day ?? i );
             cash.push( r.assets.cashBalance );
+            garages.push( r.assets.garageValue );
         } );
 
         this.charts.capitalization = new Chart( container, {
+            type: 'line',
             data: {
                 labels: labels,
                 datasets: [ {
-                    type: 'line',
                     label: 'Cash',
                     data: cash,
+                    borderColor: '#27ae60',
+                    borderWidth: 3,
+                    hoverBorderColor: '#27ae60',
+                    hoverBorderWidth: 3,
+                    pointRadius: 0,
+                    pointHoverRadius: 0,
+                    backgroundColor: 'rgba( 39 174 96 / 0.1 )',
+                    fill: true,
+                    tension: 0.1
+                }, {
+                    label: 'Garages',
+                    data: garages,
                     borderColor: '#3498db',
                     borderWidth: 4,
                     hoverBorderColor: '#3498db',
