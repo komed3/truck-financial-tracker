@@ -96,7 +96,7 @@ export class Database {
         const totalCap = this.#n( cashBalance + garageValue + truckValue + trailerValue );
         const netAssets = this.#n( totalCap - totalDebt );
         const cashOnHand = this.#n( cashBalance );
-        const cashRatio = this.#n( cashBalance / totalCap );
+        const cashRatio = this.#n( cashBalance / totalCap, 4 );
 
         const rec = this.data.dailyRecords ?? [];
         const last = rec.length ? rec[ rec.length - 1 ].totalCap : null;
