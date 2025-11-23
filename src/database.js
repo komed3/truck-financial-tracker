@@ -12,6 +12,8 @@ export class Database {
 
     }
 
+    #n ( v, digits = 2 ) { return Number( v.toFixed( digits ) ) }
+
     test ( profileId ) { return this.profileId === profileId }
 
     async loadGame () {
@@ -50,19 +52,19 @@ export class Database {
         if ( ! this.data ) await this.loadGame();
 
         const { assets } = this.data;
-        const garageValue = assets.garages.reduce( ( s, a ) => s + a.value, 0 );
-        const truckValue = assets.trucks.reduce( ( s, a ) => s + a.value, 0 );
-        const trailerValue = assets.trailers.reduce( ( s, a ) => s + a.value, 0 );
-        const totalDebt = assets.loans.reduce( ( s, a ) => s + a.remaining, 0 );
+        const garageValue = this.#n( assets.garages.reduce( ( s, a ) => s + a.value, 0 ) );
+        const truckValue = this.#n( assets.trucks.reduce( ( s, a ) => s + a.value, 0 ) );
+        const trailerValue = this.#n( assets.trailers.reduce( ( s, a ) => s + a.value, 0 ) );
+        const totalDebt = this.#n( assets.loans.reduce( ( s, a ) => s + a.remaining, 0 ) );
 
-        const totalCap = cashBalance + garageValue + truckValue + trailerValue;
-        const netAssets = totalCap - totalDebt;
-        const cashOnHand = cashBalance;
-        const cashRatio = cashBalance / totalCap;
+        const totalCap = this.#n( cashBalance + garageValue + truckValue + trailerValue );
+        const netAssets = this.#n( totalCap - totalDebt );
+        const cashOnHand = this.#n( cashBalance );
+        const cashRatio = this.#n( cashBalance / totalCap );
 
         const rec = this.data.dailyRecords ?? [];
         const last = rec.length ? rec[ rec.length - 1 ].totalCap : null;
-        const today = last !== null ? totalCap - last : 0;
+        const today = this.#n( last !== null ? totalCap - last : 0 );
 
         const avg = d => {
 
@@ -79,7 +81,7 @@ export class Database {
 
             }
 
-            return count ? sum / count : 0;
+            return this.#n( count ? sum / count : 0 );
 
         };
 
