@@ -92,7 +92,8 @@ inquirer.prompt( [ {
                 id: uuidv4(), day: 0, totalCap: cash,
                 assets: { cashBalance: cash, garageValue: 0, truckValue: 0, trailerValue: 0, totalLoans: 0 },
                 profit: { today: 0, avg7: 0, avg30: 0, avg90: 0 },
-                report: { netAssets: cash, totalDebt: 0, cashOnHand: cash, cashRatio: 1 }
+                report: { netAssets: cash, totalDebt: 0, cashOnHand: cash, cashRatio: 1 },
+                stats: { garages: 1, parkingLots: 1, trucks: 0, trailers: 0, drivers: 0 }
             } );
 
             gameData.assets.garages.push( {
