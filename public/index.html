@@ -186,12 +186,12 @@
             <div id="garageModal" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2>Add Garage</h2>
+                        <h2>Add / Update Garage</h2>
                         <button class="btn" onclick="app.closeModal()">Close</button>
                     </div>
                     <div class="modal-body">
                         <form id="garageForm">
-                            <input type="hidden" id="garageId" name="garageId" />
+                            <input type="text" id="garageId" name="garageId" style="display: none" />
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label for="garageLocation">Location</label>
@@ -212,6 +212,46 @@
                             </div>
                             <div class="form-actions">
                                 <button type="button" class="btn danger" onclick="app.closeModal()">Cancel</button>
+                                <button type="submit" class="btn primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="truckModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Add / Update Truck</h2>
+                        <button class="btn" onclick="app.closeModal()">Close</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="truckForm">
+                            <input type="text" id="truckId" name="truckId" style="display: none" />
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="truckBrand">Brand</label>
+                                    <input type="text" id="truckBrand" name="brand" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="truckModel">Model</label>
+                                    <input type="text" id="truckModel" name="model" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="truckValue">Current Value</label>
+                                    <input type="number" id="truckValue" name="value" required step="1" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="truckCondition">Condition</label>
+                                    <select id="truckCondition" name="condition">
+                                        <option value="new">New</option>
+                                        <option value="used">Used / pre owned</option>
+                                        <option value="restored">Restored</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn" onclick="app.closeModal()">Cancel</button>
                                 <button type="submit" class="btn primary">Submit</button>
                             </div>
                         </form>

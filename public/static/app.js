@@ -491,7 +491,7 @@ class TruckFinancialTracker {
         _( 'garageValue' ).value = garage.value;
         _( 'garageSize' ).value = garage.size;
 
-        this.openModal( 'garage' );
+        this.openModal( 'garage', false );
 
     }
 
@@ -558,7 +558,12 @@ class TruckFinancialTracker {
 
     // Modals
 
-    openModal ( modalId ) { _( modalId + 'Modal' ).classList.add( 'active' ) }
+    openModal ( modalId, reset = true ) {
+
+        if ( reset ) _( modalId + 'Form' ).reset();
+        _( modalId + 'Modal' ).classList.add( 'active' );
+
+    }
 
     closeModal () { $$( '.modal' ).forEach( modal => modal.classList.remove( 'active' ) ) }
 
