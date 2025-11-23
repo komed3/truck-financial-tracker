@@ -87,7 +87,7 @@ app.get( '/', async ( req, res ) => {
                 p.gameInfo.game.toUpperCase(), p.gameInfo.playerName, p.gameInfo.companyName,
                 p.gameInfo.startingLocation, p.gameInfo.currency
             ].filter( Boolean ).join( ' | ' ) }</a></li>
-        </ul>` ) );
+        </ul>` ).join( '' ) );
 
     } else {
 
