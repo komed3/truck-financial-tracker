@@ -182,6 +182,41 @@
                 </div>
             </div>
 
+            <div id="garageModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Add Garage</h2>
+                        <button class="btn" onclick="app.closeModal()">Close</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="garageForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="garageLocation">Location</label>
+                                    <input type="text" id="garageLocation" name="location" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="garageValue">Current Value</label>
+                                    <input type="number" id="garageValue" name="value" required step="1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="garageSize">Size</label>
+                                    <select id="size" name="size">
+                                        <option value="small">Small (1P)</option>
+                                        <option value="medium" selected>Medium (3P)</option>
+                                        <option value="large">Large (5P)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn danger" onclick="app.closeModal()">Cancel</button>
+                                <button type="submit" class="btn primary">Add Garage</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </main>
         <footer class="footer">
             <div class="container">
