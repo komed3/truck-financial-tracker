@@ -166,7 +166,7 @@ class TruckFinancialTracker {
             { class: 'currency', value: this.formatCurrency( r.report.netAssets ) },
             { class: 'currency', value: this.formatCurrency( r.report.cashOnHand ) },
             {
-                class: 'currency ' + r.profit.today < 0 ? 'negative' : 'positive',
+                class: 'currency ' + ( r.profit.today < 0 ? 'negative' : 'positive' ),
                 value: this.formatCurrency( Math.abs( r.profit.today ) )
             }
         ] ) );
