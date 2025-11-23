@@ -110,6 +110,8 @@ class TruckFinancialTracker {
 
     // Helper & Calculation
 
+    assetById ( type, id ) { return ( this.data?.assets[ type ] ?? [] ).filter( r => r.id === id )[ 0 ] ?? null }
+
     freeze () { _( 'loading' ).classList.add( 'active' ) }
 
     unfreeze () { _( 'loading' ).classList.remove( 'active' ) }
@@ -463,6 +465,21 @@ class TruckFinancialTracker {
         this.unfreeze();
 
         form.reset();
+
+    }
+
+    editGarage ( id ) {
+
+        const garage = this.assetById( 'garages', id );
+        if ( ! garage ) return;
+
+        _( 'garageForm' ).reset();
+        _( 'garageId' ).value = id;
+        _( 'garageLocation' ).value = garage.location;
+        _( 'garageValue' ).value = garage.value;
+        _( 'garageSize' ).value = garage.size;
+
+        this.openModal( 'garage' );
 
     }
 

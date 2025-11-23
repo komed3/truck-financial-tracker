@@ -14,7 +14,7 @@ export class Database {
 
     #n ( v, digits = 0 ) { return Number( Number( v ).toFixed( digits ) ) }
 
-    #assetById ( type, id ) { return ( this.data?.assets[ type ] ?? [] ).filter( r => r.id === id ) }
+    #assetById ( type, id ) { return ( this.data?.assets[ type ] ?? [] ).filter( r => r.id === id )[ 0 ] ?? null }
 
     #updateAsset ( type, data ) {
 
