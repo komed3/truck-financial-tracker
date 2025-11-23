@@ -140,7 +140,7 @@ export class Database {
         if ( ! this.data ) await this.loadGame();
 
         const garage = { ...( data.garageId && this.#assetById( 'garages', data.garageId ) || {} ), ...{
-            location: data.location, size: data.size, value: data.value
+            location: data.location, size: data.size, value: this.#n( data.value )
         } };
 
         if ( ! garage.id ) garage.id = uuidv4();
