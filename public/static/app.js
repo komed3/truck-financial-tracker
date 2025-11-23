@@ -14,6 +14,7 @@ class TruckFinancialTracker {
 
         this.currentTab = null;
         this.charts = {};
+        this.maxChartPoints = 250;
 
         this.setupEventListeners();
         this.init();
@@ -174,7 +175,7 @@ class TruckFinancialTracker {
         const dataset = { borderWidth: 3, hoverBorderWidth: 3, pointRadius: 0, pointHoverRadius: 0, fill: true, tension: 0.05 };
         const labels = [], cash = [], garages = [], trucks = [], trailers = [];
 
-        ( this.data?.dailyRecords ?? [] ).map( ( r, i ) => {
+        ( this.data?.dailyRecords ?? [] ).slice( this.maxChartPoints ).map( ( r, i ) => {
             labels.push( r.day ?? i );
             cash.push( r.assets.cashBalance );
             garages.push( r.assets.garageValue );
