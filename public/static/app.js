@@ -361,6 +361,17 @@ class TruckFinancialTracker {
 
     }
 
+    // Modals
+
+    openModal ( modalId, reset = true ) {
+
+        if ( reset ) _( modalId + 'Form' ).reset();
+        _( modalId + 'Modal' ).classList.add( 'active' );
+
+    }
+
+    closeModal () { $$( '.modal' ).forEach( modal => modal.classList.remove( 'active' ) ) }
+
     // Dashboard
 
     renderDashboard () {
@@ -466,7 +477,7 @@ class TruckFinancialTracker {
 
     }
 
-    async garageFormHandler ( form ) { await this.#handler( 'garage/update', form ) }
+    async garageFormHandler ( form ) { await this.#handler( 'garage/edit', form ) }
 
     editGarage ( id ) {
 
@@ -520,7 +531,7 @@ class TruckFinancialTracker {
 
     }
 
-    async truckFormHandler ( form ) { await this.#handler( 'truck/update', form ) }
+    async truckFormHandler ( form ) { await this.#handler( 'truck/edit', form ) }
 
     editTruck ( id ) {
 
@@ -573,7 +584,7 @@ class TruckFinancialTracker {
 
     }
 
-    async trailerFormHandler ( form ) { await this.#handler( 'trailer/update', form ) }
+    async trailerFormHandler ( form ) { await this.#handler( 'trailer/edit', form ) }
 
     editTrailer ( id ) {
 
@@ -628,7 +639,7 @@ class TruckFinancialTracker {
 
     }
 
-    async driverFormHandler ( form ) { await this.#handler( 'driver/update', form ) }
+    async driverFormHandler ( form ) { await this.#handler( 'driver/edit', form ) }
 
     editDriver ( id ) {
 
@@ -656,16 +667,62 @@ class TruckFinancialTracker {
 
     }
 
-    // Modals
+    // Loans
 
-    openModal ( modalId, reset = true ) {
+    renderLoans () {
 
-        if ( reset ) _( modalId + 'Form' ).reset();
-        _( modalId + 'Modal' ).classList.add( 'active' );
+        const container = _( 'loansTable' );
+
+        if ( this.data?.assets?.loans?.length === 0 ) {
+            container.innerHTML = '<div class="empty">No loans yet. Add your first loan to get started!</div>';
+            return;
+        }
+
+        const cols = [ 'Amount', 'Day', 'Term', 'Interest Rate', 'Installment', 'Remaining', 'Actions' ];
+        const rows = this.data.assets.loans.map( l => ( [
+            { class: 'currency', value: this.formatCurrency( l.value ) },
+            { value: this.formatDay( l.day ) }, { value: l.term }, { value: `${ l.interestRate.toFixed( 1 ) }%` },
+            { class: 'currency', value: this.formatCurrency( l.dailyInstallment ) },
+            { class: 'currency', value: this.formatCurrency( l.remaining ) },
+            { class: 'actions', value:
+                `<button class="btn" onclick="app.editLoan('${d.id}')">Edit</button>` +
+                `<button class="btn danger" onclick="app.clearingLoan('${d.id}')">Clearing</button>`
+            }
+        ] ) );
+
+        container.innerHTML = this.renderTable( cols, rows );
 
     }
 
-    closeModal () { $$( '.modal' ).forEach( modal => modal.classList.remove( 'active' ) ) }
+    async loanFormHandler ( form ) { await this.#handler( 'loan/edit', form ) }
+
+    editLoan ( id ) {
+
+        const loan = this.assetById( 'loans', id );
+        if ( ! loan ) return;
+
+        _( 'loanForm' ).reset();
+        _( 'loanId' ).value = id;
+        _( 'loanAmount' ).value = loan.value;
+        _( 'loanTerm' ).value = loan.term;
+        _( 'loanInterestRate' ).value = loan.interestRate;
+        _( 'loanInstallment' ).value = loan.dailyInstallment;
+        _( 'loanRemaining' ).value = loan.remaining;
+
+        this.openModal( 'loan', false );
+
+    }
+
+    async clearingLoan ( id ) {
+
+        if ( confirm( 'When confirmed, the remaining amount will be paid off entirely.' ) ) {
+
+            this.data = await this.#fetch( 'loan/clearing', { loanId: id } ) || this.data;
+            this.refreshTab();
+
+        }
+
+    }
 
 }
 
