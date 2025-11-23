@@ -150,6 +150,33 @@
                 </div>
             </div>
 
+            <!-- Reports Tab -->
+            <div id="reports" class="tab-content"></div>
+
+            <!-- Modals -->
+            <div id="dailyModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Add Daily Record</h2>
+                        <button class="btn" onclick="app.closeModal()">Close</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="dailyForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="dailyCash">Cash Balance</label>
+                                    <input type="number" id="dailyCash" name="cashBalance" required step="1" />
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn danger" onclick="app.closeModal()">Cancel</button>
+                                <button type="submit" class="btn primary">Save Record</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </main>
         <footer class="footer">
             <div class="container">
