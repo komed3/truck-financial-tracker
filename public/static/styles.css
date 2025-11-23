@@ -108,6 +108,12 @@ button.danger:hover {
     color: var( --danger-color );
 }
 
+.empty {
+    padding: 40px;
+    text-align: center;
+    color: var( --text-secondary );
+}
+
 /** Header */
 
 .header {
