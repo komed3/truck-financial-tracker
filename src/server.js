@@ -22,7 +22,7 @@ app.post( '/api/profile', async ( req, res ) => {
 
 app.post( '/api/dailyRecord', async ( req, res ) => {
     if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
-    else res.json( await conn.addRecord( res.body.cashBalance ) );
+    else res.json( await conn.addRecord( req.body.cashBalance ) );
 } );
 
 // Main page
