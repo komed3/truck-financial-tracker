@@ -224,7 +224,10 @@ class TruckFinancialTracker {
                 scales: {
                     x: {
                         stacked: true,
-                        ticks: { callback: v => this.formatDay( v ) },
+                        ticks: {
+                            maxTicksLimit: 10,
+                            callback: v => this.formatDay( v )
+                        },
                         grid: { display: false },
                         border: { color: '#e0e0e0' }
                     },
@@ -244,6 +247,7 @@ class TruckFinancialTracker {
                 plugins: {
                     legend: { position: 'bottom' },
                     tooltip: { callbacks: {
+                        title: ctx => this.formatDay( ctx[ 0 ].label, false ),
                         label: ctx => `${ ctx.dataset.label }: ${ this.formatCurrency( ctx.raw ) }`
                     } }
                 }
