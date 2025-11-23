@@ -166,7 +166,7 @@ class TruckFinancialTracker {
         return `<table><thead><tr>${
             cols.map( c => `<th>${c}</th>` ).join( '' )
         }</tr></thead><tbody>${
-            rows.map( r => `<tr>${ r.map(
+            rows.reverse().map( r => `<tr>${ r.map(
                 c => `<td class="${c.class}">${c.value}</td>`
             ).join( '' ) }</tr>` ).join( '' )
         }</tbody></table>`;
@@ -421,7 +421,7 @@ class TruckFinancialTracker {
 
     renderRecentRecords () {
 
-        const records = ( this.data?.dailyRecords ?? [] ).slice( -7 ).reverse();
+        const records = ( this.data?.dailyRecords ?? [] ).slice( -7 );
         const container = _( 'recentRecordsTable' );
 
         if ( records.length === 0 ) {
@@ -445,7 +445,7 @@ class TruckFinancialTracker {
             return;
         }
 
-        const table = this.createRecordsTable( this.data.dailyRecords.slice().reverse() );
+        const table = this.createRecordsTable( this.data.dailyRecords.slice() );
         container.innerHTML = table;
 
     }
