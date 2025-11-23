@@ -12,7 +12,7 @@ export class Database {
 
     }
 
-    #n ( v, digits = 2 ) { return Number( v.toFixed( digits ) ) }
+    #n ( v, digits = 0 ) { return Number( v.toFixed( digits ) ) }
 
     #assetById ( type, id ) { return ( this.data?.assets[ type ] ?? [] ).filter( r => r.id === id ) }
 
@@ -84,6 +84,15 @@ export class Database {
         const trailerValue = this.#n( assets.trailers.reduce( ( s, a ) => s + a.value, 0 ) );
         const totalDebt = this.#n( assets.loans.reduce( ( s, a ) => s + a.remaining, 0 ) );
 
+        const garages = this.#n( assets.garages.length || 0 );
+        const trucks = this.#n( assets.trucks.length || 0 );
+        const trailers = this.#n( assets.trailers.length || 0 );
+        const drivers = this.#n( assets.drivers.length || 0 );
+
+        const parkingLots = this.#n( assets.garages.reduce( ( s, a ) => s + {
+            small: 1, medium: 3, large: 5
+        }[ a.size ], 0 ) );
+
         const totalCap = this.#n( cashBalance + garageValue + truckValue + trailerValue );
         const netAssets = this.#n( totalCap - totalDebt );
         const cashOnHand = this.#n( cashBalance );
@@ -108,7 +117,7 @@ export class Database {
 
             }
 
-            return this.#n( count ? sum / count : 0 );
+            return this.#n( count ? sum / count : 0, 2 );
 
         };
 
@@ -117,7 +126,8 @@ export class Database {
             id: uuidv4(), day: this.data.currentDay, totalCap,
             assets: { cashBalance, garageValue, truckValue, trailerValue },
             profit: { today, avg7: avg( 7 ), avg30: avg( 30 ), avg90: avg( 90 ) },
-            report: { netAssets, totalDebt, cashOnHand, cashRatio }
+            report: { netAssets, totalDebt, cashOnHand, cashRatio },
+            stats: { garages, parkingLots, trucks, trailers, drivers }
         } );
 
         this.saveGame();
