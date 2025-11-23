@@ -397,7 +397,8 @@ tr:hover {
 .form-group input,
 .form-group select,
 .form-group textarea {
-    padding: 10px;
+    height: 40px;
+    padding: 0 10px;
     font-size: 14px;
     background: var( --bg-secondary );
     border: 1px solid var( --border-color );
@@ -407,6 +408,10 @@ tr:hover {
 .form-group select:focus,
 .form-group textarea:focus {
     outline: 2px solid var( --accent-color );
+}
+
+.form-group select {
+    cursor: pointer;
 }
 
 .form-actions {
