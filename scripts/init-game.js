@@ -86,12 +86,21 @@ inquirer.prompt( [ {
             currentDay: Number( answers.startingDay )
         };
 
-        if ( gameData.currentDay === 0 ) gameData.dailyRecords.push( {
-            id: uuidv4(), day: 0, totalCap: cash,
-            assets: { cashBalance: cash, garageValue: 0, truckValue: 0, trailerValue: 0, totalLoans: 0 },
-            profit: { today: 0, avg7: 0, avg30: 0, avg90: 0 },
-            report: { netAssets: cash, totalDebt: 0, cashOnHand: cash, cashRatio: 1 }
-        } );
+        if ( gameData.currentDay === 0 ) {
+
+            gameData.dailyRecords.push( {
+                id: uuidv4(), day: 0, totalCap: cash,
+                assets: { cashBalance: cash, garageValue: 0, truckValue: 0, trailerValue: 0, totalLoans: 0 },
+                profit: { today: 0, avg7: 0, avg30: 0, avg90: 0 },
+                report: { netAssets: cash, totalDebt: 0, cashOnHand: cash, cashRatio: 1 }
+            } );
+
+            gameData.assets.garages.push( {
+                id: uuidv4(), location: answers.startingLocation,
+                size: 'small', value: 0, day: 0
+            } );
+
+        }
 
         const dataDir = join( process.cwd(), 'data' );
         await mkdir( dataDir, { recursive: true } );

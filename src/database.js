@@ -14,18 +14,30 @@ export class Database {
 
     #n ( v, digits = 2 ) { return Number( v.toFixed( digits ) ) }
 
-    #byId ( assetType, id ) { return ( this.data?.assets[ assetType ] ?? [] ).filter( r => r.id === id ) }
+    #assetById ( type, id ) { return ( this.data?.assets[ type ] ?? [] ).filter( r => r.id === id ) }
 
-    #replace ( assetType, newAsset ) {
+    #updateAsset ( type, data ) {
 
         if ( ! this.data?.assets ) this.data.assets = {};
-        if ( ! this.data.assets[ assetType ] ) this.data.assets[ assetType ] = [];
+        if ( ! this.data.assets[ type ] ) this.data.assets[ type ] = [];
 
-        const assets = this.data.assets[ assetType ];
-        const index = assets.findIndex( a => a.id === newAsset.id );
+        const assets = this.data.assets[ type ];
+        const index = assets.findIndex( a => a.id === data.id );
 
-        if ( index >= 0 ) assets[ index ] = newAsset;
-        else assets.push( newAsset );
+        if ( index >= 0 ) assets[ index ] = data;
+        else assets.push( data );
+
+    }
+
+    #deleteAsset ( type, id ) {
+
+        if ( ! this.data?.assets ) return;
+        if ( ! this.data.assets[ type ] ) return;
+
+        const assets = this.data.assets[ type ];
+        const index = assets.findIndex( a => a.id === id );
+
+        if ( index >= 0 ) assets.splice( index, 1 );
 
     }
 
@@ -117,14 +129,24 @@ export class Database {
 
         if ( ! this.data ) await this.loadGame();
 
-        const garage = { ...( data.garageId && this.#byId( 'garages', data.garageId ) || {} ), ...{
-            location: data.location, size: data.size, value: data.value,
-            day: this.data.currentDay
+        const garage = { ...( data.garageId && this.#assetById( 'garages', data.garageId ) || {} ), ...{
+            location: data.location, size: data.size, value: data.value
         } };
 
         if ( ! garage.id ) garage.id = uuidv4();
+        if ( ! garage.day ) garage.day = this.data.currentDay;
 
-        this.#replace( 'garages', garage );
+        this.#updateAsset( 'garages', garage );
+        this.saveGame();
+        return this.data;
+
+    }
+
+    async deleteGarage ( garageId ) {
+
+        if ( ! this.data ) await this.loadGame();
+
+        this.#deleteAsset( 'garages', garageId );
         this.saveGame();
         return this.data;
 
