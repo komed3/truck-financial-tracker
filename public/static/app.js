@@ -234,7 +234,7 @@ class TruckFinancialTracker {
                         type: 'linear',
                         stacked: true,
                         ticks: {
-                            maxTicksLimit: 6,
+                            maxTicksLimit: 5,
                             callback: v => this.formatCurrency( v )
                         },
                         grid: { color: '#e0e0e0' },
