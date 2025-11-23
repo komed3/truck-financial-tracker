@@ -440,15 +440,31 @@ class TruckFinancialTracker {
 
         const cols = [ 'Location', 'Purchase Date', 'Size', 'Current Value', 'Actions' ];
         const rows = this.data.assets.garages.map( g => ( [
-            { value: g.location }, { value: g.purchaseDay }, { class: 'label', value: g.size },
+            { value: g.location }, { value: this.formatDay( g.day ) }, { class: 'label', value: g.size },
             { class: 'currency', value: this.formatCurrency( g.value ) },
             { class: 'actions', value:
-                `<button class="btn secondary" onclick="app.editGarage('${garage.id}')">Edit</button>` +
-                `<button class="btn danger" onclick="app.deleteGarage('${garage.id}')">Delete</button>`
+                `<button class="btn secondary" onclick="app.editGarage('${g.id}')">Edit</button>` +
+                `<button class="btn danger" onclick="app.deleteGarage('${g.id}')">Delete</button>`
             }
         ] ) );
 
         container.innerHTML = this.renderTable( cols, rows );
+
+    }
+
+    async garageFormHandler ( form ) {
+
+        this.freeze();
+        this.closeModal();
+
+        await this.#fetch( 'garage', Object.fromEntries( new FormData( form ) ) );
+        await this.loadData();
+
+        this.refreshTab();
+        this.unfreeze();
+
+        form.reset();
+
     }
 
     // Modals
