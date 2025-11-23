@@ -277,7 +277,7 @@ tr:hover {
     position: fixed;
     left: 0;
     top: 0;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -313,4 +313,55 @@ tr:hover {
 
 .modal-body {
     padding: 20px;
+}
+
+/** Forms */
+
+.form-container {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: var( --bg-secondary );
+    border-bottom: 1px solid var( --border-color );
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax( 250px, 1fr ) );
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var( --text-secondary );
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 10px;
+    font-size: 14px;
+    background: var( --bg-secondary );
+    border: 1px solid var( --border-color );
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: 2px solid var( --accent-color );
+}
+
+.form-actions {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
 }
