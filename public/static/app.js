@@ -14,7 +14,7 @@ class TruckFinancialTracker {
 
         this.currentTab = null;
         this.charts = {};
-        this.maxChartPoints = 250;
+        this.maxChartPoints = -250;
 
         this.setupEventListeners();
         this.init();
@@ -143,26 +143,35 @@ class TruckFinancialTracker {
 
     // Tables
 
+    renderTable ( cols, rows ) {
+
+        return `<table><thead><tr>${
+            cols.map( c => `<th>${c}</th>` ).join( '' )
+        }</tr></thead><tbody>${
+            rows.map( r => `<tr>${ r.map(
+                c => `<td class="${c.class}">${c.value}</td>`
+            ).join( '' ) }</tr>` ).join( '' )
+        }</tbody></table>`;
+
+    }
+
     createRecordsTable ( records ) {
 
-        const cols = [ 'Day', 'Cash', 'Total Cap', 'Total Debt', 'Net Assets', 'Cash on Hand', 'Profit/Loss' ].map( c => `<th>${c}</th>` ).join( '' );
-        const rows = records.map( ( r, i ) => {
+        const cols = [ 'Day', 'Cash', 'Total Cap', 'Total Debt', 'Net Assets', 'Cash on Hand', 'Profit/Loss' ];
+        const rows = records.map( ( r, i ) => ( [
+            { value: this.formatDay( r.day ?? i ) },
+            { class: 'currency', value: this.formatCurrency( r.assets.cashBalance ) },
+            { class: 'currency', value: this.formatCurrency( r.totalCap ) },
+            { class: 'currency', value: this.formatCurrency( r.report.totalDebt ) },
+            { class: 'currency', value: this.formatCurrency( r.report.netAssets ) },
+            { class: 'currency', value: this.formatCurrency( r.report.cashOnHand ) },
+            {
+                class: 'currency ' + r.profit.today < 0 ? 'negative' : 'positive',
+                value: this.formatCurrency( Math.abs( r.profit.today ) )
+            }
+        ] ) );
 
-            const changeClass = r.profit.today < 0 ? 'negative' : 'positive';
-
-            return `<tr>` +
-                `<td>${ this.formatDay( r.day ?? i ) }</td>` +
-                `<td class="currency">${ this.formatCurrency( r.assets.cashBalance ) }</td>` +
-                `<td class="currency">${ this.formatCurrency( r.totalCap ) }</td>` +
-                `<td class="currency">${ this.formatCurrency( r.report.totalDebt ) }</td>` +
-                `<td class="currency">${ this.formatCurrency( r.report.netAssets ) }</td>` +
-                `<td class="currency">${ this.formatCurrency( r.report.cashOnHand ) }</td>` +
-                `<td class="currency ${changeClass}">${ this.formatCurrency( r.profit.today ) }</td>` +
-            `</tr>`;
-
-        } ).join( '' );
-
-        return `<table><thead><tr>${cols}</tr></thead><tbody>${rows}</tbody></table>`;
+        return this.renderTable( cols, rows );
 
     }
 
