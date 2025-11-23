@@ -79,9 +79,22 @@ app.post( '/api/loan/clearing', async ( req, res ) => {
 app.get( '/', async ( req, res ) => {
 
     const profileId = req.query.profile;
-    conn = new Database( profileId );
 
-    res.sendFile( join( cwd, 'public/index.html' ) );
+    if ( ! profileId ) {
+
+        res.send( '<h1>Select Profile</h1>' + Database.index().map( p => `<ul>
+            <li><a href="?profile=${p.profileId}">${ [
+                p.gameInfo.game.toUpperCase(), p.gameInfo.playerName, p.gameInfo.companyName,
+                p.gameInfo.startingLocation, p.gameInfo.currency
+            ].filter( Boolean ).join( ' | ' ) }</a></li>
+        </ul>` ) );
+
+    } else {
+
+        conn = new Database( profileId );
+        res.sendFile( join( cwd, 'public/index.html' ) );
+
+    }
 
 } );
 

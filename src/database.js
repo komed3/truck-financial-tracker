@@ -1,13 +1,28 @@
+import { readdirSync, readFileSync } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { v4 as uuidv4 } from 'uuid';
 
+const DATA_DIR = join( process.cwd(), 'data' );
+
 export class Database {
+
+    static index () {
+
+        const files = readdirSync( DATA_DIR ).filter( f => f.endsWith( '.json' ) );
+        const profiles = files.map( file => {
+            const { profileId, gameInfo } = JSON.parse( readFileSync( join( DATA_DIR, file ) ) ?? '{}' );
+            return { profileId, gameInfo };
+        } );
+
+        return profiles;
+
+    }
 
     constructor ( profileId ) {
 
         this.profileId = profileId;
-        this.path = join( process.cwd(), `data/${this.profileId}.json` );
+        this.path = join( DATA_DIR, `${this.profileId}.json` );
         this.data = null;
 
     }
