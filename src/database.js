@@ -122,26 +122,19 @@ export class Database {
         const cashOnHand = this.#n( cashBalance );
         const cashRatio = this.#n( Math.min( 1, Math.max( 0, cashBalance / totalCap ) ), 4 );
 
-        const rec = this.data.dailyRecords ?? [];
-        const last = rec.length ? rec[ rec.length - 1 ].totalCap : null;
-        const today = this.#n( last !== null ? totalCap - last : 0 );
+        const rec = this.data.dailyRecords || [];
+        const vals = rec.map( r => r.report.netAssets ); vals.push( netAssets );
+        const m = vals.length;
 
-        const avg = d => {
+        const avg = ( d ) => {
 
-            if ( rec.length < 1 ) return 0;
-            let sum = 0, count = 0;
+            const k = Math.min( d, Math.max( 0, m - 1 ) );
+            if ( ! k ) return 0;
 
-            for ( let i = rec.length - 1; i >= 0 && count < d; i-- ) {
+            let sum = 0;
+            for ( let i = m - 1; i > m - 1 - k; i-- ) sum += vals[ i ] - vals[ i - 1 ];
 
-                const prev = i ? rec[ i - 1 ].totalCap : null;
-                if ( prev === null ) break;
-
-                sum += rec[ i ].totalCap - prev;
-                count++;
-
-            }
-
-            return this.#n( count ? sum / count : 0, 2 );
+            return sum / k;
 
         };
 
@@ -149,7 +142,7 @@ export class Database {
         this.data.dailyRecords.push( {
             id: uuidv4(), day: this.data.currentDay, totalCap,
             assets: { cashBalance, garageValue, truckValue, trailerValue },
-            profit: { today, avg7: avg( 7 ), avg30: avg( 30 ), avg90: avg( 90 ) },
+            profit: { today: avg( 1 ), avg7: avg( 7 ), avg30: avg( 30 ), avg90: avg( 90 ) },
             report: { netAssets, totalDebt, cashOnHand, cashRatio },
             stats: { garages, parkingLots, trucks, trailers, drivers }
         } );
