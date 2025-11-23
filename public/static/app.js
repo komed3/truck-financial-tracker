@@ -614,6 +614,82 @@ class TruckFinancialTracker {
 
     }
 
+    renderAvgProfitChart ( container ) {
+
+        if ( this.charts.avgProfit ) this.charts.avgProfit.destroy();
+
+        const dataset = { borderWidth: 3, hoverBorderWidth: 3, pointRadius: 0, pointHoverRadius: 0, tension: 0.05 };
+        const labels = [], avg7 = [], avg30 = [], avg90 = [];
+
+        ( this.data?.dailyRecords ?? [] ).slice( this.maxChartPoints ).map( ( r, i ) => {
+            labels.push( r.day ?? i );
+            avg7.push( r.profit.avg7 );
+            avg30.push( r.profit.avg30 );
+            avg90.push( r.profit.avg90 );
+        } );
+
+        this.charts.capitalization = new Chart( container, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [ {
+                    label: '7d Avg.',
+                    data: avg7,
+                    borderColor: '#27ae60',
+                    hoverBorderColor: '#27ae60',
+                    ...dataset
+                }, {
+                    label: '30d Avg.',
+                    data: avg30,
+                    borderColor: '#f39c12',
+                    hoverBorderColor: '#f39c12',
+                    ...dataset
+                }, {
+                    label: '90d Avg.',
+                    data: avg90,
+                    borderColor: '#9b59b6',
+                    hoverBorderColor: '#9b59b6',
+                    ...dataset
+                } ]
+            },
+            options: {
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            maxTicksLimit: 10,
+                            callback: v => this.formatDay( v )
+                        },
+                        grid: { display: false },
+                        border: { color: '#e0e0e0' }
+                    },
+                    y: {
+                        display: true,
+                        position: 'left',
+                        type: 'linear',
+                        ticks: {
+                            maxTicksLimit: 6,
+                            callback: v => this.formatCurrency( v )
+                        },
+                        grid: { color: '#e0e0e0' },
+                        border: { dash: [ 5, 5 ], color: '#e0e0e0' }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: { callbacks: {
+                        title: ctx => this.formatDay( ctx[ 0 ].label, false ),
+                        label: ctx => `${ ctx.dataset.label }: ${ this.formatCurrency( ctx.raw ) }`
+                    } }
+                }
+            }
+        } );
+
+    }
+
     // Tab Navigation
 
     switchTab ( tabName, force = false ) {
@@ -1044,6 +1120,7 @@ class TruckFinancialTracker {
         this.renderNetAssetsChart( _( 'netAssetsReport' ) );
         this.renderTotalDebtChart( _( 'totalDebtReport' ) );
         this.renderCashRatioChart( _( 'cashRatioReport' ) );
+        this.renderAvgProfitChart( _( 'avgProfitReport' ) );
 
     }
 
