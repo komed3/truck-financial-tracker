@@ -414,11 +414,9 @@ class TruckFinancialTracker {
         this.freeze();
         this.closeModal();
 
-        await this.#fetch( 'dailyRecord', { cashBalance: parseFloat(
+        this.data = await this.#fetch( 'dailyRecord', { cashBalance: parseFloat(
             new FormData( form ).get( 'cashBalance' )
         ) } );
-
-        await this.loadData();
 
         this.refreshTab();
         this.unfreeze();
@@ -457,8 +455,9 @@ class TruckFinancialTracker {
         this.freeze();
         this.closeModal();
 
-        await this.#fetch( 'garage', Object.fromEntries( new FormData( form ) ) );
-        await this.loadData();
+        this.data = await this.#fetch( 'garage',
+            Object.fromEntries( new FormData( form ) )
+        );
 
         this.refreshTab();
         this.unfreeze();
