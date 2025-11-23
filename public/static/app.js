@@ -296,6 +296,7 @@ class TruckFinancialTracker {
                 } ]
             },
             options: {
+                radius: '80%',
                 plugins: {
                     legend: { position: 'bottom', labels: { boxWidth: 18, boxHeight: 18 } },
                     tooltip: { callbacks: {
