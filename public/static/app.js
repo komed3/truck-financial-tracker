@@ -450,7 +450,7 @@ class TruckFinancialTracker {
             return;
         }
 
-        const cols = [ 'Location', 'Purchase Date', 'Size', 'Current Value', 'Actions' ];
+        const cols = [ 'Location', 'Day', 'Size', 'Value', 'Actions' ];
         const rows = this.data.assets.garages.map( g => ( [
             { value: g.location }, { value: this.formatDay( g.day ) }, { class: 'label', value: `<span>${g.size}</span>` },
             { class: 'currency', value: this.formatCurrency( g.value ) },
@@ -503,6 +503,56 @@ class TruckFinancialTracker {
             this.refreshTab();
 
         }
+
+    }
+
+    // Trucks & Trailers
+
+    renderTrucks () {
+
+        const container = _( 'trucksTable' );
+
+        if ( this.data?.assets?.trucks?.length === 0 ) {
+            container.innerHTML = '<div class="empty">No trucks yet. Add your first truck to get started!</div>';
+            return;
+        }
+
+        const cols = [ 'Brand', 'Model', 'Day', 'Condition', 'Value', 'Actions' ];
+        const rows = this.data.assets.trucks.map( t => ( [
+            { value: t.brand }, { value: t.model }, { value: this.formatDay( t.day ) },
+            { class: 'label', value: `<span>${t.condition}</span>` },
+            { class: 'currency', value: this.formatCurrency( t.value ) },
+            { class: 'actions', value:
+                `<button class="btn" onclick="app.editTruck('${t.id}')">Edit</button>` +
+                `<button class="btn danger" onclick="app.deleteTruck('${t.id}')">Delete</button>`
+            }
+        ] ) );
+
+        container.innerHTML = this.renderTable( cols, rows );
+
+    }
+
+    renderTrailers () {
+
+        const container = _( 'trailersTable' );
+
+        if ( this.data?.assets?.trailers?.length === 0 ) {
+            container.innerHTML = '<div class="empty">No trailers yet. Add your first trailer to get started!</div>';
+            return;
+        }
+
+        const cols = [ 'Type', 'Capacity', 'Day', 'Condition', 'Value', 'Actions' ];
+        const rows = this.data.assets.trailers.map( t => ( [
+            { value: t.type }, { value: t.capacity }, { value: this.formatDay( t.day ) },
+            { class: 'label', value: `<span>${t.condition}</span>` },
+            { class: 'currency', value: this.formatCurrency( t.value ) },
+            { class: 'actions', value:
+                `<button class="btn" onclick="app.editTrailer('${t.id}')">Edit</button>` +
+                `<button class="btn danger" onclick="app.deleteTrailer('${t.id}')">Delete</button>`
+            }
+        ] ) );
+
+        container.innerHTML = this.renderTable( cols, rows );
 
     }
 
