@@ -150,7 +150,7 @@
                 <div class="table-container">
                     <div class="table-header">
                         <h2>Loans</h2>
-                        <button class="btn primary" onclick="app.openModal('loan')">Add Loan</button>
+                        <button class="btn primary" onclick="app.openModal('loan')">Take Loan</button>
                     </div>
                     <div id="loansTable"></div>
                 </div>
@@ -186,7 +186,7 @@
             <div id="garageModal" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2>Add / Update Garage</h2>
+                        <h2>Add / Edit Garage</h2>
                         <button class="btn" onclick="app.closeModal()">Close</button>
                     </div>
                     <div class="modal-body">
@@ -222,7 +222,7 @@
             <div id="truckModal" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2>Add / Update Truck</h2>
+                        <h2>Add / Edit Truck</h2>
                         <button class="btn" onclick="app.closeModal()">Close</button>
                     </div>
                     <div class="modal-body">
@@ -262,7 +262,7 @@
             <div id="trailerModal" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2>Add / Update Trailer</h2>
+                        <h2>Add / Edit Trailer</h2>
                         <button class="btn" onclick="app.closeModal()">Close</button>
                     </div>
                     <div class="modal-body">
@@ -309,7 +309,7 @@
             <div id="driverModal" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2>Add / Update Driver</h2>
+                        <h2>Add / Edit Driver</h2>
                         <button class="btn" onclick="app.closeModal()">Close</button>
                     </div>
                     <div class="modal-body">
@@ -336,6 +336,42 @@
                                         <option value="advanced">Advanced</option>
                                         <option value="expert">Expert</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn" onclick="app.closeModal()">Cancel</button>
+                                <button type="submit" class="btn primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="loanModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Add / Edit Loan</h2>
+                        <button class="btn" onclick="app.closeModal()">Close</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="loanForm">
+                            <input type="text" id="loanId" name="loanId" style="display: none" />
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="loanAmount">Amount</label>
+                                    <input type="number" id="loanAmount" name="value" required step="1" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="loanTerm">Term (days)</label>
+                                    <input type="number" id="loanTerm" name="term" required step="1" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="loanInterestRate">Interest Rate (%)</label>
+                                    <input type="number" id="loanInterestRate" name="interestRate" required step="0.01" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="loanInstallment">Daily Installment</label>
+                                    <input type="number" id="loanInstallment" name="dailyInstallment" required step="1" />
                                 </div>
                             </div>
                             <div class="form-actions">
