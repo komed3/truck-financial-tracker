@@ -430,7 +430,7 @@ class TruckFinancialTracker {
 
         this.data = await this.#fetch( 'dailyRecord', { cashBalance: parseFloat(
             new FormData( form ).get( 'cashBalance' )
-        ) } );
+        ) } ) || this.data;
 
         this.refreshTab();
         this.unfreeze();
@@ -469,9 +469,9 @@ class TruckFinancialTracker {
         this.freeze();
         this.closeModal();
 
-        this.data = await this.#fetch( 'garage',
+        this.data = await this.#fetch( 'garage/update',
             Object.fromEntries( new FormData( form ) )
-        );
+        ) || this.data;
 
         this.refreshTab();
         this.unfreeze();
@@ -492,6 +492,17 @@ class TruckFinancialTracker {
         _( 'garageSize' ).value = garage.size;
 
         this.openModal( 'garage' );
+
+    }
+
+    async deleteGarage ( id ) {
+
+        if ( confirm( 'Do you want to delete this garage?' ) ) {
+
+            this.data = await this.#fetch( 'garage/delete', { garageId: id } ) || this.data;
+            this.refreshTab();
+
+        }
 
     }
 
