@@ -324,7 +324,81 @@ class TruckFinancialTracker {
 
     }
 
-    renderDailyProfitChart ( container ) {}
+    renderDailyProfitChart ( container ) {
+
+        if ( this.charts.dailyProfit ) this.charts.dailyProfit.destroy();
+
+        const labels = [], profit = [], loss = [];
+
+        ( this.data?.dailyRecords ?? [] ).slice( this.maxChartPoints ).map( ( r, i ) => {
+            labels.push( r.day ?? i );
+            profit.push( Math.max( 0, r.profit.today ) );
+            loss.push( Math.min( 0, r.profit.today ) );
+        } );
+
+        this.charts.dailyProfit = new Chart( container, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [ {
+                    label: 'Profit',
+                    data: profit,
+                    backgroundColor: '#27ae60',
+                    hoverBackgroundColor: '#27ae60',
+                    borderWidth: 0,
+                    hoverBorderWidth: 0
+                }, {
+                    label: 'Loss',
+                    data: loss,
+                    backgroundColor: '#e74c3c',
+                    hoverBackgroundColor: '#e74c3c',
+                    borderWidth: 0,
+                    hoverBorderWidth: 0
+                } ]
+            },
+            options: {
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        ticks: {
+                            maxTicksLimit: 10,
+                            callback: v => this.formatDay( v )
+                        },
+                        grid: { display: false },
+                        border: { color: '#e0e0e0' }
+                    },
+                    y: {
+                        display: true,
+                        position: 'left',
+                        type: 'linear',
+                        stacked: true,
+                        ticks: {
+                            maxTicksLimit: 6,
+                            callback: v => this.formatCurrency( v )
+                        },
+                        grid: { color: '#e0e0e0' },
+                        border: { dash: [ 5, 5 ], color: '#e0e0e0' }
+                    }
+                },
+                plugins: {
+                    legend: false,
+                    tooltip: {
+                        displayColors: false,
+                        bodyFont: { size: 22 },
+                        callbacks: {
+                            title: ctx => this.formatDay( ctx[ 0 ].label, false ),
+                            label: ctx => ctx.raw === 0 ? null : this.formatCurrency( ctx.raw )
+                        }
+                    }
+                }
+            }
+        } );
+
+    }
 
     renderNetAssetsChart ( container ) {
 
@@ -347,6 +421,77 @@ class TruckFinancialTracker {
                     borderColor: '#3498db',
                     hoverBorderColor: '#3498db',
                     backgroundColor: '#b9dcf3',
+                    borderWidth: 3,
+                    hoverBorderWidth: 3,
+                    pointRadius: 0,
+                    pointHoverRadius: 0,
+                    fill: true,
+                    tension: 0.05
+                } ]
+            },
+            options: {
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            maxTicksLimit: 10,
+                            callback: v => this.formatDay( v )
+                        },
+                        grid: { display: false },
+                        border: { color: '#e0e0e0' }
+                    },
+                    y: {
+                        position: 'left',
+                        type: 'linear',
+                        stacked: true,
+                        ticks: {
+                            maxTicksLimit: 6,
+                            callback: v => this.formatCurrency( v )
+                        },
+                        grid: { color: '#e0e0e0' },
+                        border: { dash: [ 5, 5 ], color: '#e0e0e0' }
+                    }
+                },
+                plugins: {
+                    legend: false,
+                    tooltip: {
+                        displayColors: false,
+                        bodyFont: { size: 22 },
+                        callbacks: {
+                            title: ctx => this.formatDay( ctx[ 0 ].label, false ),
+                            label: ctx => this.formatCurrency( ctx.raw )
+                        }
+                    }
+                }
+            }
+        } );
+
+    }
+
+    renderTotalDebtChart ( container ) {
+
+        if ( this.charts.totalDebt ) this.charts.totalDebt.destroy();
+
+        const labels = [], totalDebt = [];
+
+        ( this.data?.dailyRecords ?? [] ).slice( this.maxChartPoints ).map( ( r, i ) => {
+            labels.push( r.day ?? i );
+            totalDebt.push( r.report.totalDebt );
+        } );
+
+        this.charts.totalDebt = new Chart( container, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [ {
+                    label: 'Total Debt',
+                    data: totalDebt,
+                    borderColor: '#e74c3c',
+                    hoverBorderColor: '#e74c3c',
+                    backgroundColor: '#f6bcb6',
                     borderWidth: 3,
                     hoverBorderWidth: 3,
                     pointRadius: 0,
@@ -897,6 +1042,7 @@ class TruckFinancialTracker {
         this.renderCapitalizationChart( _( 'capitalizationReport' ) );
         this.renderDailyProfitChart( _( 'dailyProfitReport' ) );
         this.renderNetAssetsChart( _( 'netAssetsReport' ) );
+        this.renderTotalDebtChart( _( 'totalDebtReport' ) );
         this.renderCashRatioChart( _( 'cashRatioReport' ) );
 
     }
