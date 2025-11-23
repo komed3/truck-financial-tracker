@@ -101,7 +101,7 @@ class TruckFinancialTracker {
     async init () {
 
         await this.loadData();
-        this.switchTab( 'dashboard' );
+        this.switchTab( /*'dashboard'*/ 'reports' );
 
     }
 
@@ -326,9 +326,148 @@ class TruckFinancialTracker {
 
     renderDailyProfitChart ( container ) {}
 
-    renderNetAssetsChart ( container ) {}
+    renderNetAssetsChart ( container ) {
 
-    renderCashRatioChart ( container ) {}
+        if ( this.charts.netAssets ) this.charts.netAssets.destroy();
+
+        const labels = [], netAssets = [];
+
+        ( this.data?.dailyRecords ?? [] ).slice( this.maxChartPoints ).map( ( r, i ) => {
+            labels.push( r.day ?? i );
+            netAssets.push( r.report.netAssets );
+        } );
+
+        this.charts.netAssets = new Chart( container, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [ {
+                    label: 'Net Assets',
+                    data: netAssets,
+                    borderColor: '#3498db',
+                    hoverBorderColor: '#3498db',
+                    backgroundColor: '#b9dcf3',
+                    borderWidth: 3,
+                    hoverBorderWidth: 3,
+                    pointRadius: 0,
+                    pointHoverRadius: 0,
+                    fill: true,
+                    tension: 0.05
+                } ]
+            },
+            options: {
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            maxTicksLimit: 10,
+                            callback: v => this.formatDay( v )
+                        },
+                        grid: { display: false },
+                        border: { color: '#e0e0e0' }
+                    },
+                    y: {
+                        position: 'left',
+                        type: 'linear',
+                        stacked: true,
+                        ticks: {
+                            maxTicksLimit: 6,
+                            callback: v => this.formatCurrency( v )
+                        },
+                        grid: { color: '#e0e0e0' },
+                        border: { dash: [ 5, 5 ], color: '#e0e0e0' }
+                    }
+                },
+                plugins: {
+                    legend: false,
+                    tooltip: {
+                        displayColors: false,
+                        bodyFont: { size: 22 },
+                        callbacks: {
+                            title: ctx => this.formatDay( ctx[ 0 ].label, false ),
+                            label: ctx => this.formatCurrency( ctx.raw )
+                        }
+                    }
+                }
+            }
+        } );
+
+    }
+
+    renderCashRatioChart ( container ) {
+
+        if ( this.charts.cashRatio ) this.charts.cashRatio.destroy();
+
+        const labels = [], cashRatio = [];
+
+        ( this.data?.dailyRecords ?? [] ).slice( this.maxChartPoints ).map( ( r, i ) => {
+            labels.push( r.day ?? i );
+            cashRatio.push( r.report.cashRatio );
+        } );
+
+        this.charts.cashRatio = new Chart( container, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [ {
+                    label: 'Cash Ratio',
+                    data: cashRatio,
+                    borderColor: '#232323',
+                    hoverBorderColor: '#232323',
+                    backgroundColor: '#d4d4d4',
+                    borderWidth: 3,
+                    hoverBorderWidth: 3,
+                    pointRadius: 0,
+                    pointHoverRadius: 0,
+                    fill: true,
+                    tension: 0.05
+                } ]
+            },
+            options: {
+                clip: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            maxTicksLimit: 10,
+                            callback: v => this.formatDay( v )
+                        },
+                        grid: { display: false },
+                        border: { color: '#e0e0e0' }
+                    },
+                    y: {
+                        position: 'left',
+                        type: 'linear',
+                        min: 0, max: 1,
+                        ticks: {
+                            maxTicksLimit: 6,
+                            callback: v => v.toFixed( 2 )
+                        },
+                        grid: { color: '#e0e0e0' },
+                        border: { dash: [ 5, 5 ], color: '#e0e0e0' }
+                    }
+                },
+                plugins: {
+                    legend: false,
+                    tooltip: {
+                        displayColors: false,
+                        bodyFont: { size: 22 },
+                        callbacks: {
+                            title: ctx => this.formatDay( ctx[ 0 ].label, false ),
+                            label: ctx => ctx.raw.toFixed( 2 )
+                        }
+                    }
+                }
+            }
+        } );
+
+    }
 
     // Tab Navigation
 
