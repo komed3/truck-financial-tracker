@@ -101,7 +101,7 @@ class TruckFinancialTracker {
     async init () {
 
         await this.loadData();
-        this.switchTab( /*'dashboard'*/ 'reports' );
+        this.switchTab( 'dashboard' );
 
     }
 
