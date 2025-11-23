@@ -85,7 +85,7 @@ export class Database {
 
         this.data.currentDay++;
         this.data.dailyRecords.push( {
-            id: uuidv4(), day, totalCap,
+            id: uuidv4(), day: this.data.currentDay, totalCap,
             assets: { cashBalance, garageValue, truckValue, trailerValue },
             profit: { today, avg7: avg( 7 ), avg30: avg( 30 ), avg90: avg( 90 ) },
             report: { netAssets, totalDebt, cashOnHand, cashRatio }
