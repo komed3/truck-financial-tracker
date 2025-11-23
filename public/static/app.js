@@ -68,6 +68,22 @@ class TruckFinancialTracker {
 
     }
 
+    async #handler ( endpoint, form ) {
+
+        this.freeze();
+        this.closeModal();
+
+        this.data = await this.#fetch( endpoint,
+            Object.fromEntries( new FormData( form ) )
+        ) || this.data;
+
+        this.refreshTab();
+        this.unfreeze();
+
+        form.reset();
+
+    }
+
     setupEventListeners () {
 
         // Tab navigation
@@ -423,21 +439,7 @@ class TruckFinancialTracker {
 
     }
 
-    async dailyFormHandler ( form ) {
-
-        this.freeze();
-        this.closeModal();
-
-        this.data = await this.#fetch( 'dailyRecord', { cashBalance: parseFloat(
-            new FormData( form ).get( 'cashBalance' )
-        ) } ) || this.data;
-
-        this.refreshTab();
-        this.unfreeze();
-
-        form.reset();
-
-    }
+    async dailyFormHandler ( form ) { await this.#handler( 'dailyRecord', form ) }
 
     // Garages
 
@@ -464,21 +466,7 @@ class TruckFinancialTracker {
 
     }
 
-    async garageFormHandler ( form ) {
-
-        this.freeze();
-        this.closeModal();
-
-        this.data = await this.#fetch( 'garage/update',
-            Object.fromEntries( new FormData( form ) )
-        ) || this.data;
-
-        this.refreshTab();
-        this.unfreeze();
-
-        form.reset();
-
-    }
+    async garageFormHandler ( form ) { await this.#handler( 'garage/update', form ) }
 
     editGarage ( id ) {
 
@@ -532,6 +520,35 @@ class TruckFinancialTracker {
 
     }
 
+    async truckFormHandler ( form ) { await this.#handler( 'truck/update', form ) }
+
+    editTruck ( id ) {
+
+        const truck = this.assetById( 'trucks', id );
+        if ( ! truck ) return;
+
+        _( 'truckForm' ).reset();
+        _( 'truckId' ).value = id;
+        _( 'truckBrand' ).value = truck.brand;
+        _( 'truckModel' ).value = truck.model;
+        _( 'truckValue' ).value = truck.value;
+        _( 'truckCondition' ).value = truck.condition;
+
+        this.openModal( 'truck', false );
+
+    }
+
+    async deleteTruck ( id ) {
+
+        if ( confirm( 'Do you want to delete this truck?' ) ) {
+
+            this.data = await this.#fetch( 'truck/delete', { truckId: id } ) || this.data;
+            this.refreshTab();
+
+        }
+
+    }
+
     renderTrailers () {
 
         const container = _( 'trailersTable' );
@@ -553,6 +570,35 @@ class TruckFinancialTracker {
         ] ) );
 
         container.innerHTML = this.renderTable( cols, rows );
+
+    }
+
+    async trailerFormHandler ( form ) { await this.#handler( 'trailer/update', form ) }
+
+    editTrailer ( id ) {
+
+        const trailer = this.assetById( 'trailers', id );
+        if ( ! trailer ) return;
+
+        _( 'trailerForm' ).reset();
+        _( 'trailerId' ).value = id;
+        _( 'trailerType' ).value = trailer.type;
+        _( 'trailerCapacity' ).value = trailer.capacity;
+        _( 'trailerValue' ).value = trailer.value;
+        _( 'trailerCondition' ).value = trailer.condition;
+
+        this.openModal( 'trailer', false );
+
+    }
+
+    async deleteTrailer ( id ) {
+
+        if ( confirm( 'Do you want to delete this trailer?' ) ) {
+
+            this.data = await this.#fetch( 'trailer/delete', { trailerId: id } ) || this.data;
+            this.refreshTab();
+
+        }
 
     }
 
