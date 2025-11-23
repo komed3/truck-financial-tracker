@@ -16,9 +16,6 @@ class TruckFinancialTracker {
         this.charts = {};
         this.maxChartPoints = -250;
 
-        this.setupEventListeners();
-        this.init();
-
         Chart.defaults.responsive = true;
         Chart.defaults.maintainAspectRatio = false;
         Chart.defaults.offset = false;
@@ -44,6 +41,9 @@ class TruckFinancialTracker {
         Chart.defaults.plugins.tooltip.borderWidth = 1;
         Chart.defaults.plugins.tooltip.cornerRadius = 5;
         Chart.defaults.plugins.tooltip.boxPadding = 4;
+
+        this.setupEventListeners();
+        this.init();
 
     }
 
@@ -266,7 +266,7 @@ class TruckFinancialTracker {
                         type: 'linear',
                         stacked: true,
                         ticks: {
-                            maxTicksLimit: 5,
+                            maxTicksLimit: 6,
                             callback: v => this.formatCurrency( v )
                         },
                         grid: { color: '#e0e0e0' },
