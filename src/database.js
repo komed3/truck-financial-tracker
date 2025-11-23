@@ -144,7 +144,7 @@ export class Database {
         } };
 
         if ( ! garage.id ) garage.id = uuidv4();
-        if ( ! garage.day ) garage.day = this.data.currentDay;
+        if ( ! ( 'day' in garage ) ) garage.day = this.data.currentDay;
 
         this.#updateAsset( 'garages', garage );
         this.saveGame();
