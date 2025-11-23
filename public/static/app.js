@@ -384,7 +384,7 @@ class TruckFinancialTracker {
         const container = _( 'recentRecordsTable' );
 
         if ( records.length === 0 ) {
-            container.innerHTML = '<div class="loading">No daily records yet. Add your first record to get started!</div>';
+            container.innerHTML = '<div class="empty">No daily records yet. Add your first record to get started!</div>';
             return;
         }
 
@@ -400,7 +400,7 @@ class TruckFinancialTracker {
         const container = _( 'dailyRecordsTable' );
 
         if ( this.data?.dailyRecords?.length === 0 ) {
-            container.innerHTML = '<div class="loading">No daily records yet. Add your first record to get started!</div>';
+            container.innerHTML = '<div class="empty">No daily records yet. Add your first record to get started!</div>';
             return;
         }
 
@@ -408,14 +408,6 @@ class TruckFinancialTracker {
         container.innerHTML = table;
 
     }
-
-    // Modals
-
-    openModal ( modalId ) { _( modalId + 'Modal' ).classList.add( 'active' ) }
-
-    closeModal () { $$( '.modal' ).forEach( modal => modal.classList.remove( 'active' ) ) }
-
-    // Form submissions
 
     async dailyFormHandler ( form ) {
 
@@ -434,6 +426,36 @@ class TruckFinancialTracker {
         form.reset();
 
     }
+
+    // Garages
+
+    renderGarages () {
+
+        const container = _( 'garagesTable' );
+
+        if ( this.data?.assets?.garages?.length === 0 ) {
+            container.innerHTML = '<div class="empty">No garages yet. Add your first garage to get started!</div>';
+            return;
+        }
+
+        const cols = [ 'Location', 'Purchase Date', 'Size', 'Current Value', 'Actions' ];
+        const rows = this.data.assets.garages.map( g => ( [
+            { value: g.location }, { value: g.purchaseDay }, { class: 'label', value: g.size },
+            { class: 'currency', value: this.formatCurrency( g.value ) },
+            { class: 'actions', value:
+                `<button class="btn secondary" onclick="app.editGarage('${garage.id}')">Edit</button>` +
+                `<button class="btn danger" onclick="app.deleteGarage('${garage.id}')">Delete</button>`
+            }
+        ] ) );
+
+        container.innerHTML = this.renderTable( cols, rows );
+    }
+
+    // Modals
+
+    openModal ( modalId ) { _( modalId + 'Modal' ).classList.add( 'active' ) }
+
+    closeModal () { $$( '.modal' ).forEach( modal => modal.classList.remove( 'active' ) ) }
 
 }
 
