@@ -394,6 +394,12 @@ class TruckFinancialTracker {
 
     }
 
+    // Modals
+
+    openModal ( modalId ) { _( modalId + 'Modal' ).classList.add( 'active' ) }
+
+    closeModal () { $$( '.modal' ).forEach( modal => modal.classList.remove( 'active' ) ) }
+
 }
 
 document.addEventListener( 'DOMContentLoaded', () => {
