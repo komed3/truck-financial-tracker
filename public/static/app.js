@@ -602,6 +602,32 @@ class TruckFinancialTracker {
 
     }
 
+    // Drivers
+
+    renderDrivers () {
+
+        const container = _( 'driversTable' );
+
+        if ( this.data?.assets?.drivers?.length === 0 ) {
+            container.innerHTML = '<div class="empty">No drivers yet. Add your first driver to get started!</div>';
+            return;
+        }
+
+        const cols = [ 'Name', 'Hire Day', 'Status', 'Skill Level', 'Actions' ];
+        const rows = this.data.assets.drivers.map( d => ( [
+            { value: d.name }, { value: this.formatDay( d.day ) },
+            { class: 'label', value: `<span>${t.status}</span>` },
+            { class: 'label', value: `<span>${t.skillLevel}</span>` },
+            { class: 'actions', value:
+                `<button class="btn" onclick="app.editDriver('${d.id}')">Edit</button>` +
+                `<button class="btn danger" onclick="app.deleteDriver('${d.id}')">Delete</button>`
+            }
+        ] ) );
+
+        container.innerHTML = this.renderTable( cols, rows );
+
+    }
+
     // Modals
 
     openModal ( modalId, reset = true ) {
