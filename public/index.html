@@ -259,6 +259,53 @@
                 </div>
             </div>
 
+            <div id="trailerModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Add / Update Trailer</h2>
+                        <button class="btn" onclick="app.closeModal()">Close</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="trailerForm">
+                            <input type="text" id="truckId" name="trailerId" style="display: none" />
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="trailerType">Type</label>
+                                    <select id="trailerType" name="type" required>
+                                        <option value="flatbed">Flatbed</option>
+                                        <option value="box">Box</option>
+                                        <option value="refrigerated">Refrigerated</option>
+                                        <option value="tanker">Tanker</option>
+                                        <option value="livestock">Livestock</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="trailerCapacity">Capacity</label>
+                                    <input type="text" id="trailerCapacity" name="capacity" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="trailerValue">Current Value</label>
+                                    <input type="number" id="trailerValue" name="value" required step="1" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="trailerCondition">Condition</label>
+                                    <select id="trailerCondition" name="condition">
+                                        <option value="new">New</option>
+                                        <option value="used">Used / pre owned</option>
+                                        <option value="restored">Restored</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn" onclick="app.closeModal()">Cancel</button>
+                                <button type="submit" class="btn primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </main>
         <footer class="footer">
             <div class="container">
