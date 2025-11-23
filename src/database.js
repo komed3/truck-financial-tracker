@@ -33,7 +33,7 @@ export class Database {
 
     async saveGame ( data ) {
 
-        await writeFile( this.path, JSON.stringify( data, null, 2 ), 'utf8' );
+        await writeFile( this.path, JSON.stringify( this.data, null, 2 ), 'utf8' );
         this.data = data;
 
     }
