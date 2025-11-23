@@ -211,4 +211,28 @@ export class Database {
 
     }
 
+    async updateDriver ( data ) {
+
+        if ( ! this.data ) await this.loadGame();
+
+        const driver = { ...( data.driverId && this.#assetById( 'drivers', data.driverId ) || {} ), ...{
+            name: data.name, status: data.status, skillLevel: data.skillLevel
+        } };
+
+        this.#updateAsset( 'drivers', driver );
+        this.saveGame();
+        return this.data;
+
+    }
+
+    async deleteDriver ( driverId ) {
+
+        if ( ! this.data ) await this.loadGame();
+
+        this.#deleteAsset( 'drivers', driverId );
+        this.saveGame();
+        return this.data;
+
+    }
+
 }

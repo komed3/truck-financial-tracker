@@ -55,6 +55,16 @@ app.post( '/api/trailer/delete', async ( req, res ) => {
     else res.json( await conn.deleteTrailer( req.body.trailerId ) );
 } );
 
+app.post( '/api/driver/update', async ( req, res ) => {
+    if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
+    else res.json( await conn.updateDriver( req.body ) );
+} );
+
+app.post( '/api/driver/delete', async ( req, res ) => {
+    if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
+    else res.json( await conn.deleteDriver( req.body.driverId ) );
+} );
+
 // Main page
 app.get( '/', async ( req, res ) => {
 

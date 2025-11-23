@@ -616,8 +616,8 @@ class TruckFinancialTracker {
         const cols = [ 'Name', 'Hire Day', 'Status', 'Skill Level', 'Actions' ];
         const rows = this.data.assets.drivers.map( d => ( [
             { value: d.name }, { value: this.formatDay( d.day ) },
-            { class: 'label', value: `<span>${t.status}</span>` },
-            { class: 'label', value: `<span>${t.skillLevel}</span>` },
+            { class: 'label', value: `<span>${d.status}</span>` },
+            { class: 'label', value: `<span>${d.skillLevel}</span>` },
             { class: 'actions', value:
                 `<button class="btn" onclick="app.editDriver('${d.id}')">Edit</button>` +
                 `<button class="btn danger" onclick="app.deleteDriver('${d.id}')">Delete</button>`
@@ -625,6 +625,34 @@ class TruckFinancialTracker {
         ] ) );
 
         container.innerHTML = this.renderTable( cols, rows );
+
+    }
+
+    async driverFormHandler ( form ) { await this.#handler( 'driver/update', form ) }
+
+    editDriver ( id ) {
+
+        const driver = this.assetById( 'drivers', id );
+        if ( ! driver ) return;
+
+        _( 'driverForm' ).reset();
+        _( 'driverId' ).value = id;
+        _( 'driverName' ).value = driver.name;
+        _( 'driverStatus' ).value = driver.status;
+        _( 'driverSkill' ).value = driver.skillLevel;
+
+        this.openModal( 'driver', false );
+
+    }
+
+    async deleteDriver ( id ) {
+
+        if ( confirm( 'Do you want to fire this driver?' ) ) {
+
+            this.data = await this.#fetch( 'driver/delete', { driverId: id } ) || this.data;
+            this.refreshTab();
+
+        }
 
     }
 
