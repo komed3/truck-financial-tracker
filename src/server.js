@@ -25,9 +25,9 @@ app.post( '/api/dailyRecord', async ( req, res ) => {
     else res.json( await conn.addRecord( req.body.cashBalance ) );
 } );
 
-app.post( '/api/garage/update', async ( req, res ) => {
+app.post( '/api/garage/edit', async ( req, res ) => {
     if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
-    else res.json( await conn.updateGarage( req.body ) );
+    else res.json( await conn.editGarage( req.body ) );
 } );
 
 app.post( '/api/garage/delete', async ( req, res ) => {
@@ -35,9 +35,9 @@ app.post( '/api/garage/delete', async ( req, res ) => {
     else res.json( await conn.deleteGarage( req.body.garageId ) );
 } );
 
-app.post( '/api/truck/update', async ( req, res ) => {
+app.post( '/api/truck/edit', async ( req, res ) => {
     if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
-    else res.json( await conn.updateTruck( req.body ) );
+    else res.json( await conn.editTruck( req.body ) );
 } );
 
 app.post( '/api/truck/delete', async ( req, res ) => {
@@ -45,9 +45,9 @@ app.post( '/api/truck/delete', async ( req, res ) => {
     else res.json( await conn.deleteTruck( req.body.truckId ) );
 } );
 
-app.post( '/api/trailer/update', async ( req, res ) => {
+app.post( '/api/trailer/edit', async ( req, res ) => {
     if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
-    else res.json( await conn.updateTrailer( req.body ) );
+    else res.json( await conn.editTrailer( req.body ) );
 } );
 
 app.post( '/api/trailer/delete', async ( req, res ) => {
@@ -55,9 +55,9 @@ app.post( '/api/trailer/delete', async ( req, res ) => {
     else res.json( await conn.deleteTrailer( req.body.trailerId ) );
 } );
 
-app.post( '/api/driver/update', async ( req, res ) => {
+app.post( '/api/driver/edit', async ( req, res ) => {
     if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
-    else res.json( await conn.updateDriver( req.body ) );
+    else res.json( await conn.editDriver( req.body ) );
 } );
 
 app.post( '/api/driver/delete', async ( req, res ) => {

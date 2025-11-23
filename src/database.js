@@ -139,7 +139,7 @@ export class Database {
 
     }
 
-    async updateGarage ( data ) {
+    async editGarage ( data ) {
 
         if ( ! this.data ) await this.loadGame();
 
@@ -163,7 +163,7 @@ export class Database {
 
     }
 
-    async updateTruck ( data ) {
+    async editTruck ( data ) {
 
         if ( ! this.data ) await this.loadGame();
 
@@ -187,7 +187,7 @@ export class Database {
 
     }
 
-    async updateTrailer ( data ) {
+    async editTrailer ( data ) {
 
         if ( ! this.data ) await this.loadGame();
 
@@ -211,7 +211,7 @@ export class Database {
 
     }
 
-    async updateDriver ( data ) {
+    async editDriver ( data ) {
 
         if ( ! this.data ) await this.loadGame();
 
