@@ -70,8 +70,13 @@ class TruckFinancialTracker {
     setupEventListeners () {
 
         // Tab navigation
-        $$( '.tab-btn' ).forEach( btn => btn.addEventListener( 'click', ( e ) => {
+        $$( '.tab-btn' ).forEach( btn => btn.addEventListener( 'click', e => {
                 this.switchTab( e.target.dataset.tab );
+        } ) );
+
+        // Form submissions
+        $$( 'form' ).forEach( form => form.addEventListener( 'submit', e => {
+            e.preventDefault(); this[ e.target.id + 'Handler' ]( e.target );
         } ) );
 
     }
@@ -103,6 +108,10 @@ class TruckFinancialTracker {
     }
 
     // Helper & Calculation
+
+    freeze () { _( 'loading' ).classList.add( 'active' ) }
+
+    unfreeze () { _( 'loading' ).classList.remove( 'active' ) }
 
     formatDay ( n = null, numOnly = true ) {
 
@@ -293,9 +302,9 @@ class TruckFinancialTracker {
 
     // Tab Navigation
 
-    switchTab ( tabName ) {
+    switchTab ( tabName, force = false ) {
 
-        if ( tabName === this.currentTab ) return;
+        if ( ! force && tabName === this.currentTab ) return;
         this.currentTab = tabName;
 
         // Update tab buttons
@@ -310,6 +319,8 @@ class TruckFinancialTracker {
         this.loadTabContent( tabName );
 
     }
+
+    refreshTab () { this.switchTab( this.currentTab, true ) }
 
     async loadTabContent ( tabName ) {
 
@@ -399,6 +410,26 @@ class TruckFinancialTracker {
     openModal ( modalId ) { _( modalId + 'Modal' ).classList.add( 'active' ) }
 
     closeModal () { $$( '.modal' ).forEach( modal => modal.classList.remove( 'active' ) ) }
+
+    // Form submissions
+
+    async dailyFormHandler ( form ) {
+
+        this.freeze();
+        this.closeModal();
+
+        await this.#fetch( 'dailyRecord', { cashBalance: parseFloat(
+            new FormData( form ).get( 'cashBalance' )
+        ) } );
+
+        await this.loadData();
+
+        this.refreshTab();
+        this.unfreeze();
+
+        form.reset();
+
+    }
 
 }
 
