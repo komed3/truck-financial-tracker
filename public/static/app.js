@@ -324,6 +324,12 @@ class TruckFinancialTracker {
 
     }
 
+    renderDailyProfitChart ( container ) {}
+
+    renderNetAssetsChart ( container ) {}
+
+    renderCashRatioChart ( container ) {}
+
     // Tab Navigation
 
     switchTab ( tabName, force = false ) {
@@ -721,6 +727,17 @@ class TruckFinancialTracker {
             this.refreshTab();
 
         }
+
+    }
+
+    // Reports (stats)
+
+    renderReports () {
+
+        this.renderCapitalizationChart( _( 'capitalizationReport' ) );
+        this.renderDailyProfitChart( _( 'dailyProfitReport' ) );
+        this.renderNetAssetsChart( _( 'netAssetsReport' ) );
+        this.renderCashRatioChart( _( 'cashRatioReport' ) );
 
     }
 

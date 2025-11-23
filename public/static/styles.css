@@ -232,10 +232,10 @@ button.danger:hover {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 20px;
-    margin-bottom: 30px;
 }
 
 .chart-card {
+    margin-bottom: 30px;
     padding: 20px;
     background: var( --bg-secondary );
     border: 1px solid var( --border-color );
