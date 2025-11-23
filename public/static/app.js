@@ -680,13 +680,13 @@ class TruckFinancialTracker {
 
         const cols = [ 'Amount', 'Day', 'Term', 'Interest Rate', 'Installment', 'Remaining', 'Actions' ];
         const rows = this.data.assets.loans.map( l => ( [
-            { class: 'currency', value: this.formatCurrency( l.value ) },
+            { class: 'currency', value: this.formatCurrency( l.amount ) },
             { value: this.formatDay( l.day ) }, { value: l.term }, { value: `${ l.interestRate.toFixed( 1 ) }%` },
             { class: 'currency', value: this.formatCurrency( l.dailyInstallment ) },
             { class: 'currency', value: this.formatCurrency( l.remaining ) },
             { class: 'actions', value:
-                `<button class="btn" onclick="app.editLoan('${d.id}')">Edit</button>` +
-                `<button class="btn danger" onclick="app.clearingLoan('${d.id}')">Clearing</button>`
+                `<button class="btn" onclick="app.editLoan('${l.id}')">Edit</button>` +
+                `<button class="btn danger" onclick="app.clearingLoan('${l.id}')">Clearing</button>`
             }
         ] ) );
 
@@ -703,7 +703,7 @@ class TruckFinancialTracker {
 
         _( 'loanForm' ).reset();
         _( 'loanId' ).value = id;
-        _( 'loanAmount' ).value = loan.value;
+        _( 'loanAmount' ).value = loan.amount;
         _( 'loanTerm' ).value = loan.term;
         _( 'loanInterestRate' ).value = loan.interestRate;
         _( 'loanInstallment' ).value = loan.dailyInstallment;

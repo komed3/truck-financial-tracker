@@ -65,6 +65,16 @@ app.post( '/api/driver/delete', async ( req, res ) => {
     else res.json( await conn.deleteDriver( req.body.driverId ) );
 } );
 
+app.post( '/api/loan/edit', async ( req, res ) => {
+    if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
+    else res.json( await conn.editLoan( req.body ) );
+} );
+
+app.post( '/api/loan/clearing', async ( req, res ) => {
+    if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
+    else res.json( await conn.clearingLoan( req.body.loanId ) );
+} );
+
 // Main page
 app.get( '/', async ( req, res ) => {
 

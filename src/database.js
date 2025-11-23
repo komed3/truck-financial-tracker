@@ -235,4 +235,37 @@ export class Database {
 
     }
 
+    async editLoan ( data ) {
+
+        if ( ! this.data ) await this.loadGame();
+
+        const loan = { ...( data.loanId && this.#assetById( 'loans', data.loanId ) || {} ), ...{
+            amount: this.#n( data.amount ),
+            remaining: this.#n( data.remaining || data.amount ),
+            term: this.#n( data.term ),
+            interestRate: this.#n( data.interestRate ),
+            dailyInstallment: this.#n( data.dailyInstallment )
+        } };
+
+        this.#updateAsset( 'loans', loan );
+        this.saveGame();
+        return this.data;
+
+    }
+
+    async clearingLoan ( loanId ) {
+
+        if ( ! this.data ) await this.loadGame();
+
+        const loan = this.#assetById( 'loans', loanId );
+        if ( ! loan ) return;
+
+        loan.remaining = 0;
+
+        this.#updateAsset( 'loans', loan );
+        this.saveGame();
+        return this.data;
+
+    }
+
 }
