@@ -20,6 +20,11 @@ app.post( '/api/profile', async ( req, res ) => {
     else res.json( await conn.getData() );
 } );
 
+app.post( '/api/dailyRecord', async ( req, res ) => {
+    if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
+    else res.json( await conn.addRecord( res.body.cashBalance ) );
+} );
+
 // Main page
 app.get( '/', async ( req, res ) => {
 
