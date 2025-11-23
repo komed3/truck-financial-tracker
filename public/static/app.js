@@ -172,14 +172,14 @@ class TruckFinancialTracker {
         if ( this.charts.capitalization ) this.charts.capitalization.destroy();
 
         const dataset = { borderWidth: 3, hoverBorderWidth: 3, pointRadius: 0, pointHoverRadius: 0, fill: true, tension: 0.05 };
-        const labels = [], cash = [], garages = [], trucks = [], loans = [];
+        const labels = [], cash = [], garages = [], trucks = [], trailers = [];
 
         ( this.data?.dailyRecords ?? [] ).map( ( r, i ) => {
             labels.push( r.day ?? i );
             cash.push( r.assets.cashBalance );
             garages.push( r.assets.garageValue );
-            trucks.push( r.assets.truckValue + r.assets.trailerValue );
-            loans.push( -r.report.totalDebt );
+            trucks.push( r.assets.truckValue );
+            trailers.push( r.assets.trailerValue );
         } );
 
         this.charts.capitalization = new Chart( container, {
@@ -201,18 +201,18 @@ class TruckFinancialTracker {
                     backgroundColor: '#b9dcf3',
                     ...dataset
                 }, {
-                    label: 'Trucks & Trailers',
+                    label: 'Trucks',
                     data: trucks,
                     borderColor: '#f39c12',
                     hoverBorderColor: '#f39c12',
                     backgroundColor: '#fbdaa7',
                     ...dataset
                 }, {
-                    label: 'Loans',
-                    data: loans,
-                    borderColor: '#e74c3c',
-                    hoverBorderColor: '#e74c3c',
-                    backgroundColor: '#f6bcb6',
+                    label: 'Trailers',
+                    data: trailers,
+                    borderColor: '#9b59b6',
+                    hoverBorderColor: '#9b59b6',
+                    backgroundColor: '#ddc6e6',
                     ...dataset
                 } ]
             },
@@ -278,18 +278,8 @@ class TruckFinancialTracker {
                     hoverBorderWidth: 6,
                     borderColor: '#fff',
                     hoverBorderColor: '#fff',
-                    backgroundColor: [
-                        '#27ae60',
-                        '#3498db',
-                        '#f39c12',
-                        '#9b59b6'
-                    ],
-                    hoverBackgroundColor: [
-                        '#27ae60',
-                        '#3498db',
-                        '#f39c12',
-                        '#9b59b6'
-                    ]
+                    backgroundColor: [ '#27ae60', '#3498db', '#f39c12', '#9b59b6' ],
+                    hoverBackgroundColor: [ '#27ae60', '#3498db', '#f39c12', '#9b59b6' ]
                 } ]
             },
             options: {
