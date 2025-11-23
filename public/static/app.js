@@ -12,6 +12,7 @@ class TruckFinancialTracker {
         this.data = null;
         this.currency = 'EUR';
 
+        this.notifTimeout = null;
         this.currentTab = null;
         this.charts = {};
         this.maxChartPoints = -250;
@@ -62,6 +63,7 @@ class TruckFinancialTracker {
         } catch ( err ) {
 
             console.error( 'Error fetching data:', err );
+            this.showError( 'Failed to fetch data. Please make sure the game is initialized.' );
             return null;
 
         }
@@ -737,6 +739,24 @@ class TruckFinancialTracker {
     }
 
     closeModal () { $$( '.modal' ).forEach( modal => modal.classList.remove( 'active' ) ) }
+
+    // Notification
+
+    showNotification ( msg, status = 'success' ) {
+
+        _( 'notification' ).textContent = msg;
+        _( 'notification' ).classList.remove( 'success', 'error' );
+        _( 'notification' ).classList.add( status );
+        _( 'notification' ).style.display = 'block';
+
+        clearTimeout( this.notifTimeout );
+        this.notifTimeout = setTimeout( () =>
+            _( 'notification' ).style.removeProperty( 'display' )
+        , 2000 );
+
+    }
+
+    showError ( msg ) { this.showNotification( msg, 'error' ) }
 
     // Dashboard
 
