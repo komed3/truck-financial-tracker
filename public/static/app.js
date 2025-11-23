@@ -159,7 +159,7 @@ class TruckFinancialTracker {
 
     createRecordsTable ( records ) {
 
-        const cols = [ 'Day', 'Cash', 'Total Cap', 'Total Debt', 'Net Assets', 'Cash on Hand', 'Profit/Loss' ];
+        const cols = [ 'Day', 'Cash', 'Total Cap', 'Total Debt', 'Net Assets', 'Cash on Hand', 'Profit/Loss', 'Cash Ratio' ];
         const rows = records.map( ( r, i ) => ( [
             { value: this.formatDay( r.day ?? i ) },
             { class: 'currency', value: this.formatCurrency( r.assets.cashBalance ) },
@@ -170,7 +170,8 @@ class TruckFinancialTracker {
             {
                 class: 'currency ' + ( r.profit.today < 0 ? 'negative' : 'positive' ),
                 value: this.formatCurrency( Math.abs( r.profit.today ) )
-            }
+            },
+            { value: r.report.cashRatio.toFixed( 2 ) }
         ] ) );
 
         return this.renderTable( cols, rows );
@@ -362,11 +363,16 @@ class TruckFinancialTracker {
         if ( this.data?.dailyRecords?.length ) {
 
             const { totalCap, report: { netAssets, totalDebt, cashOnHand, cashRatio } } = this.data.dailyRecords.at( -1 );
-            _( 'totalCap' ).textContent = this.formatCurrency( totalCap );
-            _( 'totalDebt' ).textContent = this.formatCurrency( totalDebt );
-            _( 'netAssets' ).textContent = this.formatCurrency( netAssets );
-            _( 'cashOnHand' ).textContent = this.formatCurrency( cashOnHand );
+            _( 'totalCap' ).textContent = this.formatCurrency( Math.abs( totalCap ) );
+            _( 'totalDebt' ).textContent = this.formatCurrency( Math.abs( totalDebt ) );
+            _( 'netAssets' ).textContent = this.formatCurrency( Math.abs( netAssets ) );
+            _( 'cashOnHand' ).textContent = this.formatCurrency( Math.abs( cashOnHand ) );
             _( 'cashRatio' ).textContent = cashRatio.toFixed( 2 );
+
+            _( 'totalCap' ).classList.toggle( 'negative', totalCap < 0 );
+            _( 'totalDebt' ).classList.toggle( 'negative', totalDebt > 0 );
+            _( 'netAssets' ).classList.toggle( 'negative', netAssets < 0 );
+            _( 'cashOnHand' ).classList.toggle( 'negative', cashOnHand < 0 );
 
         } else {
 
@@ -375,6 +381,11 @@ class TruckFinancialTracker {
             _( 'netAssets' ).textContent = 'N/A';
             _( 'cashOnHand' ).textContent = 'N/A';
             _( 'cashRatio' ).textContent = 'N/A';
+
+            _( 'totalCap' ).classList.remove( 'negative' );
+            _( 'totalDebt' ).classList.remove( 'negative' );
+            _( 'netAssets' ).classList.remove( 'negative' );
+            _( 'cashOnHand' ).classList.remove( 'negative' );
 
         }
 
