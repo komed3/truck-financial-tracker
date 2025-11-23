@@ -440,10 +440,10 @@ class TruckFinancialTracker {
 
         const cols = [ 'Location', 'Purchase Date', 'Size', 'Current Value', 'Actions' ];
         const rows = this.data.assets.garages.map( g => ( [
-            { value: g.location }, { value: this.formatDay( g.day ) }, { class: 'label', value: g.size },
+            { value: g.location }, { value: this.formatDay( g.day ) }, { class: 'label', value: `<span>${g.size}</span>` },
             { class: 'currency', value: this.formatCurrency( g.value ) },
             { class: 'actions', value:
-                `<button class="btn secondary" onclick="app.editGarage('${g.id}')">Edit</button>` +
+                `<button class="btn" onclick="app.editGarage('${g.id}')">Edit</button>` +
                 `<button class="btn danger" onclick="app.deleteGarage('${g.id}')">Delete</button>`
             }
         ] ) );
