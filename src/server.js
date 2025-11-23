@@ -35,6 +35,26 @@ app.post( '/api/garage/delete', async ( req, res ) => {
     else res.json( await conn.deleteGarage( req.body.garageId ) );
 } );
 
+app.post( '/api/truck/update', async ( req, res ) => {
+    if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
+    else res.json( await conn.updateTruck( req.body ) );
+} );
+
+app.post( '/api/truck/delete', async ( req, res ) => {
+    if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
+    else res.json( await conn.deleteTruck( req.body.truckId ) );
+} );
+
+app.post( '/api/trailer/update', async ( req, res ) => {
+    if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
+    else res.json( await conn.updateTrailer( req.body ) );
+} );
+
+app.post( '/api/trailer/delete', async ( req, res ) => {
+    if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
+    else res.json( await conn.deleteTrailer( req.body.trailerId ) );
+} );
+
 // Main page
 app.get( '/', async ( req, res ) => {
 

@@ -21,6 +21,9 @@ export class Database {
         if ( ! this.data?.assets ) this.data.assets = {};
         if ( ! this.data.assets[ type ] ) this.data.assets[ type ] = [];
 
+        if ( ! data.id ) data.id = uuidv4();
+        if ( ! ( 'day' in data ) ) data.day = this.data.currentDay;
+
         const assets = this.data.assets[ type ];
         const index = assets.findIndex( a => a.id === data.id );
 
@@ -77,6 +80,7 @@ export class Database {
     async addRecord ( cashBalance ) {
 
         if ( ! this.data ) await this.loadGame();
+        cashBalance = this.#n( cashBalance );
 
         const { assets } = this.data;
         const garageValue = this.#n( assets.garages.reduce( ( s, a ) => s + a.value, 0 ) );
@@ -143,9 +147,6 @@ export class Database {
             location: data.location, size: data.size, value: this.#n( data.value )
         } };
 
-        if ( ! garage.id ) garage.id = uuidv4();
-        if ( ! ( 'day' in garage ) ) garage.day = this.data.currentDay;
-
         this.#updateAsset( 'garages', garage );
         this.saveGame();
         return this.data;
@@ -157,6 +158,54 @@ export class Database {
         if ( ! this.data ) await this.loadGame();
 
         this.#deleteAsset( 'garages', garageId );
+        this.saveGame();
+        return this.data;
+
+    }
+
+    async updateTruck ( data ) {
+
+        if ( ! this.data ) await this.loadGame();
+
+        const truck = { ...( data.truckId && this.#assetById( 'trucks', data.truckId ) || {} ), ...{
+            brand: data.brand, model: data.model, value: this.#n( data.value ), condition: data.condition
+        } };
+
+        this.#updateAsset( 'trucks', truck );
+        this.saveGame();
+        return this.data;
+
+    }
+
+    async deleteTruck ( truckId ) {
+
+        if ( ! this.data ) await this.loadGame();
+
+        this.#deleteAsset( 'trucks', truckId );
+        this.saveGame();
+        return this.data;
+
+    }
+
+    async updateTrailer ( data ) {
+
+        if ( ! this.data ) await this.loadGame();
+
+        const trailer = { ...( data.trailerId && this.#assetById( 'trailers', data.trailerId ) || {} ), ...{
+            type: data.type, capacity: data.capacity, value: this.#n( data.value ), condition: data.condition
+        } };
+
+        this.#updateAsset( 'trailers', trailer );
+        this.saveGame();
+        return this.data;
+
+    }
+
+    async deleteTrailer ( trailerId ) {
+
+        if ( ! this.data ) await this.loadGame();
+
+        this.#deleteAsset( 'trailers', trailerId );
         this.saveGame();
         return this.data;
 
