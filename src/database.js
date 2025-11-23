@@ -80,9 +80,14 @@ export class Database {
     async addRecord ( cashBalance ) {
 
         if ( ! this.data ) await this.loadGame();
-        cashBalance = this.#n( cashBalance );
 
+        cashBalance = this.#n( cashBalance );
         const { assets } = this.data;
+
+        assets.loans.forEach( l => { if ( l.remaining > 0 )
+            l.remaining = Math.max( 0, l.remaining - l.dailyInstallment );
+        } );
+
         const garageValue = this.#n( assets.garages.reduce( ( s, a ) => s + a.value, 0 ) );
         const truckValue = this.#n( assets.trucks.reduce( ( s, a ) => s + a.value, 0 ) );
         const trailerValue = this.#n( assets.trailers.reduce( ( s, a ) => s + a.value, 0 ) );
