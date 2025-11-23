@@ -190,18 +190,19 @@
                     </div>
                     <div class="modal-body">
                         <form id="garageForm">
+                            <input type="hidden" id="garageId" name="garageId" />
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label for="garageLocation">Location</label>
-                                    <input type="text" id="garageLocation" name="location" required>
+                                    <input type="text" id="garageLocation" name="location" required />
                                 </div>
                                 <div class="form-group">
                                     <label for="garageValue">Current Value</label>
-                                    <input type="number" id="garageValue" name="value" required step="1">
+                                    <input type="number" id="garageValue" name="value" required step="1" />
                                 </div>
                                 <div class="form-group">
                                     <label for="garageSize">Size</label>
-                                    <select id="size" name="size">
+                                    <select id="garageSize" name="size">
                                         <option value="small">Small (1P)</option>
                                         <option value="medium" selected>Medium (3P)</option>
                                         <option value="large">Large (5P)</option>
