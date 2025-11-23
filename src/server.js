@@ -25,6 +25,11 @@ app.post( '/api/dailyRecord', async ( req, res ) => {
     else res.json( await conn.addRecord( req.body.cashBalance ) );
 } );
 
+app.post( '/api/garage', async ( req, res ) => {
+    if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
+    else res.json( await conn.updateGarage( req.body ) );
+} );
+
 // Main page
 app.get( '/', async ( req, res ) => {
 

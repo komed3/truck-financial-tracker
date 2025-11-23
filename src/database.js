@@ -14,6 +14,21 @@ export class Database {
 
     #n ( v, digits = 2 ) { return Number( v.toFixed( digits ) ) }
 
+    #byId ( assetType, id ) { return ( this.data?.assets[ assetType ] ?? [] ).filter( r => r.id === id ) }
+
+    #replace ( assetType, newAsset ) {
+
+        if ( ! this.data?.assets ) this.data.assets = {};
+        if ( ! this.data.assets[ assetType ] ) this.data.assets[ assetType ] = [];
+
+        const assets = this.data.assets[ assetType ];
+        const index = assets.findIndex( a => a.id === newAsset.id );
+
+        if ( index >= 0 ) assets[ index ] = newAsset;
+        else assets.push( newAsset );
+
+    }
+
     test ( profileId ) { return this.profileId === profileId }
 
     async loadGame () {
@@ -93,6 +108,23 @@ export class Database {
             report: { netAssets, totalDebt, cashOnHand, cashRatio }
         } );
 
+        this.saveGame();
+        return this.data;
+
+    }
+
+    async updateGarage ( data ) {
+
+        if ( ! this.data ) await this.loadGame();
+
+        const garage = { ...( data.garageId && this.#byId( 'garages', data.garageId ) || {} ), ...{
+            location: data.location, size: data.size, value: data.value,
+            day: this.data.currentDay
+        } };
+
+        if ( ! garage.id ) garage.id = uuidv4();
+
+        this.#replace( 'garages', garage );
         this.saveGame();
         return this.data;
 
