@@ -2,7 +2,9 @@
 
 Financial tracking application for SCS games (Euro Truck Simulator 2 and American Truck Simulator)
 
-The app allows you to track your in-game finances, including income, assets and loans. A simple web interface guides you and modals help you add new entries.
+The app allows you to track your in-game finances, including cash balance, assets and loans. A simple web interface guides you and modals help you add new entries.
+
+A guided setup process helps you create your first profile and get started. The app shows tables and charts to visualize your financial data, e.g. trucks and garages owned, cash flow over time, loan repayments, and more. It aims to visualize your in-game financial progress and help you make informed decisions.
 
 ## Installation
 
