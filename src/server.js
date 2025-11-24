@@ -20,7 +20,7 @@ app.get( '/api/index', async ( _, res ) => {
 } );
 
 app.post( '/api/create', async ( req, res ) => {
-    res.json( await Database.create() );
+    res.json( await Database.create( req.body ) );
 } );
 
 app.post( '/api/profile', async ( req, res ) => {
