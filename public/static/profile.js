@@ -16,7 +16,7 @@ async function loadProfiles () {
             return;
         }
 
-        list.innerHTML = profiles.map( p => `<div class="profile">` +
+        list.innerHTML = profiles.map( p => `<div class="profile-card">` +
             `<h3>${p.gameInfo.playerName} — ${ p.gameInfo.game.toUpperCase() }</h3>` +
             `<p class="info">${p.gameInfo.companyName} • ${p.gameInfo.startingLocation} • ${p.gameInfo.currency}</p>` +
             `<p class="date">Created at ${ new Intl.DateTimeFormat( 'en-US' ).format( new Date( p.gameInfo.createdAt ) ) }</p>` +
