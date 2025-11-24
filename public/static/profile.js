@@ -2,6 +2,22 @@ const _ = ( id ) => document.getElementById( id );
 
 const openProfile = ( profileId ) => location.href = '?profile=' + profileId;
 
+async function deleteProfile ( profileId ) {
+
+    if ( confirm( 'Do you really want to delete this profile? This action cannot be undone.' ) ) {
+
+        await fetch( '/api/delete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify( { profileId } )
+        } );
+
+        await loadProfiles();
+
+    }
+
+}
+
 async function loadProfiles () {
 
     const list = _( 'profilesList' );
