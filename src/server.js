@@ -88,11 +88,14 @@ app.get( '/', async ( req, res ) => {
 
     const profileId = req.query.profile;
 
-    if ( ! profileId ) {
-        res.sendFile( join( cwd, 'public/profile.html' ) );
-    } else {
-        conn = new Database( profileId );
-        res.sendFile( join( cwd, 'public/index.html' ) );
+    if ( ! profileId ) { res.sendFile( join( cwd, 'public/profile.html' ) ) } else {
+
+        try { conn = new Database( profileId ); await conn.loadGame(); }
+        catch { res.redirect( '/' ); return; }
+
+        if ( ! conn.test( profileId ) ) res.redirect( '/' );
+        else res.sendFile( join( cwd, 'public/dashboard.html' ) );
+
     }
 
 } );
