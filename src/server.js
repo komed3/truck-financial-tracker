@@ -23,6 +23,10 @@ app.post( '/api/create', async ( req, res ) => {
     res.json( await Database.create( req.body ) );
 } );
 
+app.post( '/api/delete', async ( req, res ) => {
+    res.json( await Database.delete( req.body.profileId ) );
+} );
+
 app.post( '/api/profile', async ( req, res ) => {
     if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
     else res.json( await conn.getData() );

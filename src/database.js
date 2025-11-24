@@ -1,4 +1,4 @@
-import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { readdir, readFile, unlink, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -76,9 +76,21 @@ export class Database {
             await mkdir( DATA_DIR, { recursive: true } );
             await writeFile( path, JSON.stringify( gameData, null, 2 ) );
 
-            return { profileId };
+            return { success: true, profileId };
 
-        } catch ( err ) { return { profileId: false, err } }
+        } catch ( err ) { return { success: false, err } }
+
+    }
+
+    async delete ( profileId ) {
+
+        try {
+
+            const path = join( DATA_DIR, profileId + '.json' );
+            await unlink( path );
+            return { success: true };
+
+        } catch ( err ) { return { success: false, err } }
 
     }
 
