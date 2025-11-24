@@ -11,3 +11,16 @@ git clone https://github.com/komed3/truck-financial-tracker.git
 cd truck-financial-tracker
 ```
 
+Install npm environment:
+
+```bash
+npm install
+```
+
+Start the app:
+
+```bash
+npm start
+```
+
+Open the truck financial app on http://localhost:3000
