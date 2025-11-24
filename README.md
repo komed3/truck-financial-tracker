@@ -28,3 +28,11 @@ npm start
 ```
 
 Open the truck financial app on http://localhost:3000
+
+## Road Map
+
+This is an early implementation with limited features. Later on, the goal is to automatically read the game save files and import the financial data into the app.
+
+## License
+
+© Copyright 2025 by [komed3](https://komed3.de). Licensed for open-source contribution under MIT License.
