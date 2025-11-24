@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Truck Financial Tracker — Select Profile</title>
+        <link rel="icon" href="/static/favicon.ico" sizes="512x512" type="image/x-icon" />
+        <link rel="stylesheet" href="/static/styles.min.css" />
+    </head>
+    <body>
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="game-info">
+                        <a href="/" class="switch-profile" title="Switch profile">
+                            <img src="/static/switch.svg" alt="Switch profile" />
+                        </a>
+                        <h1 id="profileInfo">Select Profile</h1>
+                        <h2 id="companyInfo">Create a new profile or choose an existing one</h2>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="container">
+
+            <!-- Select Profile -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h2>Existing Profiles</h2>
+                </div>
+                <div id="profilesList" class="form-body">
+                    <div class="empty">Loading profiles …</div>
+                </div>
+            </div>
+
+            <!-- Create New Profile -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h2>Create New Profile</h2>
+                </div>
+                <div class="modal-body">
+                    <form id="createProfileForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="game">Game</label>
+                                <select id="game" name="game" required>
+                                    <option value="ets2">Euro Truck Simulator 2</option>
+                                    <option value="ats">American Truck Simulator</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="playerName">Player Name</label>
+                                <input type="text" id="playerName" name="playerName" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="companyName">Company Name</label>
+                                <input type="text" id="companyName" name="companyName" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="startingLocation">Starting Location</label>
+                                <input type="text" id="startingLocation" name="startingLocation" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="currency">Currency</label>
+                                <select id="currency" name="currency" required>
+                                    <option selected>EUR</option>
+                                    <option>GBP</option>
+                                    <option>CHF</option>
+                                    <option>SEK</option>
+                                    <option>NOK</option>
+                                    <option>DKK</option>
+                                    <option>PLN</option>
+                                    <option>USD</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="startingDay">Starting Day</label>
+                                <input type="number" id="startingDay" name="startingDay" value="0" min="0" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="startingWeekday">Starting Weekday</label>
+                                <select id="startingWeekday" name="startingWeekday" required>
+                                    <option value="0">Sunday</option>
+                                    <option value="1" selected>Monday</option>
+                                    <option value="2">Tuesday</option>
+                                    <option value="3">Wednesday</option>
+                                    <option value="4">Thursday</option>
+                                    <option value="5">Friday</option>
+                                    <option value="6">Saturday</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="startingCash">Starting Cash</label>
+                                <input type="number" id="startingCash" name="startingCash" value="2000" min="0" required />
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn primary">Create Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </main>
+        <footer class="footer">
+            <div class="container">
+                &copy; Copyright 2025 by <a href="https://komed3.de">komed3</a>.
+                Open-source code available on <a href="https://github.com/komed3/truck-financial-tracker">GitHub</a>.
+                All rights reserved.
+            </div>
+        </footer>
+    </body>
+</html>
