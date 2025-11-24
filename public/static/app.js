@@ -138,6 +138,7 @@ class TruckFinancialTracker {
 
         const { currentDay = 0, gameInfo: { startingWeekday = 1 } } = this.data;
         if ( n === null ) n = currentDay;
+        else n = Number( n );
 
         const s = n % 10 == 1 && n % 100 != 11 ? 'st'
             : n % 10 == 2 && n % 100 != 12 ? 'nd'
