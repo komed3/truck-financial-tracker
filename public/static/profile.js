@@ -61,8 +61,9 @@ async function createProfile ( form ) {
         if ( ! res.ok ) return;
         form.reset();
 
-        const { profileId } = await res.json();
+        const { profileId, err } = await res.json();
         if ( profileId ) openProfile( profileId );
+        else if ( err ) throw err;
         else await loadProfiles();
 
     } catch ( err ) { alert( 'Error occured: ' + err.message ) }

@@ -1,4 +1,4 @@
-import { readdir, readFile, unlink, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, unlink, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -82,7 +82,7 @@ export class Database {
 
     }
 
-    async delete ( profileId ) {
+    static async delete ( profileId ) {
 
         try {
 
