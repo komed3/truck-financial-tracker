@@ -254,7 +254,7 @@ export class Database {
 
         const loan = { ...( data.loanId && this.#assetById( 'loans', data.loanId ) || {} ), ...{
             amount: this.#n( data.amount ),
-            remaining: this.#n( data.remaining || data.amount ),
+            remaining: this.#n( data.remaining || ( data.dailyInstallment * data.term ) ),
             term: this.#n( data.term ),
             interestRate: this.#n( data.interestRate ),
             dailyInstallment: this.#n( data.dailyInstallment )
