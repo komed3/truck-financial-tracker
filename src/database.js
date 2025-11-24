@@ -26,9 +26,59 @@ export class Database {
 
     static async create ( data ) {
 
-        const profileId = uuidv4();
+        try {
 
-        return profileId;
+            const profileId = uuidv4();
+            const cash = Number( data.startingCash ?? 2000 );
+            const gameData = {
+                profileId,
+                gameInfo: {
+                    playerName: data.playerName || 'Player',
+                    companyName: data.companyName || '',
+                    game: data.game || 'ets2',
+                    startingLocation: data.startingLocation || '',
+                    currency: data.currency || ( data.game === 'ats' ? 'USD' : 'EUR' ),
+                    startingCash: cash,
+                    startingWeekday: Number( data.startingWeekday ?? 1 ) % 7,
+                    createdAt: new Date().toISOString()
+                },
+                assets: {
+                    garages: [],
+                    trucks: [],
+                    trailers: [],
+                    drivers: [],
+                    loans: []
+                },
+                dailyRecords: [],
+                currentDay: Number( data.startingDay ?? 0 )
+            };
+
+            if ( gameData.currentDay === 0 ) {
+
+                gameData.currentDay++;
+
+                gameData.dailyRecords.push( {
+                    id: uuidv4(), day: 0, totalCap: cash,
+                    assets: { cashBalance: cash, garageValue: 0, truckValue: 0, trailerValue: 0, totalLoans: 0 },
+                    profit: { today: 0, avg7: 0, avg30: 0, avg90: 0 },
+                    report: { netAssets: cash, totalDebt: 0, cashOnHand: cash, cashRatio: 1 },
+                    stats: { garages: 1, parkingLots: 1, trucks: 0, trailers: 0, drivers: 0 }
+                } );
+
+                gameData.assets.garages.push( {
+                    id: uuidv4(), location: gameData.gameInfo.startingLocation,
+                    size: 'small', value: 0, day: 0
+                } );
+
+            }
+
+            const path = join( DATA_DIR, profileId + '.json' );
+            await mkdir( DATA_DIR, { recursive: true } );
+            await writeFile( path, JSON.stringify( gameData, null, 2 ) );
+
+            return { profileId };
+
+        } catch ( err ) { return { profileId: false, err } }
 
     }
 
