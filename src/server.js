@@ -15,6 +15,14 @@ app.use( express.urlencoded( { extended: true } ) );
 app.use( '/static', express.static( join( cwd, 'public/static' ) ) );
 
 // Serve API
+app.get( '/api/index', async ( _, res ) => {
+    res.json( await Database.index() );
+} );
+
+app.post( '/api/create', async ( req, res ) => {
+    res.json( await Database.create() );
+} );
+
 app.post( '/api/profile', async ( req, res ) => {
     if ( ! conn.test( req.body.profileId ) ) res.sendStatus( 500 );
     else res.json( await conn.getData() );
@@ -81,19 +89,10 @@ app.get( '/', async ( req, res ) => {
     const profileId = req.query.profile;
 
     if ( ! profileId ) {
-
-        res.send( '<h1>Select Profile</h1>' + Database.index().map( p => `<ul>
-            <li><a href="?profile=${p.profileId}">${ [
-                p.gameInfo.game.toUpperCase(), p.gameInfo.playerName, p.gameInfo.companyName,
-                p.gameInfo.startingLocation, p.gameInfo.currency
-            ].filter( Boolean ).join( ' | ' ) }</a></li>
-        </ul>` ).join( '' ) );
-
+        res.sendFile( join( cwd, 'public/profile.html' ) );
     } else {
-
         conn = new Database( profileId );
         res.sendFile( join( cwd, 'public/index.html' ) );
-
     }
 
 } );
