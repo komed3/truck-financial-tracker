@@ -496,3 +496,7 @@ tr:hover {
     font-size: 13px;
     color: var( --text-secondary );
 }
+
+.profile-actions button {
+    margin-right: 6px;
+}
