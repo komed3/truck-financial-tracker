@@ -1,5 +1,4 @@
-import { readdirSync, readFileSync } from 'node:fs';
-import { readFile, writeFile } from 'node:fs/promises';
+import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -7,15 +6,29 @@ const DATA_DIR = join( process.cwd(), 'data' );
 
 export class Database {
 
-    static index () {
+    static async index () {
 
-        const files = readdirSync( DATA_DIR ).filter( f => f.endsWith( '.json' ) );
-        const profiles = files.map( file => {
-            const { profileId, gameInfo } = JSON.parse( readFileSync( join( DATA_DIR, file ) ) ?? '{}' );
-            return { profileId, gameInfo };
-        } );
+        const files = ( await readdir( DATA_DIR ) ).filter( f => f.endsWith( '.json' ) );
+        const profiles = [];
+
+        for ( const file of files ) {
+
+            const fileContent = await readFile( join( DATA_DIR, file ) );
+            const { profileId, gameInfo } = JSON.parse( fileContent ?? '{}' );
+
+            profiles.push( { profileId, gameInfo } );
+
+        }
 
         return profiles;
+
+    }
+
+    static async create ( data ) {
+
+        const profileId = uuidv4();
+
+        return profileId;
 
     }
 
