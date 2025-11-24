@@ -1089,7 +1089,9 @@ class TruckFinancialTracker {
         const cols = [ 'Amount', 'Day', 'Term', 'Interest Rate', 'Installment', 'Remaining', 'Actions' ];
         const rows = this.data.assets.loans.map( l => ( [
             { class: 'currency', value: this.formatCurrency( l.amount ) },
-            { value: this.formatDay( l.day ) }, { value: l.term }, { value: `${ l.interestRate.toFixed( 1 ) }%` },
+            { value: this.formatDay( l.day ) },
+            { value: ( this.data.currentDay - l.day - 1 ) + ' / ' + l.term },
+            { value: `${ l.interestRate.toFixed( 1 ) }%` },
             { class: 'currency', value: this.formatCurrency( l.dailyInstallment ) },
             { class: 'currency', value: this.formatCurrency( l.remaining ) },
             { class: 'actions', value:
