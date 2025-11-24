@@ -58,7 +58,7 @@ inquirer.prompt( [ {
     console.log( 'New game save file will be created ...' );
     console.log( '' );
 
-    const { profileId, err = null } = await Database.create( answers );
+    const { profileId, err } = await Database.create( answers );
 
     if ( profileId ) {
 
