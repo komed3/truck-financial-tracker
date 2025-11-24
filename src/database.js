@@ -99,7 +99,7 @@ export class Database {
         cashBalance = this.#n( cashBalance );
         const { assets } = this.data;
 
-        assets.loans.forEach( l => { if ( l.remaining > 0 && this.data.currentDay >= l.day )
+        assets.loans.forEach( l => { if ( l.remaining > 0 && this.data.currentDay > l.day )
             l.remaining = Math.max( 0, l.remaining - l.dailyInstallment );
         } );
 

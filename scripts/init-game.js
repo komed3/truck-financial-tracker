@@ -43,7 +43,7 @@ inquirer.prompt( [ {
     type: 'select', name: 'startingWeekday', message: 'Select the starting day of the week:',
     choices: weekDays
 }, {
-    type: 'input', name: 'startingCash', message: 'Enter your starting cash amount:', default: '5000',
+    type: 'input', name: 'startingCash', message: 'Enter your starting cash amount:', default: '2000',
     validate: i => ! isNaN( i ) && i >= 0 || 'Starting cash must be a number'
 }, {
     type: 'confirm', name: 'confirm', message: 'Do you want to confirm and create the game?'
