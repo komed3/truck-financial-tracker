@@ -1,12 +1,8 @@
 #!/usr/bin/env node
 
-import { mkdir, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { Database } from '../src/database.js';
 import clc from 'cli-color';
 import inquirer from 'inquirer';
-import { v4 as uuidv4 } from 'uuid';
-
-const weekDays = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
 
 console.log( clc.bold.yellow( 'Init new ETS2 / ATS game save file' ) );
 console.log( '' );
@@ -41,7 +37,10 @@ inquirer.prompt( [ {
     validate: i => ! isNaN( i ) && i >= 0 || 'Starting day must be a number'
 }, {
     type: 'select', name: 'startingWeekday', message: 'Select the starting day of the week:',
-    choices: weekDays
+    choices: [
+        { value: 0, name: 'Sunday' }, { value: 1, name: 'Monday' }, { value: 2, name: 'Tuesday' },
+        { value: 3, name: 'Wednesday' }, { value: 4, name: 'Thursday' }, { value: 5, name: 'Friday' },
+        { value: 6, name: 'Saturday' } ]
 }, {
     type: 'input', name: 'startingCash', message: 'Enter your starting cash amount:', default: '2000',
     validate: i => ! isNaN( i ) && i >= 0 || 'Starting cash must be a number'
@@ -59,57 +58,9 @@ inquirer.prompt( [ {
     console.log( 'New game save file will be created ...' );
     console.log( '' );
 
-    try {
+    const { profileId, err = null } = await Database.create( answers );
 
-        const profileId = uuidv4();
-        const cash = Number( answers.startingCash );
-        const gameData = {
-            profileId,
-            gameInfo: {
-                playerName: answers.playerName,
-                companyName: answers.companyName,
-                game: answers.game,
-                startingLocation: answers.startingLocation,
-                currency: answers.currency,
-                startingCash: cash,
-                startingWeekday: weekDays.indexOf( answers.startingWeekday ),
-                createdAt: new Date().toISOString()
-            },
-            assets: {
-                garages: [],
-                trucks: [],
-                trailers: [],
-                drivers: [],
-                loans: []
-            },
-            dailyRecords: [],
-            currentDay: Number( answers.startingDay )
-        };
-
-        if ( gameData.currentDay === 0 ) {
-
-            gameData.currentDay++;
-
-            gameData.dailyRecords.push( {
-                id: uuidv4(), day: 0, totalCap: cash,
-                assets: { cashBalance: cash, garageValue: 0, truckValue: 0, trailerValue: 0, totalLoans: 0 },
-                profit: { today: 0, avg7: 0, avg30: 0, avg90: 0 },
-                report: { netAssets: cash, totalDebt: 0, cashOnHand: cash, cashRatio: 1 },
-                stats: { garages: 1, parkingLots: 1, trucks: 0, trailers: 0, drivers: 0 }
-            } );
-
-            gameData.assets.garages.push( {
-                id: uuidv4(), location: answers.startingLocation,
-                size: 'small', value: 0, day: 0
-            } );
-
-        }
-
-        const dataDir = join( process.cwd(), 'data' );
-        await mkdir( dataDir, { recursive: true } );
-
-        const dataPath = join( dataDir, profileId + '.json' );
-        await writeFile( dataPath, JSON.stringify( gameData, null, 2 ) );
+    if ( profileId ) {
 
         console.log( clc.bold.green( 'Game initialized successfully!' ) );
         console.log( clc.bold( `Your profile ID is [${profileId}]` ) );
@@ -120,7 +71,7 @@ inquirer.prompt( [ {
         console.log( `Then open http://localhost:3000?profile=${profileId} in your browser` );
         console.log( '' );
 
-    } catch ( err ) {
+    } else if ( err ) {
 
         console.log( '' );
         console.error( clc.bold.red( 'Error initializing game:', err.message ) );
