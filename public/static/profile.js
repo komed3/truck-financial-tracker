@@ -7,7 +7,7 @@ async function deleteProfile ( profileId ) {
     if ( confirm( 'Do you really want to delete this profile? This action cannot be undone.' ) ) {
 
         await fetch( '/api/delete', {
-            method: 'POST',
+            method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify( { profileId } )
         } );
@@ -48,8 +48,33 @@ async function loadProfiles () {
 
 }
 
+async function createProfile ( form ) {
+
+    try {
+
+        const res = await fetch( '/api/create', {
+            method: 'post',
+            body: JSON.stringify( Object.fromEntries( new FormData( form ) ) ),
+            headers: { 'Content-Type': 'application/json' }
+        } );
+
+        if ( ! res.ok ) return;
+        form.reset();
+
+        const { profileId } = await res.json();
+        if ( profileId ) openProfile( profileId );
+        else await loadProfiles();
+
+    } catch ( err ) { alert( 'Error occured: ' + err.message ) }
+
+}
+
 document.addEventListener( 'DOMContentLoaded', function () {
 
     loadProfiles();
+
+    _( 'createProfileForm' ).addEventListener( 'submit', async ( e ) => {
+        e.preventDefault(); await createProfile( e.target );
+    } );
 
 } );
