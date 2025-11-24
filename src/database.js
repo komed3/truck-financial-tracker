@@ -138,7 +138,6 @@ export class Database {
 
         };
 
-        this.data.currentDay++;
         this.data.dailyRecords.push( {
             id: uuidv4(), day: this.data.currentDay, totalCap,
             assets: { cashBalance, garageValue, truckValue, trailerValue },
@@ -147,6 +146,7 @@ export class Database {
             stats: { garages, parkingLots, trucks, trailers, drivers }
         } );
 
+        this.data.currentDay++;
         this.saveGame();
         return this.data;
 
