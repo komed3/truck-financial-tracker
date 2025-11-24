@@ -88,6 +88,8 @@ inquirer.prompt( [ {
 
         if ( gameData.currentDay === 0 ) {
 
+            gameData.currentDay++;
+
             gameData.dailyRecords.push( {
                 id: uuidv4(), day: 0, totalCap: cash,
                 assets: { cashBalance: cash, garageValue: 0, truckValue: 0, trailerValue: 0, totalLoans: 0 },
