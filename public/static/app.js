@@ -145,7 +145,7 @@ class TruckFinancialTracker {
                 : n % 10 == 3 && n % 100 != 13 ? 'rd'
                     : 'th';
 
-        return numOnly ? `${n}${s}` : `${n}${s}, ${ weekDays[ ( startingWeekday + n ) % 7 ] }`;
+        return numOnly ? `${n}${s}` : `${n}${s}, ${ weekDays[ ( startingWeekday + n - 1 ) % 7 ] }`;
 
     }
 
