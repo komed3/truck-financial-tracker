@@ -2,6 +2,8 @@
 
 Financial tracking application for SCS games (Euro Truck Simulator 2 and American Truck Simulator)
 
+The app allows you to track your in-game finances, including income, assets and loans. A simple web interface guides you and modals help you add new entries.
+
 ## Installation
 
 Clone the repository:
