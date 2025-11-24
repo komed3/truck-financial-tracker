@@ -178,11 +178,11 @@ class TruckFinancialTracker {
 
     createRecordsTable ( records ) {
 
-        const cols = [ 'Day', 'Cash', 'Total Cap', 'Total Debt', 'Net Assets', 'Cash on Hand', 'Profit/Loss', 'Cash Ratio' ];
+        const cols = [ 'Day', 'Total Cap', 'Assets', 'Total Debt', 'Net Assets', 'Cash on Hand', 'Profit/Loss', 'Cash Ratio' ];
         const rows = records.map( ( r, i ) => ( [
             { value: this.formatDay( r.day ?? i ) },
-            { class: 'currency', value: this.formatCurrency( r.assets.cashBalance ) },
             { class: 'currency', value: this.formatCurrency( r.totalCap ) },
+            { class: 'currency', value: this.formatCurrency( r.report.totalAssets ) },
             { class: 'currency', value: this.formatCurrency( r.report.totalDebt ) },
             { class: 'currency', value: this.formatCurrency( r.report.netAssets ) },
             { class: 'currency', value: this.formatCurrency( r.report.cashOnHand ) },
