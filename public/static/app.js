@@ -630,7 +630,7 @@ class TruckFinancialTracker {
             avg90.push( r.profit.avg90 );
         } );
 
-        this.charts.capitalization = new Chart( container, {
+        this.charts.avgProfit = new Chart( container, {
             type: 'line',
             data: {
                 labels: labels,
