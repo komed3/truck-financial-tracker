@@ -61,7 +61,7 @@ export class Database {
                     id: uuidv4(), day: 0, totalCap: cash,
                     assets: { cashBalance: cash, garageValue: 0, truckValue: 0, trailerValue: 0, totalLoans: 0 },
                     profit: { today: 0, avg7: 0, avg30: 0, avg90: 0 },
-                    report: { netAssets: cash, totalDebt: 0, cashOnHand: cash, cashRatio: 1 },
+                    report: { totalAssets: 0, totalDebt: 0, netAssets: cash, cashOnHand: cash, cashRatio: 1 },
                     stats: { garages: 1, parkingLots: 1, trucks: 0, trailers: 0, drivers: 0 }
                 } );
 
@@ -181,6 +181,7 @@ export class Database {
         const garageValue = this.#n( assets.garages.reduce( ( s, a ) => s + a.value, 0 ) );
         const truckValue = this.#n( assets.trucks.reduce( ( s, a ) => s + a.value, 0 ) );
         const trailerValue = this.#n( assets.trailers.reduce( ( s, a ) => s + a.value, 0 ) );
+        const totalAssets = this.#n( garageValue + truckValue + trailerValue );
         const totalDebt = this.#n( assets.loans.reduce( ( s, a ) => s + a.remaining, 0 ) );
 
         const garages = this.#n( assets.garages.length || 0 );
@@ -192,7 +193,7 @@ export class Database {
             small: 1, medium: 3, large: 5
         }[ a.size ], 0 ) );
 
-        const totalCap = this.#n( cashBalance + garageValue + truckValue + trailerValue );
+        const totalCap = this.#n( cashBalance + totalAssets );
         const netAssets = this.#n( totalCap - totalDebt );
         const cashOnHand = this.#n( cashBalance );
         const cashRatio = this.#n( Math.min( 1, Math.max( 0, cashBalance / totalCap ) ), 4 );
@@ -209,7 +210,7 @@ export class Database {
             let sum = 0;
             for ( let i = m - 1; i > m - 1 - k; i-- ) sum += vals[ i ] - vals[ i - 1 ];
 
-            return sum / k;
+            return this.#n( sum / k, 2 );
 
         };
 
@@ -217,7 +218,7 @@ export class Database {
             id: uuidv4(), day: this.data.currentDay, totalCap,
             assets: { cashBalance, garageValue, truckValue, trailerValue },
             profit: { today: avg( 1 ), avg7: avg( 7 ), avg30: avg( 30 ), avg90: avg( 90 ) },
-            report: { netAssets, totalDebt, cashOnHand, cashRatio },
+            report: { totalAssets, totalDebt, netAssets, cashOnHand, cashRatio },
             stats: { garages, parkingLots, trucks, trailers, drivers }
         } );
 
