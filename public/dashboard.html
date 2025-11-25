@@ -14,13 +14,18 @@
             <div class="container">
                 <div class="header-content">
                     <div class="game-info">
-                        <a href="/" class="switch-profile" title="Switch profile">
-                            <img src="/static/switch.svg" alt="Switch profile" />
-                        </a>
                         <h1 id="profileInfo">Loading ...</h1>
                         <h2 id="companyInfo">Loading ...</h2>
                     </div>
-                    <nav class="nav-tabs">
+                    <div class="header-actions">
+                        <button class="btn header-btn" id="app.switchProfile()" title="Switch profile">
+                            <img src="/static/switch.svg" />
+                        </button>
+                        <button class="btn header-btn" id="app.openMenu()" title="Open menu">
+                            <img src="/static/book.svg" />
+                        </button>
+                    </div>
+                    <nav class="tab-menu">
                         <button class="btn tab-btn" data-tab="dashboard">Dashboard</button>
                         <button class="btn tab-btn" data-tab="daily">Records</button>
                         <button class="btn tab-btn" data-tab="garages">Garages</button>
