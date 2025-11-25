@@ -344,6 +344,15 @@ button.danger:hover {
     border: 1px solid var( --border-color );
 }
 
+.table-scroll-area {
+    overflow-x: scroll;
+}
+
+.table-scroll-area table {
+    width: 100%;
+    white-space: nowrap;
+}
+
 .table-header {
     display: flex;
     flex-flow: row nowrap;
@@ -535,4 +544,15 @@ tr:hover {
 
 .profile-actions button {
     margin-right: 6px;
+}
+
+/** Responsive Adaptations */
+
+@media ( max-width: 1400px ) {
+
+    .charts-container {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
 }
