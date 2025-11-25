@@ -109,6 +109,9 @@ class TruckFinancialTracker {
             e.preventDefault(); this[ e.target.id + 'Handler' ]( e.target );
         } ) );
 
+        // Redraw tabs (charts) on window resize
+        window.addEventListener( 'resize', () => this.refreshTab() );
+
     }
 
     async init () {
