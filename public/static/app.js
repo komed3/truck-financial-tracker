@@ -90,7 +90,13 @@ class TruckFinancialTracker {
 
         // Toggle tab menu
         document.addEventListener( 'click', e => {
-            _( 'tabMenu' ).classList.toggle( 'active', !! e.target.closest( '#openTabMenu' ) );
+            if ( e.target.closest( '#openTabMenu' ) ) _( 'tabMenu' ).classList.toggle( 'active' );
+            else _( 'tabMenu' ).classList.remove( 'active' );
+        } );
+
+        // Close modal clicking on backdrop
+        document.addEventListener( 'click', e => {
+            if ( e.target.classList.contains( 'modal' ) ) this.closeModal();
         } );
 
         // Tab navigation
