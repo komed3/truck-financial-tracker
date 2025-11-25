@@ -181,11 +181,11 @@ button.danger:hover {
 .tab-menu::after {
     content: '';
     position: absolute;
-    top: -12px;
-    right: 12px;
+    top: -10px;
+    right: 14px;
     transform: rotate( 45deg );
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     background: var( --bg-primary );
     border: 0 solid var( --border-color );
     border-width: 1px 0 0 1px;
@@ -196,7 +196,8 @@ button.danger:hover {
     flex: 1;
     text-align: left;
     width: 100%;
-    padding: 16px 20px;
+    padding: 14px 20px;
+    font-size: 16px;
     border: 0;
     z-index: 2;
 }

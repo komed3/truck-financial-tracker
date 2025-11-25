@@ -88,6 +88,11 @@ class TruckFinancialTracker {
 
     setupEventListeners () {
 
+        // Open/close tab nav
+        document.addEventListener( 'click', e => {
+            _( 'tabMenu' ).classList.toggle( 'active', !! e.target.closest( '#openTabMenu' ) );
+        } );
+
         // Tab navigation
         $$( '.tab-btn' ).forEach( btn => btn.addEventListener( 'click', e => {
                 this.switchTab( e.target.dataset.tab );
