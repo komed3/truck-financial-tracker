@@ -88,7 +88,7 @@ class TruckFinancialTracker {
 
     setupEventListeners () {
 
-        // Open/close tab nav
+        // Toggle tab menu
         document.addEventListener( 'click', e => {
             _( 'tabMenu' ).classList.toggle( 'active', !! e.target.closest( '#openTabMenu' ) );
         } );
@@ -745,6 +745,10 @@ class TruckFinancialTracker {
     }
 
     closeModal () { $$( '.modal' ).forEach( modal => modal.classList.remove( 'active' ) ) }
+
+    // Switch profile
+
+    switchProfile () { location.href = '/' }
 
     // Notification
 
