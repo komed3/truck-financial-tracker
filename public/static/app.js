@@ -1050,9 +1050,9 @@ class TruckFinancialTracker {
             return;
         }
 
-        const cols = [ 'Name', 'Hire Day', 'Status', 'Skill Level', 'Actions' ];
+        const cols = [ 'Name', 'Hire Day', 'Location', 'Status', 'Skill Level', 'Actions' ];
         const rows = this.data.assets.drivers.map( d => ( [
-            { value: d.name }, { value: this.formatDay( d.day ) },
+            { value: d.name }, { value: this.formatDay( d.day ) }, { value: d.location },
             { class: 'label', value: `<span>${d.status}</span>` },
             { class: 'label', value: `<span>${d.skillLevel}</span>` },
             { class: 'actions', value:
