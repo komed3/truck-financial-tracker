@@ -1075,6 +1075,7 @@ class TruckFinancialTracker {
         _( 'driverForm' ).reset();
         _( 'driverId' ).value = id;
         _( 'driverName' ).value = driver.name;
+        _( 'driverLocation' ).value = driver.location;
         _( 'driverStatus' ).value = driver.status;
         _( 'driverSkill' ).value = driver.skillLevel;
 
