@@ -305,7 +305,7 @@ export class Database {
         if ( ! this.data ) await this.loadGame();
 
         const driver = { ...( data.driverId && this.#assetById( 'drivers', data.driverId ) || {} ), ...{
-            name: data.name, status: data.status, skillLevel: data.skillLevel
+            name: data.name, location: data.location, status: data.status, skillLevel: data.skillLevel
         } };
 
         this.#updateAsset( 'drivers', driver );
