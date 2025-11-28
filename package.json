@@ -1,7 +1,7 @@
 {
   "name": "@komed3/truck-financial-tracker",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Financial tracking application for SCS games (Euro Truck Simulator 2 and American Truck Simulator)",
   "license": "MIT",
   "author": {
