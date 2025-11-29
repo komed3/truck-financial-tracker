@@ -942,10 +942,10 @@ class TruckFinancialTracker {
             return;
         }
 
-        const cols = [ 'Brand', 'Model', 'Day', 'Condition', 'Value', 'Actions' ];
+        const cols = [ 'Brand', 'Model', 'Day', 'Condition', 'Location', 'Value', 'Actions' ];
         const rows = this.data.assets.trucks.map( t => ( [
             { value: t.brand }, { value: t.model }, { value: this.formatDay( t.day ) },
-            { class: 'label', value: `<span>${t.condition}</span>` },
+            { class: 'label', value: `<span>${t.condition}</span>` }, { value: t.location },
             { class: 'currency', value: this.formatCurrency( t.value ) },
             { class: 'actions', value:
                 `<button class="btn" onclick="app.editTruck('${t.id}')">Edit</button>` +
@@ -996,10 +996,10 @@ class TruckFinancialTracker {
             return;
         }
 
-        const cols = [ 'Type', 'Capacity', 'Day', 'Condition', 'Value', 'Actions' ];
+        const cols = [ 'Type', 'Capacity', 'Day', 'Condition', 'Location', 'Value', 'Actions' ];
         const rows = this.data.assets.trailers.map( t => ( [
             { value: t.type }, { value: t.capacity }, { value: this.formatDay( t.day ) },
-            { class: 'label', value: `<span>${t.condition}</span>` },
+            { class: 'label', value: `<span>${t.condition}</span>` }, { value: t.location },
             { class: 'currency', value: this.formatCurrency( t.value ) },
             { class: 'actions', value:
                 `<button class="btn" onclick="app.editTrailer('${t.id}')">Edit</button>` +
