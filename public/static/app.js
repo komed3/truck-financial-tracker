@@ -144,6 +144,14 @@ class TruckFinancialTracker {
 
     assetById ( type, id ) { return ( this.data?.assets[ type ] ?? [] ).filter( r => r.id === id )[ 0 ] ?? null }
 
+    locationOptions ( el ) {
+
+        el.innerHTML = ( this.data?.assets?.garages ?? [] ).map(
+            g => `<option value="${g.location}">${g.location}</option>`
+        ).join( '' );
+
+    }
+
     freeze () { _( 'loading' ).classList.add( 'active' ) }
 
     unfreeze () { _( 'loading' ).classList.remove( 'active' ) }
@@ -751,6 +759,9 @@ class TruckFinancialTracker {
         if ( reset ) _( modalId + 'Form' ).reset();
         _( modalId + 'Modal' ).classList.add( 'active' );
 
+        const maybeLocation = $( '#' + modalId + 'Form select[name="location"]' );
+        if ( maybeLocation ) this.locationOptions( maybeLocation );
+
     }
 
     closeModal () { $$( '.modal' ).forEach( modal => modal.classList.remove( 'active' ) ) }
@@ -894,6 +905,7 @@ class TruckFinancialTracker {
             { value: g.location }, { value: this.formatDay( g.day ) }, { class: 'label', value: `<span>${g.size}</span>` },
             { class: 'currency', value: this.formatCurrency( g.value ) },
             { class: 'actions', value:
+                `<button class="btn" onclick="app.garageDetails('${g.id}')">Details</button>` +
                 `<button class="btn" onclick="app.editGarage('${g.id}')">Edit</button>` +
                 `<button class="btn danger" onclick="app.deleteGarage('${g.id}')">Delete</button>`
             }
@@ -910,13 +922,13 @@ class TruckFinancialTracker {
         const garage = this.assetById( 'garages', id );
         if ( ! garage ) return;
 
+        this.openModal( 'garage', false );
+
         _( 'garageForm' ).reset();
         _( 'garageId' ).value = id;
         _( 'garageLocation' ).value = garage.location;
         _( 'garageValue' ).value = garage.value;
         _( 'garageSize' ).value = garage.size;
-
-        this.openModal( 'garage', false );
 
     }
 
@@ -930,6 +942,8 @@ class TruckFinancialTracker {
         }
 
     }
+
+    garageDetails ( id ) {}
 
     // Trucks & Trailers
 
@@ -964,6 +978,8 @@ class TruckFinancialTracker {
         const truck = this.assetById( 'trucks', id );
         if ( ! truck ) return;
 
+        this.openModal( 'truck', false );
+
         _( 'truckForm' ).reset();
         _( 'truckId' ).value = id;
         _( 'truckBrand' ).value = truck.brand;
@@ -971,8 +987,6 @@ class TruckFinancialTracker {
         _( 'truckValue' ).value = truck.value;
         _( 'truckCondition' ).value = truck.condition;
         _( 'truckLocation' ).value = truck.location;
-
-        this.openModal( 'truck', false );
 
     }
 
@@ -1018,6 +1032,8 @@ class TruckFinancialTracker {
         const trailer = this.assetById( 'trailers', id );
         if ( ! trailer ) return;
 
+        this.openModal( 'trailer', false );
+
         _( 'trailerForm' ).reset();
         _( 'trailerId' ).value = id;
         _( 'trailerType' ).value = trailer.type;
@@ -1025,8 +1041,6 @@ class TruckFinancialTracker {
         _( 'trailerValue' ).value = trailer.value;
         _( 'trailerCondition' ).value = trailer.condition;
         _( 'trailerLocation' ).value = trailer.location;
-
-        this.openModal( 'trailer', false );
 
     }
 
@@ -1074,14 +1088,14 @@ class TruckFinancialTracker {
         const driver = this.assetById( 'drivers', id );
         if ( ! driver ) return;
 
+        this.openModal( 'driver', false );
+
         _( 'driverForm' ).reset();
         _( 'driverId' ).value = id;
         _( 'driverName' ).value = driver.name;
         _( 'driverLocation' ).value = driver.location;
         _( 'driverStatus' ).value = driver.status;
         _( 'driverSkill' ).value = driver.skillLevel;
-
-        this.openModal( 'driver', false );
 
     }
 
@@ -1132,6 +1146,8 @@ class TruckFinancialTracker {
         const loan = this.assetById( 'loans', id );
         if ( ! loan ) return;
 
+        this.openModal( 'loan', false );
+
         _( 'loanForm' ).reset();
         _( 'loanId' ).value = id;
         _( 'loanAmount' ).value = loan.amount;
@@ -1139,8 +1155,6 @@ class TruckFinancialTracker {
         _( 'loanInterestRate' ).value = loan.interestRate;
         _( 'loanInstallment' ).value = loan.dailyInstallment;
         _( 'loanRemaining' ).value = loan.remaining;
-
-        this.openModal( 'loan', false );
 
     }
 
