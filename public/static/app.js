@@ -756,8 +756,9 @@ class TruckFinancialTracker {
 
     openModal ( modalId, reset = true ) {
 
-        if ( reset ) _( modalId + 'Form' ).reset();
         _( modalId + 'Modal' ).classList.add( 'active' );
+
+        if ( reset ) _( modalId + 'Form' ).reset();
 
         const maybeLocation = $( '#' + modalId + 'Form select[name="location"]' );
         if ( maybeLocation ) this.locationOptions( maybeLocation );
@@ -922,9 +923,8 @@ class TruckFinancialTracker {
         const garage = this.assetById( 'garages', id );
         if ( ! garage ) return;
 
-        this.openModal( 'garage', false );
+        this.openModal( 'garage' );
 
-        _( 'garageForm' ).reset();
         _( 'garageId' ).value = id;
         _( 'garageLocation' ).value = garage.location;
         _( 'garageValue' ).value = garage.value;
@@ -943,7 +943,29 @@ class TruckFinancialTracker {
 
     }
 
-    garageDetails ( id ) {}
+    garageDetails ( id ) {
+
+        const garage = this.assetById( 'garages', id );
+        if ( ! garage ) return;
+
+        const trucks = ( this.data?.assets?.trucks ?? [] ).filter( t => t.location === garage.location );
+        const trailers = ( this.data?.assets?.trailers ?? [] ).filter( t => t.location === garage.location );
+        const drivers = ( this.data?.assets?.drivers ?? [] ).filter( d => d.location === garage.location );
+
+        const sizeCapacity = { small: 1, medium: 3, large: 5 }[ garage.size ] || 0;
+        const spacesUsed = trucks.length + trailers.length;
+
+        const truckValue = trucks.reduce( ( s, t ) => s + t.value, 0 );
+        const trailerValue = trailers.reduce( ( s, t ) => s + t.value, 0 );
+        const totalValue = truckValue + trailerValue;
+
+        this.openModal( 'garageDetails', false );
+
+        _( 'garageDetailsLocation' ).textContent = garage.location;
+        _( 'garageDetailsParkingLots' ).textContent = spacesUsed + ' / ' + sizeCapacity;
+        _( 'garageDetailsValue' ).textContent = this.formatCurrency( totalValue );
+
+    }
 
     // Trucks & Trailers
 
@@ -978,9 +1000,8 @@ class TruckFinancialTracker {
         const truck = this.assetById( 'trucks', id );
         if ( ! truck ) return;
 
-        this.openModal( 'truck', false );
+        this.openModal( 'truck' );
 
-        _( 'truckForm' ).reset();
         _( 'truckId' ).value = id;
         _( 'truckBrand' ).value = truck.brand;
         _( 'truckModel' ).value = truck.model;
@@ -1032,9 +1053,8 @@ class TruckFinancialTracker {
         const trailer = this.assetById( 'trailers', id );
         if ( ! trailer ) return;
 
-        this.openModal( 'trailer', false );
+        this.openModal( 'trailer' );
 
-        _( 'trailerForm' ).reset();
         _( 'trailerId' ).value = id;
         _( 'trailerType' ).value = trailer.type;
         _( 'trailerCapacity' ).value = trailer.capacity;
@@ -1088,9 +1108,8 @@ class TruckFinancialTracker {
         const driver = this.assetById( 'drivers', id );
         if ( ! driver ) return;
 
-        this.openModal( 'driver', false );
+        this.openModal( 'driver' );
 
-        _( 'driverForm' ).reset();
         _( 'driverId' ).value = id;
         _( 'driverName' ).value = driver.name;
         _( 'driverLocation' ).value = driver.location;
@@ -1146,9 +1165,8 @@ class TruckFinancialTracker {
         const loan = this.assetById( 'loans', id );
         if ( ! loan ) return;
 
-        this.openModal( 'loan', false );
+        this.openModal( 'loan' );
 
-        _( 'loanForm' ).reset();
         _( 'loanId' ).value = id;
         _( 'loanAmount' ).value = loan.amount;
         _( 'loanTerm' ).value = loan.term;
