@@ -512,6 +512,32 @@ tr:hover {
     gap: 10px;
 }
 
+/** Garage Details */
+
+.garage-details {
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax( 160px, 1fr ) );
+    gap: 20px;
+}
+
+.detail-card {
+    text-align: center;
+}
+
+.detail-card h4 {
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var( --text-secondary );
+}
+
+.detail-card .value {
+    font-size: 18px;
+    font-weight: bold;
+}
+
 /** Profile Grid */
 
 .profile-grid {
