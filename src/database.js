@@ -233,7 +233,9 @@ export class Database {
         if ( ! this.data ) await this.loadGame();
 
         const garage = { ...( data.garageId && this.#assetById( 'garages', data.garageId ) || {} ), ...{
-            location: data.location, size: data.size, value: this.#n( data.value )
+            location: data.location,
+            size: data.size,
+            value: this.#n( data.value )
         } };
 
         this.#updateAsset( 'garages', garage );
@@ -257,7 +259,11 @@ export class Database {
         if ( ! this.data ) await this.loadGame();
 
         const truck = { ...( data.truckId && this.#assetById( 'trucks', data.truckId ) || {} ), ...{
-            brand: data.brand, model: data.model, value: this.#n( data.value ), condition: data.condition
+            brand: data.brand,
+            model: data.model,
+            value: this.#n( data.value ),
+            condition: data.condition,
+            location: data.location
         } };
 
         this.#updateAsset( 'trucks', truck );
@@ -281,7 +287,11 @@ export class Database {
         if ( ! this.data ) await this.loadGame();
 
         const trailer = { ...( data.trailerId && this.#assetById( 'trailers', data.trailerId ) || {} ), ...{
-            type: data.type, capacity: data.capacity, value: this.#n( data.value ), condition: data.condition
+            type: data.type,
+            capacity: data.capacity,
+            value: this.#n( data.value ),
+            condition: data.condition,
+            location: data.location
         } };
 
         this.#updateAsset( 'trailers', trailer );
@@ -305,7 +315,10 @@ export class Database {
         if ( ! this.data ) await this.loadGame();
 
         const driver = { ...( data.driverId && this.#assetById( 'drivers', data.driverId ) || {} ), ...{
-            name: data.name, location: data.location, status: data.status, skillLevel: data.skillLevel
+            name: data.name,
+            location: data.location,
+            status: data.status,
+            skillLevel: data.skillLevel
         } };
 
         this.#updateAsset( 'drivers', driver );
