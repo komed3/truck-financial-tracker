@@ -965,6 +965,23 @@ class TruckFinancialTracker {
         _( 'garageDetailsParkingLots' ).textContent = spacesUsed + ' / ' + sizeCapacity;
         _( 'garageDetailsValue' ).textContent = this.formatCurrency( totalValue );
 
+        $( '#garageDetailsTable tbody' ).innerHTML =
+            trucks.map( t => `<tr>` +
+                `<td>${t.brand}, ${t.model}</td>` +
+                `<td>${ this.formatDay( t.day ) }</td>` +
+                `<td>${ this.formatCurrency( t.value ) }</td>` +
+            `</tr>` ).join( '' ) +
+            trailers.map( t => `<tr>` +
+                `<td>${t.type}, ${t.capacity}</td>` +
+                `<td>${ this.formatDay( t.day ) }</td>` +
+                `<td>${ this.formatCurrency( t.value ) }</td>` +
+            `</tr>` ).join( '' ) +
+            drivers.map( d => `<tr>` +
+                `<td>${d.name}</td>` +
+                `<td>${ this.formatDay( d.day ) }</td>` +
+                `<td>—</td>` +
+            `</tr>` ).join( '' );
+
     }
 
     // Trucks & Trailers
