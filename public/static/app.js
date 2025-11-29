@@ -970,6 +970,7 @@ class TruckFinancialTracker {
         _( 'truckModel' ).value = truck.model;
         _( 'truckValue' ).value = truck.value;
         _( 'truckCondition' ).value = truck.condition;
+        _( 'truckLocation' ).value = truck.location;
 
         this.openModal( 'truck', false );
 
@@ -1023,6 +1024,7 @@ class TruckFinancialTracker {
         _( 'trailerCapacity' ).value = trailer.capacity;
         _( 'trailerValue' ).value = trailer.value;
         _( 'trailerCondition' ).value = trailer.condition;
+        _( 'trailerLocation' ).value = trailer.location;
 
         this.openModal( 'trailer', false );
 
