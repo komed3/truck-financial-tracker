@@ -25,8 +25,8 @@
   },
   "dependencies": {
     "cli-color": "^2.0.4",
-    "express": "^5.1.0",
-    "inquirer": "^13.0.1",
+    "express": "^5.2.1",
+    "inquirer": "^13.0.2",
     "uuid": "^13.0.0"
   }
 }
