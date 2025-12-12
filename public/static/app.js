@@ -455,7 +455,7 @@ class TruckFinancialTracker {
                     hoverBorderWidth: 3,
                     pointRadius: 0,
                     pointHoverRadius: 0,
-                    fill: true,
+                    fill: 'origin',
                     tension: 0.05
                 } ]
             },
@@ -525,7 +525,7 @@ class TruckFinancialTracker {
                     hoverBorderWidth: 3,
                     pointRadius: 0,
                     pointHoverRadius: 0,
-                    fill: true,
+                    fill: 'origin',
                     tension: 0.05
                 } ]
             },
@@ -588,14 +588,17 @@ class TruckFinancialTracker {
                 datasets: [ {
                     label: 'Valutation',
                     data: valutation,
-                    borderColor: '#27ae60',
-                    hoverBorderColor: '#27ae60',
-                    backgroundColor: '#bdf0d2',
-                    borderWidth: 3,
-                    hoverBorderWidth: 3,
+                    borderColor: '#232323',
+                    hoverBorderColor: '#232323',
+                    borderWidth: 2,
+                    hoverBorderWidth: 2,
                     pointRadius: 0,
                     pointHoverRadius: 0,
-                    fill: true,
+                    fill: {
+                        target: 'origin',
+                        above: '#7de1a6',
+                        below: '#f08c82'
+                    },
                     tension: 0.05
                 } ]
             },
