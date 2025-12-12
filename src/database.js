@@ -61,7 +61,7 @@ export class Database {
                     id: uuidv4(), day: 0, totalCap: cash,
                     assets: { cashBalance: cash, garageValue: 0, truckValue: 0, trailerValue: 0, totalLoans: 0 },
                     profit: { today: 0, avg7: 0, avg30: 0, avg90: 0 },
-                    report: { totalAssets: 0, totalDebt: 0, netAssets: cash, cashOnHand: cash, cashRatio: 1 },
+                    report: { totalAssets: 0, totalDebt: 0, netAssets: cash, cashOnHand: cash, cashRatio: 1, valutation: cash },
                     stats: { garages: 1, parkingLots: 1, trucks: 0, trailers: 0, drivers: 0 }
                 } );
 
@@ -197,6 +197,7 @@ export class Database {
         const netAssets = this.#n( totalCap - totalDebt );
         const cashOnHand = this.#n( cashBalance );
         const cashRatio = this.#n( Math.min( 1, Math.max( 0, cashBalance / totalCap ) ), 4 );
+        const valutation = this.#n( ( truckValue + trailerValue ) * 0.6 + garageValue + cashBalance - totalDebt );
 
         const rec = this.data.dailyRecords || [];
         const vals = rec.map( r => r.report.netAssets ); vals.push( netAssets );
@@ -218,7 +219,7 @@ export class Database {
             id: uuidv4(), day: this.data.currentDay, totalCap,
             assets: { cashBalance, garageValue, truckValue, trailerValue },
             profit: { today: avg( 1 ), avg7: avg( 7 ), avg30: avg( 30 ), avg90: avg( 90 ) },
-            report: { totalAssets, totalDebt, netAssets, cashOnHand, cashRatio },
+            report: { totalAssets, totalDebt, netAssets, cashOnHand, cashRatio, valutation },
             stats: { garages, parkingLots, trucks, trailers, drivers }
         } );
 
