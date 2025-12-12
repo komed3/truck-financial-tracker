@@ -476,7 +476,6 @@ class TruckFinancialTracker {
                     y: {
                         position: 'left',
                         type: 'linear',
-                        stacked: true,
                         ticks: {
                             maxTicksLimit: 6,
                             callback: v => this.formatCurrency( v )
@@ -547,7 +546,6 @@ class TruckFinancialTracker {
                     y: {
                         position: 'left',
                         type: 'linear',
-                        stacked: true,
                         ticks: {
                             maxTicksLimit: 6,
                             callback: v => this.formatCurrency( v )
@@ -572,27 +570,27 @@ class TruckFinancialTracker {
 
     }
 
-    renderCashRatioChart ( container ) {
+    renderValutationChart ( container ) {
 
-        if ( this.charts.cashRatio ) this.charts.cashRatio.destroy();
+        if ( this.charts.valutation ) this.charts.valutation.destroy();
 
-        const labels = [], cashRatio = [];
+        const labels = [], valutation = [];
 
         ( this.data?.dailyRecords ?? [] ).slice( this.maxChartPoints ).map( ( r, i ) => {
             labels.push( r.day ?? i );
-            cashRatio.push( r.report.cashRatio );
+            valutation.push( r.report.valutation );
         } );
 
-        this.charts.cashRatio = new Chart( container, {
+        this.charts.valutation = new Chart( container, {
             type: 'line',
             data: {
                 labels: labels,
                 datasets: [ {
-                    label: 'Cash Ratio',
-                    data: cashRatio,
-                    borderColor: '#232323',
-                    hoverBorderColor: '#232323',
-                    backgroundColor: '#d4d4d4',
+                    label: 'Valutation',
+                    data: valutation,
+                    borderColor: '#27ae60',
+                    hoverBorderColor: '#27ae60',
+                    backgroundColor: '#bdf0d2',
                     borderWidth: 3,
                     hoverBorderWidth: 3,
                     pointRadius: 0,
@@ -619,10 +617,9 @@ class TruckFinancialTracker {
                     y: {
                         position: 'left',
                         type: 'linear',
-                        min: 0, max: 1,
                         ticks: {
                             maxTicksLimit: 6,
-                            callback: v => v.toFixed( 2 )
+                            callback: v => this.formatCurrency( v )
                         },
                         grid: { color: '#e0e0e0' },
                         border: { dash: [ 5, 5 ], color: '#e0e0e0' }
@@ -635,7 +632,7 @@ class TruckFinancialTracker {
                         bodyFont: { size: 22 },
                         callbacks: {
                             title: ctx => this.formatDay( ctx[ 0 ].label, false ),
-                            label: ctx => ctx.raw.toFixed( 2 )
+                            label: ctx => this.formatCurrency( ctx.raw )
                         }
                     }
                 }
@@ -714,6 +711,78 @@ class TruckFinancialTracker {
                         title: ctx => this.formatDay( ctx[ 0 ].label, false ),
                         label: ctx => `${ ctx.dataset.label }: ${ this.formatCurrency( ctx.raw ) }`
                     } }
+                }
+            }
+        } );
+
+    }
+
+    renderCashRatioChart ( container ) {
+
+        if ( this.charts.cashRatio ) this.charts.cashRatio.destroy();
+
+        const labels = [], cashRatio = [];
+
+        ( this.data?.dailyRecords ?? [] ).slice( this.maxChartPoints ).map( ( r, i ) => {
+            labels.push( r.day ?? i );
+            cashRatio.push( r.report.cashRatio );
+        } );
+
+        this.charts.cashRatio = new Chart( container, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [ {
+                    label: 'Cash Ratio',
+                    data: cashRatio,
+                    borderColor: '#232323',
+                    hoverBorderColor: '#232323',
+                    backgroundColor: '#d4d4d4',
+                    borderWidth: 3,
+                    hoverBorderWidth: 3,
+                    pointRadius: 0,
+                    pointHoverRadius: 0,
+                    fill: true,
+                    tension: 0.05
+                } ]
+            },
+            options: {
+                clip: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            maxTicksLimit: 10,
+                            callback: v => this.formatDay( v )
+                        },
+                        grid: { display: false },
+                        border: { color: '#e0e0e0' }
+                    },
+                    y: {
+                        position: 'left',
+                        type: 'linear',
+                        min: 0, max: 1,
+                        ticks: {
+                            maxTicksLimit: 6,
+                            callback: v => v.toFixed( 2 )
+                        },
+                        grid: { color: '#e0e0e0' },
+                        border: { dash: [ 5, 5 ], color: '#e0e0e0' }
+                    }
+                },
+                plugins: {
+                    legend: false,
+                    tooltip: {
+                        displayColors: false,
+                        bodyFont: { size: 22 },
+                        callbacks: {
+                            title: ctx => this.formatDay( ctx[ 0 ].label, false ),
+                            label: ctx => ctx.raw.toFixed( 2 )
+                        }
+                    }
                 }
             }
         } );
@@ -1219,8 +1288,9 @@ class TruckFinancialTracker {
         this.renderDailyProfitChart( _( 'dailyProfitReport' ) );
         this.renderNetAssetsChart( _( 'netAssetsReport' ) );
         this.renderTotalDebtChart( _( 'totalDebtReport' ) );
-        this.renderCashRatioChart( _( 'cashRatioReport' ) );
+        this.renderValutationChart( _( 'valutationReport' ) );
         this.renderAvgProfitChart( _( 'avgProfitReport' ) );
+        this.renderCashRatioChart( _( 'cashRatioReport' ) );
 
     }
 
