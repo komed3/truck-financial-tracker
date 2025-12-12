@@ -808,7 +808,7 @@ class TruckFinancialTracker {
         if ( this.data?.dailyRecords?.length ) {
 
             const { totalCap, report: {
-                netAssets, totalDebt, cashOnHand, cashRatio
+                netAssets, totalDebt, cashOnHand, valutation
             }, profit: { avg90 }, stats: {
                 garages, parkingLots, trucks, trailers, drivers
             } } = this.data.dailyRecords.at( -1 );
@@ -817,13 +817,14 @@ class TruckFinancialTracker {
             _( 'totalDebt' ).textContent = this.formatCurrency( Math.abs( totalDebt ) );
             _( 'netAssets' ).textContent = this.formatCurrency( Math.abs( netAssets ) );
             _( 'cashOnHand' ).textContent = this.formatCurrency( Math.abs( cashOnHand ) );
+            _( 'valutation' ).textContent = this.formatCurrency( Math.abs( valutation ) );
             _( 'avgProfit' ).textContent = this.formatCurrency( Math.abs( avg90 ) );
-            _( 'cashRatio' ).textContent = cashRatio.toFixed( 2 );
 
             _( 'totalCap' ).classList.toggle( 'negative', totalCap < 0 );
             _( 'totalDebt' ).classList.toggle( 'negative', totalDebt > 0 );
             _( 'netAssets' ).classList.toggle( 'negative', netAssets < 0 );
             _( 'cashOnHand' ).classList.toggle( 'negative', cashOnHand < 0 );
+            _( 'valutation' ).classList.toggle( 'negative', valutation < 0 );
             _( 'avgProfit' ).classList.toggle( 'negative', avg90 < 0 );
 
             _( 'garageCount' ).textContent = garages;
@@ -838,13 +839,14 @@ class TruckFinancialTracker {
             _( 'totalDebt' ).textContent = 'N/A';
             _( 'netAssets' ).textContent = 'N/A';
             _( 'cashOnHand' ).textContent = 'N/A';
-            _( 'cashRatio' ).textContent = 'N/A';
+            _( 'valutation' ).textContent = 'N/A';
             _( 'avgProfit' ).textContent = 'N/A';
 
             _( 'totalCap' ).classList.remove( 'negative' );
             _( 'totalDebt' ).classList.remove( 'negative' );
             _( 'netAssets' ).classList.remove( 'negative' );
             _( 'cashOnHand' ).classList.remove( 'negative' );
+            _( 'valutation' ).classList.remove( 'negative' );
             _( 'avgProfit' ).classList.remove( 'negative' );
 
             _( 'garageCount' ).textContent = 'N/A';
