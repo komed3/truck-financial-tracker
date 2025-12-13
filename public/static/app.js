@@ -230,7 +230,7 @@ class TruckFinancialTracker {
 
         if ( this.charts.capitalization ) this.charts.capitalization.destroy();
 
-        const dataset = { borderWidth: 3, hoverBorderWidth: 3, pointRadius: 0, pointHoverRadius: 0 };
+        const dataset = { borderWidth: 3, hoverBorderWidth: 3, pointRadius: 0, pointHoverRadius: 0, fill: true, tension: 0.05 };
         const labels = [], cash = [], garages = [], trucks = [], trailers = [];
 
         ( this.data?.dailyRecords ?? [] ).slice( this.maxChartPoints ).map( ( r, i ) => {
@@ -242,31 +242,35 @@ class TruckFinancialTracker {
         } );
 
         this.charts.capitalization = new Chart( container, {
-            type: 'area',
+            type: 'line',
             data: {
                 labels: labels,
                 datasets: [ {
                     label: 'Cash',
                     data: cash,
                     borderColor: '#27ae60',
+                    hoverBorderColor: '#27ae60',
                     backgroundColor: '#bdf0d2',
                     ...dataset
                 }, {
                     label: 'Garages',
                     data: garages,
                     borderColor: '#3498db',
+                    hoverBorderColor: '#3498db',
                     backgroundColor: '#b9dcf3',
                     ...dataset
                 }, {
                     label: 'Trucks',
                     data: trucks,
                     borderColor: '#f39c12',
+                    hoverBorderColor: '#f39c12',
                     backgroundColor: '#fbdaa7',
                     ...dataset
                 }, {
                     label: 'Trailers',
                     data: trailers,
                     borderColor: '#9b59b6',
+                    hoverBorderColor: '#9b59b6',
                     backgroundColor: '#ddc6e6',
                     ...dataset
                 } ]
