@@ -442,20 +442,18 @@ class TruckFinancialTracker {
         } );
 
         this.charts.netAssets = new Chart( container, {
-            type: 'line',
+            type: 'area',
             data: {
                 labels: labels,
                 datasets: [ {
                     label: 'Net Assets',
                     data: netAssets,
-                    borderColor: '#3498db',
-                    hoverBorderColor: '#3498db',
-                    backgroundColor: '#b9dcf3',
+                    color: '#3498db',
+                    fillOpacity: 0.36,
                     borderWidth: 3,
                     hoverBorderWidth: 3,
                     pointRadius: 0,
                     pointHoverRadius: 0,
-                    fill: 'origin',
                     tension: 0.05
                 } ]
             },
@@ -512,20 +510,18 @@ class TruckFinancialTracker {
         } );
 
         this.charts.totalDebt = new Chart( container, {
-            type: 'line',
+            type: 'area',
             data: {
                 labels: labels,
                 datasets: [ {
                     label: 'Total Debt',
                     data: totalDebt,
-                    borderColor: '#e74c3c',
-                    hoverBorderColor: '#e74c3c',
-                    backgroundColor: '#f6bcb6',
+                    color: '#e74c3c',
+                    fillOpacity: 0.36,
                     borderWidth: 3,
                     hoverBorderWidth: 3,
                     pointRadius: 0,
                     pointHoverRadius: 0,
-                    fill: 'origin',
                     tension: 0.05
                 } ]
             },
@@ -582,24 +578,19 @@ class TruckFinancialTracker {
         } );
 
         this.charts.valutation = new Chart( container, {
-            type: 'line',
+            type: 'area',
             data: {
                 labels: labels,
                 datasets: [ {
                     label: 'Valutation',
                     data: valutation,
-                    borderColor: '#232323',
-                    hoverBorderColor: '#232323',
-                    borderWidth: 2,
-                    hoverBorderWidth: 2,
+                    color: '#27ae60',
+                    negativeColor: '#e74c3c',
+                    fillOpacity: 0.36,
+                    borderWidth: 3,
+                    hoverBorderWidth: 3,
                     pointRadius: 0,
-                    pointHoverRadius: 0,
-                    fill: {
-                        target: 'origin',
-                        above: '#7de1a6',
-                        below: '#f08c82'
-                    },
-                    tension: 0.05
+                    pointHoverRadius: 0
                 } ]
             },
             options: {
@@ -732,21 +723,18 @@ class TruckFinancialTracker {
         } );
 
         this.charts.cashRatio = new Chart( container, {
-            type: 'line',
+            type: 'area',
             data: {
                 labels: labels,
                 datasets: [ {
                     label: 'Cash Ratio',
                     data: cashRatio,
-                    borderColor: '#232323',
-                    hoverBorderColor: '#232323',
-                    backgroundColor: '#d4d4d4',
+                    color: '#232323',
+                    fillOpacity: 0.25,
                     borderWidth: 3,
                     hoverBorderWidth: 3,
                     pointRadius: 0,
-                    pointHoverRadius: 0,
-                    fill: true,
-                    tension: 0.05
+                    pointHoverRadius: 0
                 } ]
             },
             options: {
