@@ -230,7 +230,7 @@ class TruckFinancialTracker {
 
         if ( this.charts.capitalization ) this.charts.capitalization.destroy();
 
-        const dataset = { borderWidth: 3, hoverBorderWidth: 3, pointRadius: 0, pointHoverRadius: 0, fill: true, tension: 0.05 };
+        const dataset = { borderWidth: 3, hidePoints: true, fill: '-1', fillOpacity: 0.36 };
         const labels = [], cash = [], garages = [], trucks = [], trailers = [];
 
         ( this.data?.dailyRecords ?? [] ).slice( this.maxChartPoints ).map( ( r, i ) => {
@@ -242,36 +242,29 @@ class TruckFinancialTracker {
         } );
 
         this.charts.capitalization = new Chart( container, {
-            type: 'line',
+            type: 'area',
             data: {
                 labels: labels,
                 datasets: [ {
                     label: 'Cash',
                     data: cash,
-                    borderColor: '#27ae60',
-                    hoverBorderColor: '#27ae60',
-                    backgroundColor: '#bdf0d2',
-                    ...dataset
+                    color: '#27ae60',
+                    ...dataset,
+                    fill: 'origin'
                 }, {
                     label: 'Garages',
                     data: garages,
-                    borderColor: '#3498db',
-                    hoverBorderColor: '#3498db',
-                    backgroundColor: '#b9dcf3',
+                    color: '#3498db',
                     ...dataset
                 }, {
                     label: 'Trucks',
                     data: trucks,
-                    borderColor: '#f39c12',
-                    hoverBorderColor: '#f39c12',
-                    backgroundColor: '#fbdaa7',
+                    color: '#f39c12',
                     ...dataset
                 }, {
                     label: 'Trailers',
                     data: trailers,
-                    borderColor: '#9b59b6',
-                    hoverBorderColor: '#9b59b6',
-                    backgroundColor: '#ddc6e6',
+                    color: '#9b59b6',
                     ...dataset
                 } ]
             },
@@ -304,11 +297,18 @@ class TruckFinancialTracker {
                     }
                 },
                 plugins: {
-                    legend: { position: 'bottom' },
-                    tooltip: { callbacks: {
-                        title: ctx => this.formatDay( ctx[ 0 ].label, false ),
-                        label: ctx => `${ ctx.dataset.label }: ${ this.formatCurrency( ctx.raw ) }`
-                    } }
+                    displayColors: false,
+                    legend: {
+                        position: 'bottom',
+                        labels: { boxWidth: 0 }
+                    },
+                    tooltip: {
+                        displayColors: false,
+                        callbacks: {
+                            title: ctx => this.formatDay( ctx[ 0 ].label, false ),
+                            label: ctx => `${ ctx.dataset.label }: ${ this.formatCurrency( ctx.raw ) }`
+                        }
+                    }
                 }
             }
         } );
@@ -345,9 +345,13 @@ class TruckFinancialTracker {
                 radius: '80%',
                 plugins: {
                     legend: { position: 'bottom', labels: { boxWidth: 18, boxHeight: 18 } },
-                    tooltip: { callbacks: {
-                        label: ctx => `${ this.formatCurrency( ctx.raw ) } (${ ( ctx.raw / totalCap * 100 ).toFixed() }%)`
-                    } }
+                    tooltip: {
+                        displayColors: false,
+                        bodyFont: { size: 22 },
+                        callbacks: {
+                            label: ctx => `${ this.formatCurrency( ctx.raw ) } (${ ( ctx.raw / totalCap * 100 ).toFixed() }%)`
+                        }
+                    }
                 }
             }
         } );
@@ -451,10 +455,7 @@ class TruckFinancialTracker {
                     color: '#3498db',
                     fillOpacity: 0.36,
                     borderWidth: 3,
-                    hoverBorderWidth: 3,
-                    pointRadius: 0,
-                    pointHoverRadius: 0,
-                    tension: 0.05
+                    hidePoints: true
                 } ]
             },
             options: {
@@ -519,10 +520,7 @@ class TruckFinancialTracker {
                     color: '#e74c3c',
                     fillOpacity: 0.36,
                     borderWidth: 3,
-                    hoverBorderWidth: 3,
-                    pointRadius: 0,
-                    pointHoverRadius: 0,
-                    tension: 0.05
+                    hidePoints: true
                 } ]
             },
             options: {
@@ -588,9 +586,7 @@ class TruckFinancialTracker {
                     negativeColor: '#e74c3c',
                     fillOpacity: 0.36,
                     borderWidth: 3,
-                    hoverBorderWidth: 3,
-                    pointRadius: 0,
-                    pointHoverRadius: 0
+                    hidePoints: true
                 } ]
             },
             options: {
@@ -732,9 +728,7 @@ class TruckFinancialTracker {
                     color: '#232323',
                     fillOpacity: 0.25,
                     borderWidth: 3,
-                    hoverBorderWidth: 3,
-                    pointRadius: 0,
-                    pointHoverRadius: 0
+                    hidePoints: true
                 } ]
             },
             options: {
