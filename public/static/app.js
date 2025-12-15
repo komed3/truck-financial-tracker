@@ -635,7 +635,7 @@ class TruckFinancialTracker {
 
         if ( this.charts.avgProfit ) this.charts.avgProfit.destroy();
 
-        const dataset = { borderWidth: 3, hoverBorderWidth: 3, pointRadius: 0, pointHoverRadius: 0, tension: 0.05 };
+        const dataset = { borderWidth: 3, hoverBorderWidth: 3, pointRadius: 0, pointHoverRadius: 0, backgroundColor: 'transparent' };
         const labels = [], avg7 = [], avg30 = [], avg90 = [];
 
         ( this.data?.dailyRecords ?? [] ).slice( this.maxChartPoints ).map( ( r, i ) => {
@@ -696,7 +696,10 @@ class TruckFinancialTracker {
                     }
                 },
                 plugins: {
-                    legend: { position: 'bottom' },
+                    legend: {
+                        position: 'bottom',
+                        labels: { usePointStyle: true }
+                    },
                     tooltip: { callbacks: {
                         title: ctx => this.formatDay( ctx[ 0 ].label, false ),
                         label: ctx => `${ ctx.dataset.label }: ${ this.formatCurrency( ctx.raw ) }`
