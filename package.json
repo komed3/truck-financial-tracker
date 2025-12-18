@@ -26,7 +26,7 @@
   "dependencies": {
     "cli-color": "^2.0.4",
     "express": "^5.2.1",
-    "inquirer": "^13.0.2",
+    "inquirer": "^13.1.0",
     "uuid": "^13.0.0"
   }
 }
