@@ -246,26 +246,26 @@ class TruckFinancialTracker {
             data: {
                 labels: labels,
                 datasets: [ {
+                    ...dataset,
                     label: 'Cash',
                     data: cash,
                     color: '#27ae60',
-                    ...dataset,
                     fill: 'origin'
                 }, {
+                    ...dataset,
                     label: 'Garages',
                     data: garages,
-                    color: '#3498db',
-                    ...dataset
+                    color: '#3498db'
                 }, {
+                    ...dataset,
                     label: 'Trucks',
                     data: trucks,
-                    color: '#f39c12',
-                    ...dataset
+                    color: '#f39c12'
                 }, {
+                    ...dataset,
                     label: 'Trailers',
                     data: trailers,
-                    color: '#9b59b6',
-                    ...dataset
+                    color: '#9b59b6'
                 } ]
             },
             options: {
@@ -297,13 +297,8 @@ class TruckFinancialTracker {
                     }
                 },
                 plugins: {
-                    displayColors: false,
-                    legend: {
-                        position: 'bottom',
-                        labels: { boxWidth: 0 }
-                    },
+                    legend: { position: 'bottom' },
                     tooltip: {
-                        displayColors: false,
                         callbacks: {
                             title: ctx => this.formatDay( ctx[ 0 ].label, false ),
                             label: ctx => `${ ctx.dataset.label }: ${ this.formatCurrency( ctx.raw ) }`
@@ -696,10 +691,7 @@ class TruckFinancialTracker {
                     }
                 },
                 plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { usePointStyle: true }
-                    },
+                    legend: { position: 'bottom' },
                     tooltip: { callbacks: {
                         title: ctx => this.formatDay( ctx[ 0 ].label, false ),
                         label: ctx => `${ ctx.dataset.label }: ${ this.formatCurrency( ctx.raw ) }`
