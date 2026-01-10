@@ -6,6 +6,8 @@ The app allows you to track your in-game finances, including cash balance, asset
 
 A guided setup process helps you create your first profile and get started. The app shows tables and charts to visualize your financial data, e.g. trucks and garages owned, cash flow over time, loan repayments, and more. It aims to visualize your in-game financial progress and help you make informed decisions.
 
+![Truck Financial Tracker - Dashboard](dashboard.jpg)
+
 ## Installation
 
 Clone the repository:
