@@ -28,5 +28,8 @@
     "express": "^5.2.1",
     "inquirer": "^14.0.2",
     "uuid": "^14.0.1"
+  },
+  "allowScripts": {
+    "es5-ext@0.10.64": true
   }
 }
