@@ -27,7 +27,7 @@
     "cli-color": "^2.0.4",
     "express": "^5.2.1",
     "inquirer": "^14.2.3",
-    "uuid": "^14.0.2"
+    "uuid": "^14.0.3"
   },
   "allowScripts": {
     "es5-ext@0.10.64": true
